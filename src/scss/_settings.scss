@@ -1,0 +1,44 @@
+//colors
+$light_blue_color1: #03e9f4;
+$light_blue_color2: #00898e;
+$color_deeppink_color:  #ff1493;
+$dart_blue_color: #282c34;
+$white_color: #ffffff;
+
+//font-size
+
+
+
+h1{
+  letter-spacing: 30px;
+  font-weight: bolder;
+  font-size: 70px;
+  color: $light_blue_color1;
+  text-shadow: 0 0 10px $light_blue_color2,
+  0 0 20px $light_blue_color2,
+  0 0 22px $light_blue_color2,
+  0 0 40px $light_blue_color1,
+  0 0 60px $light_blue_color1,
+  0 0 80px $light_blue_color1;
+  animation: neon 6s infinite;
+  animation-timing-function: ease;
+}
+
+%main_background {
+  height: 100vh;
+  width: 100%;
+  background-image: url("../accets/images/background_page_login.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+}
+
+%container {
+  background-color: $dart_blue_color;
+  opacity: 70%;
+  border-radius: 10px;
+}
+
+//Input
+$fontSizeInput: 22px;
+$paddingInput: 20px 0px;

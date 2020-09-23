@@ -1,0 +1,13 @@
+@import "../../scss/settings";
+
+.profilePage {
+    @extend %main_background;
+    flex-direction: row-reverse;
+}
+
+.profileContainer {
+    @extend %container;
+    width: 20%;
+    margin: 20px;
+    padding: 60px;
+}

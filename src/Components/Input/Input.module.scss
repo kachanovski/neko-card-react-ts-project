@@ -1,0 +1,86 @@
+@import "./src/scss/settings";
+
+.inputBody {
+  position: relative;
+
+  input {
+    width: 100%;
+    padding: $paddingInput;
+    font-size: $fontSizeInput;
+    color: $white_color;
+    border: none;
+    border-bottom: 1px solid $white_color;;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin-bottom: 30px;
+  }
+
+  label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: $paddingInput;
+    font-size: $fontSizeInput;
+    color: $white_color;
+    transition: .5s;
+  }
+
+  input:focus ~ label,
+  input:active ~ label {
+    top: -20px;
+    left: 0;
+    color: $light_blue_color2;
+    font-size: 12px;
+  }
+}
+
+.error {
+  position: relative;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-name: shake;
+
+  @keyframes shake {
+  from, to {
+    transform: translate3d(0, 0, 0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translate3d(-10px, 0, 0);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translate3d(10px, 0, 0);
+  }
+  }
+
+  input {
+    border-bottom: 3px solid deeppink;
+    width: 100%;
+    padding: $paddingInput;
+    font-size: $fontSizeInput;
+    color: $white_color;;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: $paddingInput;
+    font-size: $fontSizeInput;
+    color: $white_color;;
+    transition: .5s;
+  }
+
+  input:focus ~ label,
+  input:active ~ label {
+    top: -20px;
+    left: 0;
+    color: $light_blue_color2;
+    font-size: 12px;
+  }
+}
+
