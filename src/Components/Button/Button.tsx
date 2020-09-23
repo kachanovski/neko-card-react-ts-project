@@ -1,19 +1,22 @@
 import React from 'react';
 import s from './Button.module.scss'
-import {NavLink} from 'react-router-dom';
 
-const Button = (props: any) => {
+type ButtonType = {
+    title?: string
+}
+
+const Button = (props: ButtonType) => {
     return (
         <div className={s.loginButtonBody}>
-            <NavLink className={s.link} to={'/profile'}>
+            <span className={s.link}>
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 <button className={s.button}>
-                    Submit
+                    {props.title}
                 </button>
-            </NavLink>
+            </span>
         </div>
     )
 }

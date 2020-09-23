@@ -1,4 +1,4 @@
-@import "../../scss/settings";
+@import "../../../scss/settings";
 
 .loginPage {
   @extend %main_background;
@@ -25,33 +25,6 @@
       color: $light_blue_color1;
       text-decoration: none;
       font-size: 20px;
-    }
-
-    @keyframes neon {
-      0% {
-        opacity: 1;
-      }
-      45% {
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      55% {
-        opacity: 0;
-      }
-      60% {
-        opacity: 1;
-      }
-      64% {
-        opacity: 0;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-      }
     }
   }
 }

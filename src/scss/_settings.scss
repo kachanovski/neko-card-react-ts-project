@@ -1,18 +1,20 @@
 //colors
 $light_blue_color1: #03e9f4;
 $light_blue_color2: #00898e;
-$color_deeppink_color:  #ff1493;
+$color_deeppink_color: #ff1493;
+$color__derk_pink_color: rgba(255, 10, 222, 0.31);
 $dart_blue_color: #282c34;
 $white_color: #ffffff;
 
 //font-size
-
-
-
-h1{
+h1 {
   letter-spacing: 30px;
   font-weight: bolder;
   font-size: 70px;
+  @extend %blue_text_shadow;
+}
+//blue-text-shadow
+%blue_text_shadow {
   color: $light_blue_color1;
   text-shadow: 0 0 10px $light_blue_color2,
   0 0 20px $light_blue_color2,
@@ -22,6 +24,72 @@ h1{
   0 0 80px $light_blue_color1;
   animation: neon 6s infinite;
   animation-timing-function: ease;
+
+  @keyframes neon {
+    0% {
+      opacity: 1;
+    }
+    45% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    55% {
+      opacity: 0;
+    }
+    60% {
+      opacity: 1;
+    }
+    64% {
+      opacity: 0;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
+//red-text-shadow
+%pick_text_shadow {
+  color:$color_deeppink_color;
+  text-shadow: 0 0 10px $color__derk_pink_color,
+  0 0 20px $color__derk_pink_color,
+  0 0 22px $color__derk_pink_color,
+  0 0 40px $color_deeppink_color,
+  0 0 60px $color_deeppink_color,
+  0 0 80px $color_deeppink_color;
+  animation: neon 6s infinite;
+  animation-timing-function: ease;
+
+  @keyframes neon {
+    0% {
+      opacity: 1;
+    }
+    45% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    55% {
+      opacity: 0;
+    }
+    60% {
+      opacity: 1;
+    }
+    64% {
+      opacity: 0;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 }
 
 %main_background {

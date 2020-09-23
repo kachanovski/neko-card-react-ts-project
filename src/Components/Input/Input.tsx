@@ -1,11 +1,15 @@
 import React from "react";
 import s from './Input.module.scss'
 
-const Input = (props: any) => {
+type InputType = {
+    label?: string
+}
+
+const Input = (props: InputType) => {
     return (
         <div className={s.inputBody}>
             <input/>
-            <label>Password</label>
+            <label>{props.label}</label>
         </div>
     )
 }

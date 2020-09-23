@@ -7,5 +7,6 @@
   h1 {
     font-size: 190px;
     color: $color_deeppink_color;
+    @extend %pick_text_shadow
   }
 }

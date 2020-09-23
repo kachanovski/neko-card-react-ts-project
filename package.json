@@ -1,5 +1,6 @@
 {
   "name": "neko-card-react-ts-project",
+  "homepage": "https://kachanovski.github.io/neko-card-react-ts-project",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

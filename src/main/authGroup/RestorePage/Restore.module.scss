@@ -1,4 +1,4 @@
-@import "../../scss/settings";
+@import "../../../scss/settings";
 
 .restorePage {
   @extend %main_background
@@ -6,14 +6,14 @@
 
 .loginBlock {
   @extend %container;
-  margin: 20px;
+  margin-top: 60px;
   padding: 60px;
   height: 40vh;
 }
 
 .restoreBlock {
   @extend %container;
-  margin: 20px;
+  margin: 60px;
   padding: 60px;
   width: 100%;
 }

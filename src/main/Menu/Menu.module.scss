@@ -1,0 +1,36 @@
+.menu {
+  position: absolute;
+  button {
+    position: fixed;
+    left: 0;
+    right: 0;
+    outline: none;
+    padding: 10px 20px;
+    background-color: #282c34;
+    color: white;
+    font-size: 26px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    cursor: pointer;
+    border: none;
+    z-index: 10000;
+  }
+  .menuActive {
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+
+    .link {
+      text-decoration: none;
+      color: #00898e;
+      padding-right: 20px;
+      font-size: 25px;
+      font-weight:800;
+    }
+
+    .activeLink {
+      color: deeppink;
+    }
+  }
+}
