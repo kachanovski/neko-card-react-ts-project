@@ -11,20 +11,20 @@ import RestoreChangePassword from "./main/authGroup/RestorePage/RestoreChangePas
 
 function App() {
     return (
+        <HashRouter>
             <div className="App">
-                <Menu />
-                <HashRouter>
-                    <Switch>
-                        <Route exact path='/restore' render={() => (<Restore/>)}/>
-                        <Route exact path='/register' render={() => (<Register/>)}/>
-                        <Route exact path={['/login', '/']} render={() => (<Login/>)}/>
-                        <Route exact path='/profile' render={() => (<Profile/>)}/>
-                        <Route exact path='/restore/changePassword' render={() => (<RestoreChangePassword/>)}/>
-                        <Route render={() => (<NotFound/>)}/>
-                    </Switch>
-                </HashRouter>
+                <Menu/>
 
+                <Switch>
+                    <Route exact path='/restore' render={() => (<Restore/>)}/>
+                    <Route exact path='/register' render={() => (<Register/>)}/>
+                    <Route exact path={['/login', '/']} render={() => (<Login/>)}/>
+                    <Route exact path='/profile' render={() => (<Profile/>)}/>
+                    <Route exact path='/restore/changePassword' render={() => (<RestoreChangePassword/>)}/>
+                    <Route render={() => (<NotFound/>)}/>
+                </Switch>
             </div>
+        </HashRouter>
     );
 }
 
