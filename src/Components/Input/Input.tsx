@@ -8,7 +8,7 @@ type InputType = {
 const Input = (props: InputType) => {
     return (
         <div className={s.inputBody}>
-            <input/>
+            <input />
             <label>{props.label}</label>
         </div>
     )

@@ -5,13 +5,13 @@ import {NavLink} from 'react-router-dom';
 
 const LoginForm = React.memo(function (props: any) {
     return (
-        <form className={props.className}>
+        <div className={props.className}>
             <Input label={'Login'}/>
             <Input label={'Password'}/>
             <NavLink to={'/profile'}>
                 <Button title={'login'}/>
             </NavLink>
-        </form>
+        </div>
     )
 })
 
