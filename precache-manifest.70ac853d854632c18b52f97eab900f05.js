@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6cf985559443a655eda54d8435bb911d",
+    "revision": "6075b8c5c537cd904da64318085ac5aa",
     "url": "/neko-card-react-ts-project/index.html"
   },
   {
-    "revision": "2d65346db1875d4094f1",
+    "revision": "fd7c6ac3585c47ea3940",
     "url": "/neko-card-react-ts-project/static/css/main.d52bd003.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/neko-card-react-ts-project/static/js/2.215e4361.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "2d65346db1875d4094f1",
-    "url": "/neko-card-react-ts-project/static/js/main.50ff3a55.chunk.js"
+    "revision": "fd7c6ac3585c47ea3940",
+    "url": "/neko-card-react-ts-project/static/js/main.733fcadb.chunk.js"
   },
   {
     "revision": "d890b2ca72acc8d5fe84",
