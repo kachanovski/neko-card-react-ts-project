@@ -54,12 +54,12 @@
   }
 
   input {
-    border-bottom: 3px solid deeppink;
     width: 100%;
     padding: $paddingInput;
     font-size: $fontSizeInput;
     color: $white_color;;
     border: none;
+    border-bottom: 3px solid deeppink;
     outline: none;
     background-color: transparent;
     cursor: pointer;

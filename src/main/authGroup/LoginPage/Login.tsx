@@ -7,17 +7,15 @@ type LoginFormType = {
 
 }
 
-const Login = (props: any) => {
+const Login = (props: LoginFormType) => {
 
     return (
         <div className={s.loginPage}>
             <div className={s.loginFormContainer} >
                 <h1> LOGIN </h1>
-                <LoginForm />
-                <div>
+                <LoginForm className={s.loginFormContainer} />
+                <div className={s.items}>
                     <NavLink className={s.text1} to='/restore'>Forgot your password?</NavLink>
-                </div>
-                <div>
                     <NavLink className={s.text} to='/register'>Register</NavLink>
                 </div>
             </div>

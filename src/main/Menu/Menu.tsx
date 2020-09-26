@@ -19,10 +19,10 @@ const Menu = () => {
                 ? <button onClick={showMenu}>menu</button>
                 : <div className={s.menuActive}>
                     <button onClick={hideMenu}>menu</button>
-                    <NavLink to={'/restore'} className={s.link} activeClassName={s.activeLink}>Forgot password</NavLink>
-                    <NavLink to={'/register'} className={s.link} activeClassName={s.activeLink}>Register</NavLink>
-                    <NavLink to={'/login'} className={s.link} activeClassName={s.activeLink}>Login</NavLink>
-                    <NavLink to={'/profile'} className={s.link} activeClassName={s.activeLink}>Profile</NavLink>
+                    <NavLink to='/restore' className={s.link} activeClassName={s.activeLink}>Forgot password</NavLink>
+                    <NavLink to='/register' className={s.link} activeClassName={s.activeLink}>Register</NavLink>
+                    <NavLink to='/login' className={s.link} activeClassName={s.activeLink}>Login</NavLink>
+                    <NavLink to='/profile' className={s.link} activeClassName={s.activeLink}>Profile</NavLink>
                 </div>
             }
         </div>

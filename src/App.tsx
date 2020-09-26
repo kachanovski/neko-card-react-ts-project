@@ -9,7 +9,7 @@ import NotFound from './main/NotFound/NotFound';
 import Menu from "./main/Menu/Menu";
 import RestoreChangePassword from "./main/authGroup/RestorePage/RestoreChangePassword";
 
-function App() {
+const App = () => {
     return (
         <HashRouter>
             <div className="App">
@@ -25,6 +25,7 @@ function App() {
                 </Switch>
             </div>
         </HashRouter>
+
     );
 }
 
