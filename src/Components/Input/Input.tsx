@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, {ChangeEvent} from "react";
 import s from './Input.module.scss'
 
 type InputType = {
@@ -12,10 +12,10 @@ type InputType = {
 const Input = (props: InputType) => {
 
     return (
-        <div className={props.error ? s.error :s.inputBody}>
+        <div className={props.error ? s.error : s.inputBody}>
             <input value={props.value}
                    type={props.type}
-                   onChange={props.onChange} />
+                   onChange={props.onChange}/>
 
             {!props.value ? <label>{props.label}</label> : ''}
         </div>

@@ -25,16 +25,15 @@
     position: relative;
     display: inline-block;
     overflow: hidden;
-
-    :hover {
-      background-color: $light_blue_color1;
-      color: $white_color;
-      border-radius: 5px;
-      box-shadow: 0 0 5px $light_blue_color1,
-      0 0 25px $light_blue_color1,
-      0 0 50px $light_blue_color1,
-      0 0 100px $light_blue_color1
-    }
+  }
+  :hover {
+    background-color: $light_blue_color1;
+    color: $white_color;
+    border-radius: 5px;
+    box-shadow: 0 0 5px $light_blue_color1,
+    0 0 25px $light_blue_color1,
+    0 0 50px $light_blue_color1,
+    0 0 100px $light_blue_color1
   }
 
   span {

@@ -4,6 +4,7 @@
   @extend %main_background;
   align-items: center;
   justify-content: center;
+  z-index: 100;
 
   .loginFormContainer {
     @extend %container ;
