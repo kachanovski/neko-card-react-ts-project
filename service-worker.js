@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/neko-card-react-ts-project/precache-manifest.fd4ff94e65732b348683f52b0e48aa90.js"
+  "/neko-card-react-ts-project/precache-manifest.2351a9eec4d7e97f9f232fd52c8eb491.js"
 );
 
 self.addEventListener('message', (event) => {
