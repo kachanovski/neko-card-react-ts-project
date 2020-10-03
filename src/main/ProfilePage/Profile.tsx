@@ -1,7 +1,11 @@
 import React from 'react';
 import s from './Profile.module.scss'
 
-const Profile = () => {
+type ProfileType = {
+
+}
+
+const Profile = (props: ProfileType) => {
     return (
         <div className={s.profilePage}>
             <div className={s.profileContainer}>

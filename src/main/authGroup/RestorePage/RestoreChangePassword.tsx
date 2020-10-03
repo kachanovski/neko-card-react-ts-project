@@ -3,9 +3,10 @@ import s from './Restore.module.scss'
 import Input from "../../../Components/Input/Input";
 import LoginForm from '../LoginPage/LoginForm';
 import Button from "../../../Components/Button/Button";
-import {NavLink} from 'react-router-dom';
 
-const RestoreChangePassword = (props: any) => {
+type RestoreChangePasswordPropsType = {}
+
+const RestoreChangePassword = (props: RestoreChangePasswordPropsType) => {
     return (
         <div className={s.restorePage}>
             <div>
@@ -17,9 +18,7 @@ const RestoreChangePassword = (props: any) => {
                 <h1>Dont worry</h1>
                 <Input label={'new password'}/>
                 <Input label={'new password'}/>
-                <NavLink to={'/login'}>
-                    <Button title={'SEND'}/>
-                </NavLink>
+                <Button title={'SEND'}/>
             </div>
 
         </div>

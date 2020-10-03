@@ -3,11 +3,11 @@ import s from './Login.module.scss'
 import {NavLink} from 'react-router-dom';
 import LoginForm from "./LoginForm";
 
-type LoginFormType = {
+type LoginType = {
 
 }
 
-const Login = (props: LoginFormType) => {
+const Login = (props: LoginType) => {
 
     return (
         <div className={s.loginPage}>

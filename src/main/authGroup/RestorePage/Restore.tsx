@@ -5,7 +5,9 @@ import LoginForm from '../LoginPage/LoginForm';
 import Button from "../../../Components/Button/Button";
 import {NavLink} from 'react-router-dom';
 
-const Restore = (props: any) => {
+type RestoreProps = {}
+
+const Restore = (props: RestoreProps) => {
     return (
         <div className={s.restorePage}>
             <div>
