@@ -7,12 +7,13 @@ type InitialState = {
     name: string
     avatar?: string
     publicCardPacksCount: number // количество колод
-    // created: Date
-    // updated: Date
+    created: string // Data
+    updated: string // Data
     isAdmin: boolean
     verified: boolean // подтвердил ли почту
     rememberMe: boolean
-
+    token?: string,
+    tokenDeathTime?: number
     error: string
 }
 
@@ -25,8 +26,9 @@ const initialState: InitialState = {
     error: '',
     verified: false,
     publicCardPacksCount: 0,
-    isAdmin: false
-
+    isAdmin: false,
+    created: '',
+    updated: ''
 }
 
 export const LoginReducer = (state: InitialState = initialState, action: ActionType): InitialState => {
@@ -45,7 +47,7 @@ export const LoginReducer = (state: InitialState = initialState, action: ActionT
 export const setLogin = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch) => {
     try {
         const promise = await authAPI.login(email, password, rememberMe)
-        // dispatch(setUser(promise.data))
+        dispatch(setUser(promise.data))
         console.log(promise)
     } catch (e) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
@@ -54,6 +56,15 @@ export const setLogin = (email: string, password: string, rememberMe: boolean) =
     }
 }
 
+// export const registerUser = (email: string, password: string) => async (dispatch: Dispatch) => {
+//     try {
+//         const promise = await authAPI.register(email, password)
+//         console.log(promise.data)
+//     }catch (e) {
+//         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+//         console.log('Error: ', error)
+//     }
+// }
 //AC
 export const setUser = (user: InitialState) => ({type: 'login/SET_USER', user} as const)
 export const setError = (error: string) => ({type: 'login/SET_ERROR', error} as const)
