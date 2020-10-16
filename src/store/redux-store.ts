@@ -1,9 +1,10 @@
-import {combineReducers, createStore} from 'redux';
+import {combineReducers, createStore, applyMiddleware} from 'redux';
 import {ProfileReducer} from "./ProfileReducer";
 import {LoginReducer} from "./LoginReducer";
 import {RegisterReducer} from "./RegisterReducer";
 import {RestoreReducer} from "./RestoreReducer";
 import {ChangePasswordReducer} from "./ChangePasswordReducer";
+import thunkMiddleWare from "redux-thunk"
 
 let reducers = combineReducers({
     profile: ProfileReducer,
@@ -13,6 +14,6 @@ let reducers = combineReducers({
     changePassword: ChangePasswordReducer
 })
 
-const store = createStore(reducers)
+const store = createStore(reducers, applyMiddleware(thunkMiddleWare))
 //@ts-ignore
 export default store
