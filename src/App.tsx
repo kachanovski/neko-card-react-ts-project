@@ -8,6 +8,7 @@ import Profile from "./main/ProfilePage/Profile";
 import NotFound from './main/NotFound/NotFound';
 import Menu from "./main/Menu/Menu";
 import RestoreChangePassword from "./main/authGroup/RestorePage/RestoreChangePassword";
+import {RegisterWithHookForm} from "./main/authGroup/RegisterPage/RegisterWithHookForm";
 
 const App = () => {
     return (
@@ -17,7 +18,7 @@ const App = () => {
 
                 <Switch>
                     <Route exact path='/restore' render={() => (<Restore/>)}/>
-                    <Route exact path='/register' render={() => (<Register/>)}/>
+                    <Route exact path='/register' render={() => (<RegisterWithHookForm/>)}/>
                     <Route exact path={['/login', '/']} render={() => (<Login/>)}/>
                     <Route exact path='/profile' render={() => (<Profile/>)}/>
                     <Route exact path='/restore/changePassword' render={() => (<RestoreChangePassword/>)}/>

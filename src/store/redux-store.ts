@@ -12,7 +12,7 @@ let reducers = combineReducers({
     restore: RestoreReducer,
     changePassword: ChangePasswordReducer
 })
-
+export type AppStateType = ReturnType<typeof reducers>
 const store = createStore(reducers)
 //@ts-ignore
 export default store
