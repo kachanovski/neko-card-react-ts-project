@@ -10,13 +10,11 @@ type InputType = {
 }
 
 const Input = (props: InputType) => {
-
     return (
         <div className={props.error ? s.error : s.inputBody}>
             <input value={props.value}
                    type={props.type}
                    onChange={props.onChange}/>
-
             {!props.value ? <label>{props.label}</label> : ''}
         </div>
     )

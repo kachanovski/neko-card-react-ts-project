@@ -1,9 +1,10 @@
-import {combineReducers, createStore} from 'redux';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
 import {ProfileReducer} from "./ProfileReducer";
 import {LoginReducer} from "./LoginReducer";
 import {RegisterReducer} from "./RegisterReducer";
 import {RestoreReducer} from "./RestoreReducer";
 import {ChangePasswordReducer} from "./ChangePasswordReducer";
+import thunkMiddleware from "redux-thunk"
 
 let reducers = combineReducers({
     profile: ProfileReducer,
@@ -12,7 +13,12 @@ let reducers = combineReducers({
     restore: RestoreReducer,
     changePassword: ChangePasswordReducer
 })
+
 export type AppStateType = ReturnType<typeof reducers>
-const store = createStore(reducers)
+
+const store = createStore(reducers, applyMiddleware(thunkMiddleware))
+
 //@ts-ignore
+window.store =store
+
 export default store

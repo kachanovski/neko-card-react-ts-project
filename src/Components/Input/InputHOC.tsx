@@ -16,13 +16,14 @@ type InputProps = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputEle
 };
 
 
-export const InputForm: React.FC<InputProps> = ({label, register, required, placeholder}) => {
+export const InputForm: React.FC<InputProps> = ({label, register, required, placeholder,type}) => {
     return (
         <div className={ s.inputBody}>
             <input
                 name={label}
                 ref={register({ required })}
                 placeholder={placeholder}
+                type={type}
                 />
         </div>
     )
