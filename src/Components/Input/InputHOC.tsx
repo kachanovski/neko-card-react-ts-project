@@ -1,7 +1,6 @@
 import React from "react";
 import s from './Input.module.scss'
 
-
 type RefReturn =
     | string
     | ((instance: HTMLInputElement | null) => void)
@@ -15,16 +14,15 @@ type InputProps = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputEle
     register: ({required}: { required?: boolean }) => RefReturn;
 };
 
-
-export const InputForm: React.FC<InputProps> = ({label, register, required, placeholder,type}) => {
+export const InputForm: React.FC<InputProps> = ({label, register, required, placeholder, type}, props) => {
     return (
-        <div className={ s.inputBody}>
+        <div className={ props.error? s.error : s.inputBody}>
             <input
                 name={label}
-                ref={register({ required })}
+                ref={register({required})}
                 placeholder={placeholder}
                 type={type}
-                />
+            />
         </div>
     )
 }
