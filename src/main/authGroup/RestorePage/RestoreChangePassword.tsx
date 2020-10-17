@@ -5,9 +5,11 @@ import LoginForm from '../LoginPage/LoginForm';
 import Button from "../../../Components/Button/Button";
 import {Controller, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import {ChangePasswordTC, InitialRestoreStateType} from "../../../store/RestoreReducer";
+import {ChangePasswordTC, InitialRestoreStateType, setError} from "../../../store/RestoreReducer";
 import {StateType} from "../../../store/redux-store";
 import {Redirect} from "react-router-dom";
+import * as yup from "yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 
 type ChangePasswordPropsType = {}
 
@@ -16,14 +18,24 @@ export type ChangePasswordFormInput = {
     repeat_password: string
 }
 
+export const schema = yup.object().shape({
+    password: yup.string().required().min(7),
+});
+
+
 const RestoreChangePassword = (props: ChangePasswordPropsType) => {
     const restore = useSelector<StateType, InitialRestoreStateType>(state => state.restore)
     const dispatch = useDispatch()
 
-    const {control, handleSubmit} = useForm<ChangePasswordFormInput>();
+    const {control, handleSubmit, errors} = useForm<ChangePasswordFormInput>({
+        resolver: yupResolver(schema)
+    });
 
     const onSubmit = (data: ChangePasswordFormInput) => {
-        dispatch(ChangePasswordTC(data))
+        if (data.password === data.repeat_password){
+            dispatch(ChangePasswordTC(data))
+        }
+        else dispatch(setError('Password must be identical '))
     };
 
     if (restore.success) {
@@ -47,11 +59,13 @@ const RestoreChangePassword = (props: ChangePasswordPropsType) => {
                         defaultValue=""
                     />
                     <Controller
-                        as={<Input error={restore.error} label={'repeat password'}/>}
+                        as={<Input error=  {errors.password?.message || restore.error} label={'repeat password'}/>}
                         name="repeat_password"
                         control={control}
                         defaultValue=""
                     />
+
+                    {errors.password?.message || restore.error}
                     <Button disable={restore.responseLoading} title={'SEND'}/>
                 </form>
             </div>
