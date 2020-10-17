@@ -4,7 +4,6 @@ import Input from "../../../Components/Input/Input";
 import Button from "../../../Components/Button/Button";
 
 type RegisterProps = {
-
 }
 
 const Register = (props: RegisterProps) => {
