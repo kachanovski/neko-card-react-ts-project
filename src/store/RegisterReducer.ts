@@ -1,41 +1,81 @@
 import {Dispatch} from "redux";
-import {RegisterAPI} from "../api/api";
+import {RegisterAPI} from "../api/registerAPI";
 
-export type ActionsType = SetRegisterDataAcType
+export type ActionsType =
+    SetRegisterDataAcType
+    | SetErrorMessageAcType
+    | SetRegisterFetchingAcType
+
+export type RegisterUserDataType={
+    email:string
+    password:string
+}
 
 let initialState = {
-    email: '',
-    password: ''
+   data: {
+       email: '',
+       password: '',
+   },
+    errorMessage: '',
+    registerFetching: false,
 }
 
 export type initialStateType = typeof initialState
 
-export const RegisterReducer = (state:initialStateType = initialState, action: ActionsType):initialStateType => {
+export const RegisterReducer = (state: initialStateType = initialState, action: ActionsType): initialStateType => {
     switch (action.type) {
-        case "SET-REGISTER-DATA":{
+        case "REGISTER/SET-REGISTER-DATA": {
             return {
-                ...state, ...action.data
+                ...state,
+              ...state.data, data: action.data
             }
         }
-        default: return state
+        case "REGISTER/SET-ERROR-MESSAGE-TYPE": {
+            return {
+                ...state,
+                errorMessage: action.message
+            }
+        }
+        case "REGISTER/TOGGLE-REGISTER-FETCHING":{
+            return {
+                ...state,
+                registerFetching: action.registerFetching
+            }
+        }
+        default:
+            return state
     }
 }
 
-export const SetRegisterDataAC = (data:initialStateType)=>{
-    return{type:"SET-REGISTER-DATA", data} as const
+export const SetRegisterDataAC = (data:RegisterUserDataType) => {
+    return {type: "REGISTER/SET-REGISTER-DATA", data} as const
+}
+export const SetErrorMessageAC = (message: string) => {
+    return {type: "REGISTER/SET-ERROR-MESSAGE-TYPE", message} as const
+}
+export const SetRegisterFetchingAC = (registerFetching: boolean) => {
+    return {type: "REGISTER/TOGGLE-REGISTER-FETCHING", registerFetching} as const
 }
 
-export const RegisterUserTC = (data:initialStateType)=>{
-    return (dispatch:Dispatch)=>{
-        debugger
-        RegisterAPI.RegisterUser(data).then(res=>{
-            debugger
-            if (!res.error) {
-                dispatch(SetRegisterDataAC(res.addedUser))
-            }
-        })
+export const RegisterUserTC = (data: RegisterUserDataType) => {
+    return (dispatch: Dispatch) => {
+        dispatch(SetRegisterFetchingAC(true))
+        RegisterAPI.RegisterUser(data)
+            .then(res => {
+                if (!res.data.error) {
+                    dispatch(SetRegisterDataAC(res.data.addedUser))
+                }
+                dispatch(SetErrorMessageAC(res.data.error))
+            })
+            .catch(e => {
+                    dispatch(SetErrorMessageAC(e.response.data.error))
+                }
+            )
+        dispatch(SetRegisterFetchingAC(false))
     }
 }
 
 type SetRegisterDataAcType = ReturnType<typeof SetRegisterDataAC>
+type SetErrorMessageAcType = ReturnType<typeof SetErrorMessageAC>
+type SetRegisterFetchingAcType = ReturnType<typeof SetRegisterFetchingAC>
 

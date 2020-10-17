@@ -1,20 +1,21 @@
 @import "../../../scss/settings";
 
 .registerPage {
-   @extend %main_background
+  @extend %main_background
 }
 
 .registerBox {
-    @extend %container;
-    width: 100%;
-    margin: 60px;
-    padding: 60px;
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    color: white;
+  @extend %container;
+  width: 100%;
+  margin: 60px;
+  padding: 60px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  color: white;
 }
 
 .registerBox::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
+
