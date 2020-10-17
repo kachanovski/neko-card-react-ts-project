@@ -1,43 +1,60 @@
-import React, {ChangeEvent, useState} from 'react';
+import React from 'react';
 import Button from "../../../Components/Button/Button";
 import Input from "../../../Components/Input/Input";
 import Checkbox from "../../../Components/Checkbox/Checkbox";
 import {useDispatch, useSelector} from "react-redux";
-import {setLogin} from "../../../store/LoginReducer";
 import {StateType} from "../../../store/redux-store";
+import {useForm} from "react-hook-form";
+import {setLogin} from "../../../store/LoginReducer";
 
 type LoginFormType = {
     className?: string
 }
+type FormType = {
+    'login': string
+    'password': string
+    'rememberMe': boolean
+}
+
+
 
 const LoginForm = (props: LoginFormType) => {
 
+    const {register, handleSubmit, errors} = useForm<FormType>()
+
     const dispatch = useDispatch()
+
     const error = useSelector<StateType, string>(state => state.login.error)
+    const isFetch = useSelector<StateType, boolean>(state => state.login.isFetching)
 
-    let [loginValue, setLoginValue] = useState('')
-    let [passValue, setPassValue] = useState('')
-    let [checked, setChecked] = useState(false)
 
-    const onChangeLoginValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setLoginValue(e.currentTarget.value)
-    }
-    const onChangePassValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setPassValue(e.currentTarget.value)
-    }
-    const onChangeChecked = (e: ChangeEvent<HTMLInputElement>) => {
-        setChecked(e.currentTarget.checked)
-    }
-    const onSubmit = () => {
-        dispatch(setLogin(loginValue, passValue, checked))
+    const onSubmit = (data: FormType) => {
+        dispatch(setLogin(data.login,data.password,data.rememberMe))
     }
 
     return (
         <div className={props.className}>
-            <Input label={'Login'} value={loginValue} onChange={onChangeLoginValue} error={error}/>
-            <Input type={'password'} label={'Password'} value={passValue} onChange={onChangePassValue} error={error}/>
-            <Checkbox checked={checked} onChange={onChangeChecked}/>
-            <Button title={'login'} onClick={onSubmit}/>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Input
+                    label={'Login'}
+                    error={error}
+                    name={'login'}
+                    register={register}
+                    disable={isFetch}
+                />
+                {errors.login && <span>{errors.login.message}</span>}
+                <Input
+                    type={'password'}
+                    label={'Password'}
+                    error={error}
+                    name={'password'}
+                    register={register}
+                    disable={isFetch}
+                />
+                {errors.password && <span>{errors.password.message}</span>}
+                <Checkbox name={'rememberMe'} register={register} disable={isFetch}/>
+                <Button title={'login'} disable={isFetch}/>
+            </form>
         </div>
     )
 }

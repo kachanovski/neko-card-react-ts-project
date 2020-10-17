@@ -19,7 +19,6 @@ const Login = (props: LoginType) => {
                     <NavLink className={s.text} to='/register'>Register</NavLink>
                 </div>
             </div>
-
         </div>
     )
 }

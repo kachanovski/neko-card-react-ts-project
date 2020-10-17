@@ -14,7 +14,8 @@ type InitialState = {
     rememberMe: boolean
     token?: string,
     tokenDeathTime?: number
-    error: string
+    error: string,
+    isFetching: boolean
 }
 
 
@@ -28,7 +29,8 @@ const initialState: InitialState = {
     publicCardPacksCount: 0,
     isAdmin: false,
     created: '',
-    updated: ''
+    updated: '',
+    isFetching: false
 }
 
 export const LoginReducer = (state: InitialState = initialState, action: ActionType): InitialState => {
@@ -37,6 +39,8 @@ export const LoginReducer = (state: InitialState = initialState, action: ActionT
             return {...action.user}
         case "login/SET_ERROR":
             return {...state, error: action.error}
+        case "login/SET_FETCHING":
+            return {...state, isFetching: action.isFetch}
         default:
             return state
     }
@@ -46,31 +50,27 @@ export const LoginReducer = (state: InitialState = initialState, action: ActionT
 //thunk
 export const setLogin = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch) => {
     try {
+        dispatch(isFetching(true))
         const promise = await authAPI.login(email, password, rememberMe)
         dispatch(setUser(promise.data))
         console.log(promise)
     } catch (e) {
+        debugger
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
         console.log('Error: ', error)
         dispatch(setError(error))
     }
+    dispatch(isFetching(false))
 }
 
-// export const registerUser = (email: string, password: string) => async (dispatch: Dispatch) => {
-//     try {
-//         const promise = await authAPI.register(email, password)
-//         console.log(promise.data)
-//     }catch (e) {
-//         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
-//         console.log('Error: ', error)
-//     }
-// }
 //AC
 export const setUser = (user: InitialState) => ({type: 'login/SET_USER', user} as const)
 export const setError = (error: string) => ({type: 'login/SET_ERROR', error} as const)
+export const isFetching = (isFetch: boolean) => ({type: 'login/SET_FETCHING', isFetch} as const)
+
 
 export type SetUserType = ReturnType<typeof setUser>
 export type SetError = ReturnType<typeof setError>
+export type IsFetch = ReturnType<typeof isFetching>
 
-type ActionType = SetUserType
-    | SetError
+type ActionType = SetUserType | SetError | IsFetch

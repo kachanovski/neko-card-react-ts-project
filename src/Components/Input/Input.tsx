@@ -1,5 +1,6 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, Ref} from "react";
 import s from './Input.module.scss'
+import {RefType} from "../Checkbox/Checkbox";
 
 type InputType = {
     label?: string
@@ -7,6 +8,9 @@ type InputType = {
     value?: string
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void
     error?: string | null
+    register?: RefType
+    name?: string
+    disable: boolean
 }
 
 const Input = (props: InputType) => {
@@ -15,7 +19,11 @@ const Input = (props: InputType) => {
         <div className={props.error ? s.error : s.inputBody}>
             <input value={props.value}
                    type={props.type}
-                   onChange={props.onChange}/>
+                   onChange={props.onChange}
+                   ref={props.register}
+                   name={props.name}
+                   disabled={props.disable}
+            />
 
             {!props.value ? <label>{props.label}</label> : ''}
         </div>
