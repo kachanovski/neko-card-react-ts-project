@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/neko-card-react-ts-project/static/css/main.ee67b3a4.chunk.css",
-    "main.js": "/neko-card-react-ts-project/static/js/main.6429835a.chunk.js",
-    "main.js.map": "/neko-card-react-ts-project/static/js/main.6429835a.chunk.js.map",
+    "main.css": "/neko-card-react-ts-project/static/css/main.cf434932.chunk.css",
+    "main.js": "/neko-card-react-ts-project/static/js/main.58c7ab0f.chunk.js",
+    "main.js.map": "/neko-card-react-ts-project/static/js/main.58c7ab0f.chunk.js.map",
     "runtime-main.js": "/neko-card-react-ts-project/static/js/runtime-main.49957703.js",
     "runtime-main.js.map": "/neko-card-react-ts-project/static/js/runtime-main.49957703.js.map",
-    "static/js/2.34a7e09d.chunk.js": "/neko-card-react-ts-project/static/js/2.34a7e09d.chunk.js",
-    "static/js/2.34a7e09d.chunk.js.map": "/neko-card-react-ts-project/static/js/2.34a7e09d.chunk.js.map",
+    "static/js/2.bb049e82.chunk.js": "/neko-card-react-ts-project/static/js/2.bb049e82.chunk.js",
+    "static/js/2.bb049e82.chunk.js.map": "/neko-card-react-ts-project/static/js/2.bb049e82.chunk.js.map",
     "index.html": "/neko-card-react-ts-project/index.html",
-    "precache-manifest.9296a73981bf664f430774bb171d58fc.js": "/neko-card-react-ts-project/precache-manifest.9296a73981bf664f430774bb171d58fc.js",
+    "precache-manifest.c227a9fc612e0451cd3021fce0a13247.js": "/neko-card-react-ts-project/precache-manifest.c227a9fc612e0451cd3021fce0a13247.js",
     "service-worker.js": "/neko-card-react-ts-project/service-worker.js",
-    "static/css/main.ee67b3a4.chunk.css.map": "/neko-card-react-ts-project/static/css/main.ee67b3a4.chunk.css.map",
-    "static/js/2.34a7e09d.chunk.js.LICENSE.txt": "/neko-card-react-ts-project/static/js/2.34a7e09d.chunk.js.LICENSE.txt",
+    "static/css/main.cf434932.chunk.css.map": "/neko-card-react-ts-project/static/css/main.cf434932.chunk.css.map",
+    "static/js/2.bb049e82.chunk.js.LICENSE.txt": "/neko-card-react-ts-project/static/js/2.bb049e82.chunk.js.LICENSE.txt",
     "static/media/NotFound.module.scss": "/neko-card-react-ts-project/static/media/background_page_login.9ad03314.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.49957703.js",
-    "static/js/2.34a7e09d.chunk.js",
-    "static/css/main.ee67b3a4.chunk.css",
-    "static/js/main.6429835a.chunk.js"
+    "static/js/2.bb049e82.chunk.js",
+    "static/css/main.cf434932.chunk.css",
+    "static/js/main.58c7ab0f.chunk.js"
   ]
 }
