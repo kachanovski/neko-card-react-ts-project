@@ -10,7 +10,7 @@ type InputType = {
     error?: string | null
     register?: RefType
     name?: string
-    disable: boolean
+    disable?: boolean
 }
 
 const Input = (props: InputType) => {
