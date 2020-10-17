@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../api/authAPI";
 
-type InitialState = {
+export type InitialLoginReducerState = {
     _id: string
     email: string
     name: string
@@ -15,11 +15,12 @@ type InitialState = {
     token?: string,
     tokenDeathTime?: number
     error: string,
-    isFetching: boolean
+    isFetching: boolean,
+    errorIn?: ErrorInType
 }
 
 
-const initialState: InitialState = {
+const initialState: InitialLoginReducerState = {
     _id: '',
     email: '',
     name: '',
@@ -30,10 +31,11 @@ const initialState: InitialState = {
     isAdmin: false,
     created: '',
     updated: '',
-    isFetching: false
+    isFetching: false,
+
 }
 
-export const LoginReducer = (state: InitialState = initialState, action: ActionType): InitialState => {
+export const LoginReducer = (state: InitialLoginReducerState = initialState, action: ActionType): InitialLoginReducerState => {
     switch (action.type) {
         case "login/SET_USER":
             return {...action.user}
@@ -41,6 +43,8 @@ export const LoginReducer = (state: InitialState = initialState, action: ActionT
             return {...state, error: action.error}
         case "login/SET_FETCHING":
             return {...state, isFetching: action.isFetch}
+        case "login/SET_ERROR_IN_PASS":
+            return {...state, errorIn: action.errorIn}
         default:
             return state
     }
@@ -56,21 +60,34 @@ export const setLogin = (email: string, password: string, rememberMe: boolean) =
         console.log(promise)
     } catch (e) {
         debugger
-        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
-        console.log('Error: ', error)
-        dispatch(setError(error))
+        if (e.response) {
+            console.log('ERROR: ', e.response.data.error)
+            if (e.response.data.password) {
+                dispatch(setErrorInPass("password"))
+            } else if (e.response.data.email) {
+                dispatch(setErrorInPass("email"))
+            }
+            dispatch(setError(e.response.data.error))
+        } else {
+            console.log('ERROR: ', e.message + ', more details in the console')
+        }
+        // const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+        // console.log('Error: ', error)
+        // dispatch(setError(error))
     }
     dispatch(isFetching(false))
 }
 
+type ErrorInType = 'password' | 'email'
 //AC
-export const setUser = (user: InitialState) => ({type: 'login/SET_USER', user} as const)
+export const setUser = (user: InitialLoginReducerState) => ({type: 'login/SET_USER', user} as const)
 export const setError = (error: string) => ({type: 'login/SET_ERROR', error} as const)
 export const isFetching = (isFetch: boolean) => ({type: 'login/SET_FETCHING', isFetch} as const)
-
+export const setErrorInPass = (errorIn: ErrorInType) => ({type: 'login/SET_ERROR_IN_PASS', errorIn} as const)
 
 export type SetUserType = ReturnType<typeof setUser>
 export type SetError = ReturnType<typeof setError>
 export type IsFetch = ReturnType<typeof isFetching>
+export type ErrorPass = ReturnType<typeof setErrorInPass>
 
-type ActionType = SetUserType | SetError | IsFetch
+type ActionType = SetUserType | SetError | IsFetch | ErrorPass
