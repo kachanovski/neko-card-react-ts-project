@@ -1,5 +1,5 @@
+import React from 'react'
 import * as yup from "yup";
-import React from "react";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import s from "./Register.module.scss";
@@ -7,7 +7,7 @@ import {InputForm} from "../../../Components/Input/InputHOC";
 import Button from "../../../Components/Button/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {initialStateType, RegisterUserTC, SetRegisterDataAC} from "../../../store/RegisterReducer";
-import {AppStateType} from "../../../store/redux-store";
+import {StateType} from "../../../store/redux-store";
 import { Redirect } from "react-router-dom";
 
 export const schema = yup.object().shape({
@@ -19,7 +19,7 @@ export const RegisterWithHookForm = React.memo(() => {
 
     const dispatch = useDispatch()
 
-    const newUserData = useSelector<AppStateType, initialStateType>(state => state.register)
+    const newUserData = useSelector<StateType, initialStateType>(state => state.register)
 
     type FormsType = {
         "password": string

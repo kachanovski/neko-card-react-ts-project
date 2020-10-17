@@ -1,10 +1,10 @@
-import {applyMiddleware, combineReducers, createStore} from 'redux';
+import {combineReducers, createStore, applyMiddleware} from 'redux';
 import {ProfileReducer} from "./ProfileReducer";
 import {LoginReducer} from "./LoginReducer";
 import {RegisterReducer} from "./RegisterReducer";
 import {RestoreReducer} from "./RestoreReducer";
 import {ChangePasswordReducer} from "./ChangePasswordReducer";
-import thunkMiddleware from "redux-thunk"
+import thunkMiddleWare from "redux-thunk"
 
 let reducers = combineReducers({
     profile: ProfileReducer,
@@ -14,11 +14,11 @@ let reducers = combineReducers({
     changePassword: ChangePasswordReducer
 })
 
-export type AppStateType = ReturnType<typeof reducers>
+const store = createStore(reducers, applyMiddleware(thunkMiddleWare))
 
-const store = createStore(reducers, applyMiddleware(thunkMiddleware))
-
-//@ts-ignore
-window.store =store
+export type StateType = ReturnType<typeof reducers>
 
 export default store
+
+// @ts-ignore
+window.store = store

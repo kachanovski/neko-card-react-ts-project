@@ -9,6 +9,7 @@ const NotFound = (props: any) => {
             <h1>404</h1>
             <div>
                 <h1>not found</h1>
+                <div>тест</div>
             </div>
         </div>
     )
