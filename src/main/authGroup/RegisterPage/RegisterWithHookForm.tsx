@@ -30,7 +30,7 @@ export const RegisterWithHookForm = React.memo(() => {
         "email": string
     }
 
-    const {register, handleSubmit, errors} = useForm<FormsType>(
+    const {register, handleSubmit, errors, reset} = useForm<FormsType>(
         {
             resolver: yupResolver(schema)
         }
@@ -44,6 +44,7 @@ export const RegisterWithHookForm = React.memo(() => {
             }
             dispatch(RegisterUserTC(newData))
             console.log(newData);
+            reset()
         } else {
             dispatch(SetErrorMessageAC('Пароли не совпадают'))
         }
