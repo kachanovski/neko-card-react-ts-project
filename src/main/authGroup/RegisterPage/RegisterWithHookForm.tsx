@@ -21,12 +21,11 @@ export const RegisterWithHookForm = React.memo(() => {
 
     const newUserData = useSelector<AppStateType, initialStateType>(state => state.register)
 
-
-
     type FormsType = {
         "password": string
         "email": string
     }
+
     const {register, handleSubmit, watch, errors} = useForm<FormsType>({
         resolver: yupResolver(schema)
     });
