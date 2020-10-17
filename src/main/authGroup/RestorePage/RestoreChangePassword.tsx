@@ -7,6 +7,7 @@ import {Controller, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
 import {ChangePasswordTC, InitialRestoreStateType} from "../../../store/RestoreReducer";
 import {StateType} from "../../../store/redux-store";
+import {Redirect} from "react-router-dom";
 
 type ChangePasswordPropsType = {}
 
@@ -16,7 +17,7 @@ export type ChangePasswordFormInput = {
 }
 
 const RestoreChangePassword = (props: ChangePasswordPropsType) => {
-    const changePassword = useSelector<StateType, InitialRestoreStateType>(state => state.restore)
+    const restore = useSelector<StateType, InitialRestoreStateType>(state => state.restore)
     const dispatch = useDispatch()
 
     const {control, handleSubmit} = useForm<ChangePasswordFormInput>();
@@ -25,6 +26,10 @@ const RestoreChangePassword = (props: ChangePasswordPropsType) => {
         dispatch(ChangePasswordTC(data))
     };
 
+    if (restore.success) {
+        return <Redirect to={'/login'}/>
+    }
+
     return (
         <div className={s.restorePage}>
             <div>
@@ -32,26 +37,22 @@ const RestoreChangePassword = (props: ChangePasswordPropsType) => {
             </div>
 
             <div className={s.restoreBlock}>
-                {
-                    !changePassword.error
-                        ? <h1>Please, set your new Password</h1>
-                        : <h2 className={s.errorMessage}>{changePassword.error || 'Error'}</h2>
-                }
+                <h1>Please, set your new Password</h1>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller
-                        as={<Input error={changePassword.error} label={'password'}/>}
+                        as={<Input error={restore.error} label={'password'}/>}
                         name="password"
                         control={control}
                         defaultValue=""
                     />
                     <Controller
-                        as={<Input error={changePassword.error} label={'repeat password'}/>}
+                        as={<Input error={restore.error} label={'repeat password'}/>}
                         name="repeat_password"
                         control={control}
                         defaultValue=""
                     />
-                    <Button disable={changePassword.responseLoading} title={'SEND'}/>
+                    <Button disable={restore.responseLoading} title={'SEND'}/>
                 </form>
             </div>
 
