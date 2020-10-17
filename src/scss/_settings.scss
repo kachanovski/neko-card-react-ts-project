@@ -107,6 +107,13 @@ h1 {
   border-radius: 10px;
 }
 
+%errorMessage {
+  h2 {
+    font-size: 60px;
+    color:$color_deeppink_color;
+  }
+}
+
 //Input
 $fontSizeInput: 22px;
 $paddingInput: 20px 0px;

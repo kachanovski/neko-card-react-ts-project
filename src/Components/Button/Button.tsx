@@ -4,6 +4,7 @@ import s from './Button.module.scss'
 type ButtonType = {
     title?: string
     onClick?: () => void
+    disable?: boolean
 }
 
 const Button = (props: ButtonType) => {
@@ -14,7 +15,7 @@ const Button = (props: ButtonType) => {
                 <span></span>
                 <span></span>
                 <span></span>
-                <button onClick={props.onClick} className={s.button}>
+                <button onClick={props.onClick} disabled={props.disable} className={s.button}>
                     {props.title}
                 </button>
             </span>

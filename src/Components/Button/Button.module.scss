@@ -35,6 +35,10 @@
     0 0 50px $light_blue_color1,
     0 0 100px $light_blue_color1
   }
+  :disabled {
+    color:$color_deeppink_color;
+    cursor: no-drop;
+  }
 
   span {
     position: absolute;
