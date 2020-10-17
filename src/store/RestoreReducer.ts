@@ -45,27 +45,29 @@ export const RestoreTC = (data: RestoreFormInput) => (dispatch: Dispatch) => {
         .then(res => {
             if( res.status === 200) {
                 dispatch(setResponseLoading(false))
-                dispatch(setError('Перейдите по ссылку на Email'))
+                dispatch(setError('Перейдите по ссылке на Email'))
             }
             }
         )
         .catch(e => {
+            dispatch(setResponseLoading(false))
             dispatch(setError(e.response.data.error))
         })
     dispatch(setResponseLoading(false))
 }
 
 export const ChangePasswordTC = (password: ChangePasswordFormInput) => (dispatch: Dispatch) => {
+    dispatch(setResponseLoading(true))
     RestoreApi.changePassword(password)
         .then( res => {
-            debugger
             if(res.status === 200) {
-
+                dispatch(setResponseLoading(false))
             }
             console.log(res)
         })
         .catch(e => {
-
+            dispatch(setResponseLoading(false))
+            dispatch(setError(e.response.data.error))
         })
 }
 
