@@ -6,7 +6,7 @@ import Button from "../../../Components/Button/Button";
 import {Controller, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
 import {ChangePasswordTC, InitialRestoreStateType} from "../../../store/RestoreReducer";
-import {AppRootStateType} from "../../../store/redux-store";
+import {StateType} from "../../../store/redux-store";
 
 type ChangePasswordPropsType = {}
 
@@ -16,7 +16,7 @@ export type ChangePasswordFormInput = {
 }
 
 const RestoreChangePassword = (props: ChangePasswordPropsType) => {
-    const changePassword = useSelector<AppRootStateType, InitialRestoreStateType>(state => state.restore)
+    const changePassword = useSelector<StateType, InitialRestoreStateType>(state => state.restore)
     const dispatch = useDispatch()
 
     const {control, handleSubmit} = useForm<ChangePasswordFormInput>();

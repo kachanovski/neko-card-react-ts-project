@@ -6,7 +6,7 @@ import Button from "../../../Components/Button/Button";
 import {Controller, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
 import {InitialRestoreStateType, RestoreTC} from '../../../store/RestoreReducer';
-import {AppRootStateType} from "../../../store/redux-store";
+import {StateType} from "../../../store/redux-store";
 
 type RestoreProps = {}
 
@@ -17,7 +17,7 @@ export type RestoreFormInput = {
 const Restore = (props: RestoreProps) => {
     const dispatch = useDispatch()
     const {control, handleSubmit} = useForm<RestoreFormInput>();
-    const restore = useSelector<AppRootStateType, InitialRestoreStateType>(state => state.restore)
+    const restore = useSelector<StateType, InitialRestoreStateType>(state => state.restore)
 
     const onSubmit = (data: RestoreFormInput) => {
         dispatch(RestoreTC(data))
