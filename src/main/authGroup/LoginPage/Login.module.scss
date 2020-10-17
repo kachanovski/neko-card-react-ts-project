@@ -14,6 +14,10 @@
     flex-direction: column;
     align-items: center;
 
+    .errorField {
+      color: $color_deeppink_color;
+      font-weight: bold;
+    }
     .items {
       height: 200px;
       display: flex;
