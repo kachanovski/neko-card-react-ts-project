@@ -15,7 +15,8 @@ let reducers = combineReducers({
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleWare))
-export type AppRootStateType = ReturnType<typeof reducers>
+
+export type StateType = ReturnType<typeof reducers>
 
 //@ts-ignore
 export default store
