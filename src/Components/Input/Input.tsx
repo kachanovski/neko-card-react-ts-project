@@ -7,7 +7,6 @@ type InputType = {
     value?: string
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void
     error?: string | null
-    name?:string
 }
 
 const Input = (props: InputType) => {
