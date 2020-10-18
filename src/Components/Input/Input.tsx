@@ -14,7 +14,6 @@ type InputType = {
 }
 
 const Input = (props: InputType) => {
-
     return (
         <div className={props.error ? s.error : s.inputBody}>
             <input value={props.value}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -10,6 +10,7 @@ import {initialStateType, RegisterUserTC, SetErrorMessageAC} from "../../../stor
 import {StateType} from "../../../store/redux-store";
 import {Redirect} from "react-router-dom";
 import err from "../../../Components/Input/Input.module.scss"
+import {ErrorMessage} from "@hookform/error-message";
 
 
 export const schema = yup.object().shape({
@@ -30,7 +31,7 @@ export const RegisterWithHookForm = React.memo(() => {
         "email": string
     }
 
-    const {register, handleSubmit, errors, reset} = useForm<FormsType>(
+    const {register, handleSubmit, errors, reset, setError} = useForm<FormsType>(
         {
             resolver: yupResolver(schema)
         }
