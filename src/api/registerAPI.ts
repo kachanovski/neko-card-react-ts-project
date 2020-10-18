@@ -11,7 +11,12 @@ type RegisterResponseType={
     error:string
 }
 
+export type PostType = {
+    email:string
+    password:string
+}
+
 export const RegisterAPI = {
-    RegisterUser:(data:RegisterUserDataType)=>{
+    RegisterUser:(data:PostType)=>{
         return instance.post<RegisterResponseType>('auth/register/', data).then(res=>res)}
 }

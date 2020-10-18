@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {RegisterAPI} from "../api/registerAPI";
+import {RegisterAPI, PostType} from "../api/registerAPI";
 
 export type ActionsType =
     SetRegisterDataAcType
@@ -8,13 +8,13 @@ export type ActionsType =
 
 export type RegisterUserDataType={
     email:string
-    password:string
+    id:string
 }
 
 let initialState = {
    data: {
        email: '',
-       password: '',
+       id: '',
    },
     errorMessage: '',
     registerFetching: false,
@@ -57,7 +57,7 @@ export const SetRegisterFetchingAC = (registerFetching: boolean) => {
     return {type: "REGISTER/TOGGLE-REGISTER-FETCHING", registerFetching} as const
 }
 
-export const RegisterUserTC = (data: RegisterUserDataType) => {
+export const RegisterUserTC = (data: PostType) => {
     return (dispatch: Dispatch) => {
         dispatch(SetRegisterFetchingAC(true))
         RegisterAPI.RegisterUser(data)
@@ -68,7 +68,7 @@ export const RegisterUserTC = (data: RegisterUserDataType) => {
                 dispatch(SetErrorMessageAC(res.data.error))
             })
             .catch(e => {
-                    dispatch(SetErrorMessageAC(e.response.data.error))
+                    dispatch(SetErrorMessageAC(e.message))
                 }
             )
         dispatch(SetRegisterFetchingAC(false))
