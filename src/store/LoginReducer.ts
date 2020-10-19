@@ -7,8 +7,8 @@ export type InitialLoginReducerState = {
     name: string
     avatar?: string
     publicCardPacksCount: number // количество колод
-    created: string // Data
-    updated: string // Data
+    created: string // Date
+    updated: string // Date
     isAdmin: boolean
     verified: boolean // подтвердил ли почту
     rememberMe: boolean
@@ -32,13 +32,12 @@ const initialState: InitialLoginReducerState = {
     created: '',
     updated: '',
     isFetching: false,
-
 }
 
 export const LoginReducer = (state: InitialLoginReducerState = initialState, action: ActionType): InitialLoginReducerState => {
     switch (action.type) {
         case "login/SET_USER":
-            return {...action.user}
+            return {...state, ...action.user}
         case "login/SET_ERROR":
             return {...state, error: action.error}
         case "login/SET_FETCHING":
@@ -57,23 +56,19 @@ export const setLogin = (email: string, password: string, rememberMe: boolean) =
         dispatch(isFetching(true))
         const promise = await authAPI.login(email, password, rememberMe)
         dispatch(setUser(promise.data))
-        console.log(promise)
+        console.log("Response(login): ", promise)
     } catch (e) {
-        debugger
         if (e.response) {
-            console.log('ERROR: ', e.response.data.error)
-            if (e.response.data.password) {
-                dispatch(setErrorInPass("password"))
-            } else if (e.response.data.email) {
-                dispatch(setErrorInPass("email"))
+            console.log('ERROR(login): ', e.response.data.error)
+            if (e.response.data.password) {                   // если валидацию не прошел пароль
+                dispatch(setErrorInPass("password"))  // диспатч "password", чтобы отобразить ошибку в логине
+            } else if (e.response.data.email) {             // если валидацию не прошел логин (email)
+                dispatch(setErrorInPass("email"))   // диспатч "email", чтобы отобразить ошибку в пароле
             }
             dispatch(setError(e.response.data.error))
         } else {
             console.log('ERROR: ', e.message + ', more details in the console')
         }
-        // const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
-        // console.log('Error: ', error)
-        // dispatch(setError(error))
     }
     dispatch(isFetching(false))
 }
