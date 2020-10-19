@@ -3,28 +3,32 @@ import {Dispatch} from "redux";
 import axios from 'axios'
 import {ChangePasswordFormInput} from "../main/authGroup/RestorePage/RestoreChangePassword";
 
-export type ActionsType = SetLoadingType | SetDisableButtonType | SetSuccessRequest
+export type ActionsType = SetLoadingType | SetLoading | SetSuccessRequest | SetButtonDisable
 
 export type InitialRestoreStateType = {
-    responseLoading: boolean
     error: string | null
+    loading: boolean
     success: boolean
+    disableButton: boolean
 }
 
 let initialState: InitialRestoreStateType = {
-    responseLoading: false,
+    loading: false,
     error: null,
-    success: false
+    success: false,
+    disableButton: false
 }
 
 export const RestoreReducer = (state = initialState, action: ActionsType) => {
     switch (action.type) {
-        case 'RESTORE/SET_RESPONSE_LOADING' :
-            return { ...state, isLoading: action.value}
+        case 'RESTORE/SET_LOADING' :
+            return {...state, loading: action.loading}
         case 'RESTORE/SET_ERROR':
             return {...state, error: action.error}
-            case 'RESTORE/SET_SUCCESS_REQUEST':
-            return {...state, error: action.success}
+        case 'RESTORE/SET_SUCCESS_REQUEST':
+            return {...state, success: action.success}
+        case "RESTORE/SET_BUTTON_DISABLE" :
+            return {...state, disableButton: action.disable}
         default:
             return state
     }
@@ -33,8 +37,11 @@ export const RestoreReducer = (state = initialState, action: ActionsType) => {
 export const setError = (error: string | null) => ({
     type: 'RESTORE/SET_ERROR', error
 } as const)
-export const setResponseLoading = (value: boolean) => ({
-    type: 'RESTORE/SET_RESPONSE_LOADING', value
+export const setLoading = (loading: boolean) => ({
+    type: 'RESTORE/SET_LOADING', loading
+} as const)
+export const setButtonDisable = (disable: boolean) => ({
+    type: 'RESTORE/SET_BUTTON_DISABLE', disable
 } as const)
 export const setSuccessRequest = (success: boolean) => ({
     type: 'RESTORE/SET_SUCCESS_REQUEST', success
@@ -42,53 +49,62 @@ export const setSuccessRequest = (success: boolean) => ({
 
 //types
 export type SetLoadingType = ReturnType<typeof setError>
-export type SetDisableButtonType = ReturnType<typeof setResponseLoading>
+export type SetLoading = ReturnType<typeof setLoading>
 export type SetSuccessRequest = ReturnType<typeof setSuccessRequest>
+export type SetButtonDisable = ReturnType<typeof setButtonDisable>
 
 
 //thunk
 export const RestoreTC = (data: RestoreFormInput) => (dispatch: Dispatch) => {
-    dispatch(setResponseLoading(true))
+    dispatch(setLoading(true))
     dispatch(setSuccessRequest(false))
+    dispatch(setButtonDisable(true))
+
     RestoreApi.restore(data)
         .then(res => {
-            if( res.status === 200) {
-                dispatch(setResponseLoading(false))
-                dispatch(setError(null))
-                dispatch(setSuccessRequest(true))
-            }
+                if (res.status === 200) {
+                    dispatch(setLoading(false))
+                    dispatch(setError(null))
+                    dispatch(setSuccessRequest(true))
+                    dispatch(setButtonDisable(false))
+                }
             }
         )
         .catch(e => {
-            dispatch(setResponseLoading(false))
+            dispatch(setLoading(false))
+            dispatch(setButtonDisable(false))
             dispatch(setError(e.response.data.error))
         })
-    dispatch(setResponseLoading(false))
+
 }
 
 export const ChangePasswordTC = (password: ChangePasswordFormInput) => (dispatch: Dispatch) => {
-    dispatch(setResponseLoading(true))
+    dispatch(setLoading(true))
     dispatch(setSuccessRequest(false))
+    dispatch(setButtonDisable(true))
     RestoreApi.changePassword(password)
-        .then( res => {
-            if(res.status === 200) {
-                dispatch(setResponseLoading(false))
+        .then(res => {
+            if (res.status === 200) {
+                dispatch(setLoading(false))
+                setError(null)
+                dispatch(setButtonDisable(false))
                 dispatch(setSuccessRequest(true))
             }
         })
         .catch(e => {
-            dispatch(setResponseLoading(false))
+            dispatch(setLoading(false))
+            dispatch(setButtonDisable(false))
             dispatch(setError(e.response.data.error))
         })
 }
-
 
 
 //api
 
 const instance = axios.create({
-    withCredentials:true,
-    baseURL:"http://localhost:7542/2.0/"
+    withCredentials: true,
+    baseURL: "http://localhost:7542/2.0/"
+    //baseURL: "https://neko-back.herokuapp.com/2.0"
 })
 
 export const RestoreApi = {
@@ -105,6 +121,6 @@ export const RestoreApi = {
     changePassword(data: ChangePasswordFormInput) {
         const passwordToken = window.location.href.split('/')[5]
         const password = data.password
-        return instance.post('auth/set-new-password' , {password, passwordToken})
+        return instance.post('auth/set-new-password', {password, passwordToken})
     }
 }

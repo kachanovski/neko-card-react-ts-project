@@ -17,6 +17,13 @@
     margin: 60px;
     padding: 60px;
     width: 100%;
+
+    .errorColor {
+      padding:10px;
+      color:$color_deeppink_color;
+      font-size: 25px;
+    }
+
   }
 
 }

@@ -32,10 +32,6 @@ const Restore = (props: RestoreProps) => {
         dispatch(RestoreTC(data))
     };
 
-    if (restore.responseLoading) {
-        return <h1>Loading...</h1>
-    }
-
     return (
         <div className={s.restorePage}>
             <div>
@@ -47,15 +43,18 @@ const Restore = (props: RestoreProps) => {
                     ? <h2>Link on email</h2>
                     : <form onSubmit={handleSubmit(onSubmit)}>
                         <Controller
-                            as={<Input onChange={() => errors.email?.message === null} error={errors.email?.message || restore.error} label={'Enter your login'}/>}
+                            as={<Input onChange={() => errors.email?.message === null}
+                                       error={errors.email?.message || restore.error} label={'Enter your login'}/>}
                             name="email"
                             control={control}
                             defaultValue=""
                         />
 
-                        {errors.email?.message || restore.error}
+                        <div className={s.errorColor}>
+                            {errors.email?.message || restore.error}
+                        </div>
 
-                        <Button disable={restore.responseLoading} title={'SEND'}/>
+                        <Button disable={restore.loading} title={'SEND'}/>
                     </form>
                 }
 

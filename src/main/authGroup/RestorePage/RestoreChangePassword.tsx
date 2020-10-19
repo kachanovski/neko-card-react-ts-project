@@ -10,6 +10,7 @@ import {StateType} from "../../../store/redux-store";
 import {Redirect} from "react-router-dom";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
+import Preloader from "../../../Components/Preloader/Preloader";
 
 type ChangePasswordPropsType = {}
 
@@ -32,11 +33,11 @@ const RestoreChangePassword = (props: ChangePasswordPropsType) => {
     });
 
     const onSubmit = (data: ChangePasswordFormInput) => {
-        if (data.password === data.repeat_password){
+        if (data.password === data.repeat_password) {
             dispatch(ChangePasswordTC(data))
-        }
-        else dispatch(setError('Password must be identical '))
+        } else dispatch(setError('Password must be identical '))
     };
+
 
     if (restore.success) {
         return <Redirect to={'/login'}/>
@@ -47,7 +48,6 @@ const RestoreChangePassword = (props: ChangePasswordPropsType) => {
             <div>
                 <LoginForm className={s.loginBlock}/>
             </div>
-
             <div className={s.restoreBlock}>
                 <h1>Please, set your new Password</h1>
 
@@ -59,14 +59,15 @@ const RestoreChangePassword = (props: ChangePasswordPropsType) => {
                         defaultValue=""
                     />
                     <Controller
-                        as={<Input error=  {errors.password?.message || restore.error} label={'repeat password'}/>}
+                        as={<Input error={errors.password?.message || restore.error} label={'repeat password'}/>}
                         name="repeat_password"
                         control={control}
                         defaultValue=""
                     />
-
-                    {errors.password?.message || restore.error}
-                    <Button disable={restore.responseLoading} title={'SEND'}/>
+                    <div className={s.errorColor}>
+                        {errors.password?.message || restore.error}
+                    </div>
+                    <Button disable={restore.loading} title={'SEND'}/>
                 </form>
             </div>
 
