@@ -15,7 +15,7 @@ const Profile = (props: ProfileType) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(GetProfileDataTC())
+        dispatch(GetProfileDataTC)
     }, [])
 
     return (
