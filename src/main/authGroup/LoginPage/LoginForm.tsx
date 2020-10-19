@@ -9,6 +9,7 @@ import {InitialLoginReducerState, setLogin} from "../../../store/LoginReducer";
 import * as yup from "yup";
 import {yupResolver} from '@hookform/resolvers/yup';
 import s from './Login.module.scss'
+import { Redirect } from 'react-router-dom';
 
 type LoginFormType = {
     className?: string
@@ -27,7 +28,7 @@ const schemaLogin = yup.object().shape({
 
 const LoginForm = (props: LoginFormType) => {
 
-    const {register, handleSubmit, errors} = useForm<FormType>({
+    const {register, handleSubmit, errors, reset} = useForm<FormType>({
         resolver: yupResolver(schemaLogin)
     })
 
@@ -39,7 +40,10 @@ const LoginForm = (props: LoginFormType) => {
 
     const onSubmit = (data: FormType) => {
         dispatch(setLogin(data.login, data.password, data.rememberMe))
+        reset()
     }
+
+    if (login._id.trim()) return <Redirect to={'/profile'} />
 
     return (
         <div className={props.className}>
