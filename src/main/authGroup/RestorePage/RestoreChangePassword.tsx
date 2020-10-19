@@ -10,7 +10,6 @@ import {StateType} from "../../../store/redux-store";
 import {Redirect} from "react-router-dom";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
-import Preloader from "../../../Components/Preloader/Preloader";
 
 type ChangePasswordPropsType = {}
 

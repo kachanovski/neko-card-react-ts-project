@@ -53,6 +53,7 @@ export const LoginReducer = (state: InitialLoginReducerState = initialState, act
 //thunk
 export const setLogin = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch) => {
     try {
+        debugger
         dispatch(isFetching(true))
         const promise = await authAPI.login(email, password, rememberMe)
         dispatch(setUser(promise.data))
