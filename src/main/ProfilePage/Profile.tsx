@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {GetProfileDataTC, ProfileDataType} from "../../store/ProfileReducer";
 import {StateType} from "../../store/redux-store";
 import {Redirect} from 'react-router-dom';
+import Preloader from "../../Components/Preloader/Preloader";
 
 type ProfileType = {}
 
@@ -14,11 +15,12 @@ const Profile = (props: ProfileType) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(GetProfileDataTC())
+        dispatch(GetProfileDataTC)
     }, [])
 
     return (
         <>
+            {!profileData? <Preloader/>:null}
             {!profileData ? <Redirect to={'/login'}/> : null}
             <div className={s.profilePage}>
                 <div className={s.profileContainer}>

@@ -103,8 +103,8 @@ export const ChangePasswordTC = (password: ChangePasswordFormInput) => (dispatch
 
 const instance = axios.create({
     withCredentials: true,
-    //baseURL: "http://localhost:7542/2.0/"
-    baseURL: "https://neko-back.herokuapp.com/2.0"
+    baseURL: "http://localhost:7542/2.0/"
+    //baseURL: "https://neko-back.herokuapp.com/2.0"
 })
 
 export const RestoreApi = {
@@ -120,7 +120,6 @@ export const RestoreApi = {
     },
     changePassword(data: ChangePasswordFormInput) {
         const passwordToken = window.location.href.split('/')[5]
-        console.log(passwordToken)
         const password = data.password
         return instance.post('auth/set-new-password', {password, passwordToken})
     }

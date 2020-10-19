@@ -60,18 +60,25 @@ export const SetRegisterFetchingAC = (registerFetching: boolean) => {
 export const RegisterUserTC = (data: PostType) => {
     return (dispatch: Dispatch) => {
         dispatch(SetRegisterFetchingAC(true))
+        debugger
         RegisterAPI.RegisterUser(data)
             .then(res => {
+                debugger
                 if (!res.data.error) {
                     dispatch(SetRegisterDataAC(res.data.addedUser))
+                }else {
+                    dispatch(SetErrorMessageAC(res.data.error))
                 }
-                dispatch(SetErrorMessageAC(res.data.error))
+                dispatch(SetRegisterFetchingAC(false))
             })
             .catch(e => {
-                    dispatch(SetErrorMessageAC(e.message))
+                debugger
+                console.log(e.response.data.error)
+                dispatch(SetErrorMessageAC(e.response.data.error))
+                dispatch(SetRegisterFetchingAC(false))
                 }
             )
-        dispatch(SetRegisterFetchingAC(false))
+
     }
 }
 
