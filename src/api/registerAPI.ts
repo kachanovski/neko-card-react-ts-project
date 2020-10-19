@@ -18,5 +18,5 @@ export type PostType = {
 
 export const RegisterAPI = {
     RegisterUser:(data:PostType)=>{
-        return instance.post<RegisterResponseType>('auth/register/', data).then(res=>res)}
+        return instance.post<RegisterResponseType>('auth/register/', data)}
 }

@@ -11,6 +11,9 @@ import {StateType} from "../../../store/redux-store";
 import {Redirect} from "react-router-dom";
 import err from "../../../Components/Input/Input.module.scss"
 import {ErrorMessage} from "@hookform/error-message";
+import Preloader from "../../../Components/Preloader/Preloader";
+import {ValidationRule} from "react-hook-form/dist/types/validator";
+
 
 
 export const schema = yup.object().shape({
@@ -31,9 +34,9 @@ export const RegisterWithHookForm = React.memo(() => {
         "email": string
     }
 
-    const {register, handleSubmit, errors, reset, setError} = useForm<FormsType>(
+    const {register, handleSubmit, errors, reset, setError, clearErrors} = useForm<FormsType>(
         {
-            resolver: yupResolver(schema)
+            resolver:yupResolver(schema)
         }
     );
 
@@ -47,16 +50,21 @@ export const RegisterWithHookForm = React.memo(() => {
             console.log(newData);
             reset()
         } else {
-            dispatch(SetErrorMessageAC('Пароли не совпадают'))
+            setError('password', {message: 'Пароли не совпадают'})
+            setError('confirm_password', {message: 'Пароли не совпадают'})
         }
     }
 
     const onBlur = () => {
         dispatch(SetErrorMessageAC(''))
+        // clearErrors('password')
+        // clearErrors('confirm_password')
+        // clearErrors('email')
     }
 
     return (
         <>
+            {newUserData.registerFetching ? <Preloader/> : null}
             {newUserData.data.email.length > 0 && <Redirect to={'/login'}/>}
             <div className={s.registerPage} onBlur={onBlur}>
                 <div className={s.registerBox}>
@@ -90,7 +98,8 @@ export const RegisterWithHookForm = React.memo(() => {
                             />
                             {errors.confirm_password?.message}
                         </div>
-                        <Button title={"SEND"} disable={newUserData.registerFetching}/>
+                        <Button title={"SEND"}
+                                disable={newUserData.registerFetching}/>
                     </form>
                 </div>
             </div>
