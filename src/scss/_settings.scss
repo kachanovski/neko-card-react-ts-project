@@ -107,11 +107,10 @@ h1 {
   border-radius: 10px;
 }
 
-%errorMessage {
-  h2 {
-    font-size: 60px;
-    color:$color_deeppink_color;
-  }
+%errorMessageColor {
+  padding:10px;
+  color:$color_deeppink_color;
+  font-size: 25px;
 }
 
 //Input

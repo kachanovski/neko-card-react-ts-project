@@ -44,9 +44,6 @@ const RestoreChangePassword = (props: ChangePasswordPropsType) => {
 
     return (
         <div className={s.restorePage}>
-            <div>
-                <LoginForm className={s.loginBlock}/>
-            </div>
             <div className={s.restoreBlock}>
                 <h1>Please, set your new Password</h1>
 
@@ -63,7 +60,7 @@ const RestoreChangePassword = (props: ChangePasswordPropsType) => {
                         control={control}
                         defaultValue=""
                     />
-                    <div className={s.errorColor}>
+                    <div className={s.errorMessageColor}>
                         {errors.password?.message || restore.error}
                     </div>
                     <Button disable={restore.loading} title={'SEND'}/>

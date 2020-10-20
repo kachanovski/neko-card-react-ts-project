@@ -1,7 +1,6 @@
 import React from 'react';
 import s from './Restore.module.scss'
 import Input from "../../../Components/Input/Input";
-import LoginForm from '../LoginPage/LoginForm';
 import Button from "../../../Components/Button/Button";
 import {Controller, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
@@ -34,9 +33,6 @@ const Restore = (props: RestoreProps) => {
 
     return (
         <div className={s.restorePage}>
-            <div>
-                <LoginForm className={s.loginBlock}/>
-            </div>
             <div className={s.restoreBlock}>
                 <h1>Forgot you password?</h1>
                 {restore.success
@@ -50,7 +46,7 @@ const Restore = (props: RestoreProps) => {
                             defaultValue=""
                         />
 
-                        <div className={s.errorColor}>
+                        <div className={s.errorMessageColor}>
                             {errors.email?.message || restore.error}
                         </div>
 

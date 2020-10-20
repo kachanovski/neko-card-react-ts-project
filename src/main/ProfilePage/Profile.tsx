@@ -18,10 +18,12 @@ const Profile = (props: ProfileType) => {
         dispatch(GetProfileDataTC)
     }, [])
 
+  /*  if (!profileData?._id) return <Redirect to={'/login'}/>
+*/
+
+
     return (
         <>
-            {!profileData? <Preloader/>:null}
-            {!profileData ? <Redirect to={'/login'}/> : null}
             <div className={s.profilePage}>
                 <div className={s.profileContainer}>
                     <h1>profile</h1>
