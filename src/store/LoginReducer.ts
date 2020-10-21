@@ -1,7 +1,6 @@
 import {Dispatch} from "redux";
 import {authAPI, ResponseServerType} from "../api/authAPI";
-import {setDisable} from "./DisableReducer";
-import {setLoading} from "./LoadingReducer";
+import {IsFetch, isFetching} from "./isFetchingReducer";
 
 export type InitialLoginReducerState = {
     _id: string
@@ -16,7 +15,7 @@ export type InitialLoginReducerState = {
     rememberMe: boolean
     token?: string,
     tokenDeathTime?: number
-    error: string
+    error: string,
     errorIn?: ErrorInType
     authMe: boolean
 }
@@ -55,8 +54,7 @@ export const LoginReducer = (state: InitialLoginReducerState = initialState, act
 //thunk
 export const setLogin = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch) => {
     try {
-        dispatch(setDisable(true))
-        dispatch(setLoading(true))
+        dispatch(isFetching(true))
         const promise = await authAPI.login(email, password, rememberMe)
         dispatch(authMeAction(true))
         dispatch(setUser(promise.data))
@@ -74,10 +72,8 @@ export const setLogin = (email: string, password: string, rememberMe: boolean) =
             console.log('ERROR: ', e.message + ', more details in the console')
         }
     }
-    dispatch(setDisable(false))
-    dispatch(setLoading(false))
+    dispatch(isFetching(false))
 }
-
 export const setLogOutUser = () => async (dispatch: Dispatch) => {
     dispatch(authMeAction(false))
     try {
@@ -110,4 +106,4 @@ export type SetError = ReturnType<typeof setError>
 export type ErrorPass = ReturnType<typeof setErrorInPass>
 export type authMeAction = ReturnType<typeof authMeAction>
 
-type ActionType = SetUserType | SetError | ErrorPass | authMeAction
+type ActionType = SetUserType | SetError | IsFetch | ErrorPass  | authMeAction

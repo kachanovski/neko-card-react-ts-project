@@ -10,7 +10,9 @@ import {Redirect} from "react-router-dom";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 
-type ChangePasswordPropsType = {}
+type ChangePasswordPropsType = {
+    isFetching: boolean
+}
 
 export type ChangePasswordFormInput = {
     password: string,
@@ -48,13 +50,17 @@ const RestoreChangePassword = (props: ChangePasswordPropsType) => {
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller
-                        as={<Input error={restore.error} label={'password'}/>}
+                        as={<Input error={restore.error}
+                                   type={'password'}
+                                   label={'password'}/>}
                         name="password"
                         control={control}
                         defaultValue=""
                     />
                     <Controller
-                        as={<Input error={errors.password?.message || restore.error} label={'repeat password'}/>}
+                        as={<Input error={errors.password?.message || restore.error}
+                                   type={'password'}
+                                   label={'repeat password'}/>}
                         name="repeat_password"
                         control={control}
                         defaultValue=""
@@ -62,7 +68,7 @@ const RestoreChangePassword = (props: ChangePasswordPropsType) => {
                     <div className={s.errorMessageColor}>
                         {errors.password?.message || restore.error}
                     </div>
-                    <Button disable={restore.loading} title={'SEND'}/>
+                    <Button disable={props.isFetching} title={'SEND'}/>
                 </form>
             </div>
 

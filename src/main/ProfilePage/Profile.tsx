@@ -3,11 +3,11 @@ import s from './Profile.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {GetProfileDataTC, ProfileDataType} from "../../store/ProfileReducer";
 import {StateType} from "../../store/redux-store";
-import {Redirect} from 'react-router-dom';
-import Preloader from "../../Components/Preloader/Preloader";
 import Button from "../../Components/Button/Button";
 
-type ProfileType = {}
+type ProfileType = {
+    isFetching: boolean
+}
 
 const Profile = (props: ProfileType) => {
 
@@ -47,7 +47,7 @@ const Profile = (props: ProfileType) => {
                     <div>Ava</div>
                     <div>Ava</div>
                     <div>name</div>
-                    <Button title={'LogOut'} />
+                    <Button disable={props.isFetching} title={'LogOut'} />
                 </div>
             </div>
         </>

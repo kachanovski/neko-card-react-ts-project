@@ -9,7 +9,9 @@ import {StateType} from "../../../store/redux-store";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 
-type RestoreProps = {}
+type RestoreProps = {
+    isFetching: boolean
+}
 
 export type RestoreFormInput = {
     email: string;
@@ -50,7 +52,7 @@ const Restore = (props: RestoreProps) => {
                             {errors.email?.message || restore.error}
                         </div>
 
-                        <Button disable={restore.loading} title={'SEND'}/>
+                        <Button disable={props.isFetching} title={'SEND'}/>
                     </form>
                 }
 
