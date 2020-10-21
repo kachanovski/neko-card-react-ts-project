@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {authAPI, ResponseServerType} from "../api/authAPI";
+import {IsFetch, isFetching} from "./isFetchingReducer";
 
 export type InitialLoginReducerState = {
     _id: string
@@ -15,7 +16,6 @@ export type InitialLoginReducerState = {
     token?: string,
     tokenDeathTime?: number
     error: string,
-    isFetching: boolean,
     errorIn?: ErrorInType
     authMe: boolean
 }
@@ -32,7 +32,6 @@ const initialState: InitialLoginReducerState = {
     isAdmin: false,
     created: '',
     updated: '',
-    isFetching: false,
     authMe: false
 }
 
@@ -42,8 +41,6 @@ export const LoginReducer = (state: InitialLoginReducerState = initialState, act
             return {...state, ...action.user, authMe: true}
         case "login/SET_ERROR":
             return {...state, error: action.error}
-        case "login/SET_FETCHING":
-            return {...state, isFetching: action.isFetch}
         case "login/SET_ERROR_IN":
             return {...state, errorIn: action.errorIn}
         case "login/SET_LOGOUT_USER":
@@ -103,14 +100,12 @@ export type ErrorInType = 'password' | 'email'
 //AC
 export const setUser = (user: ResponseServerType) => ({type: 'login/SET_USER', user} as const)
 export const setError = (error: string) => ({type: 'login/SET_ERROR', error} as const)
-export const isFetching = (isFetch: boolean) => ({type: 'login/SET_FETCHING', isFetch} as const)
 export const setErrorInPass = (errorIn: ErrorInType) => ({type: 'login/SET_ERROR_IN', errorIn} as const)
 export const logOutAction = () => ({type: 'login/SET_LOGOUT_USER'} as const)
 export const authMe = () => ({type: 'login/AUTH_ME'} as const)
 
 export type SetUserType = ReturnType<typeof setUser>
 export type SetError = ReturnType<typeof setError>
-export type IsFetch = ReturnType<typeof isFetching>
 export type ErrorPass = ReturnType<typeof setErrorInPass>
 export type logOutUserType = ReturnType<typeof logOutAction>
 export type authMeAction = ReturnType<typeof authMe>

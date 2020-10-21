@@ -1,12 +1,11 @@
-import {combineReducers, createStore, applyMiddleware} from 'redux';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
 import {ProfileReducer} from "./ProfileReducer";
 import {LoginReducer} from "./LoginReducer";
 import {RegisterReducer} from "./RegisterReducer";
 import {RestoreReducer} from "./RestoreReducer";
 import {ChangePasswordReducer} from "./ChangePasswordReducer";
 import thunkMiddleWare from "redux-thunk"
-import {LoadingReducer} from "./LoadingReducer";
-import {DisableReducer} from "./DisableReducer";
+import {IsFetchingReducer} from "./isFetchingReducer";
 
 let reducers = combineReducers({
     profile: ProfileReducer,
@@ -14,8 +13,7 @@ let reducers = combineReducers({
     register: RegisterReducer,
     restore: RestoreReducer,
     changePassword: ChangePasswordReducer,
-    loading: LoadingReducer,
-    disable: DisableReducer
+    isFetching: IsFetchingReducer,
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleWare))
