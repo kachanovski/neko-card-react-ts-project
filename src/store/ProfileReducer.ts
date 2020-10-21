@@ -25,7 +25,7 @@ export const ProfileReducer = (state = ProfileInitialState, action: ActionsType)
  switch (action.type) {
      case "PROFILE/SET-PROFILE-USER-DATA":{
         return {
-            ...action.data
+            ...state,...action.data
         }
      }
          default:return state
@@ -41,10 +41,15 @@ export const SetProfileUserDataAC =(data:ProfileDataType)=> {
 export const GetProfileDataTC = ()=>{
     return (dispatch:Dispatch) =>{
         ProfileAPI.GetProfile({}).then(res=>{
-            if (res?.error){
+            debugger
+            if (!res?.error){
                 dispatch(SetProfileUserDataAC(res))
             }
-        })
+        }).catch(e=> {
+            debugger
+            console.log(e.response)
+        }
+    )
     }
 }
 

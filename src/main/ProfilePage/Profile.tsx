@@ -15,13 +15,16 @@ const Profile = (props: ProfileType) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(GetProfileDataTC)
+        debugger
+        dispatch(GetProfileDataTC())
     }, [])
+
+    // {!profileData ? <Redirect to={'/login'}/> : null}
+    if(!profileData?.email) return <Redirect to={'/login'}/>
 
     return (
         <>
-            {!profileData? <Preloader/>:null}
-            {!profileData ? <Redirect to={'/login'}/> : null}
+            {/*{!profileData?.email? <Preloader/>:null}*/}
             <div className={s.profilePage}>
                 <div className={s.profileContainer}>
                     <h1>profile</h1>
