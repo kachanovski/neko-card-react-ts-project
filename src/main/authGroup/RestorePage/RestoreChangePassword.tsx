@@ -44,7 +44,7 @@ const RestoreChangePassword = React.memo((props: ChangePasswordPropsType) => {
 
         useEffect(() => {
             dispatch(setErrorRestore(null))
-        })
+        },[])
 
         if (restore.success) {
             return <Redirect to={'/login'}/>

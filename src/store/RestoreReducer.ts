@@ -46,11 +46,10 @@ export type SetSuccessRequest = ReturnType<typeof setSuccessRequest>
 export const RestoreTC = (data: RestoreFormInput) => (dispatch: Dispatch) => {
     dispatch(isFetching(true))
     dispatch(setSuccessRequest(false))
-
     RestoreApi.restore(data)
         .then(res => {
                 if (res.status === 200) {
-                    dispatch(isFetching(true))
+                    dispatch(isFetching(false))
                     dispatch(setErrorRestore(null))
                     dispatch(setSuccessRequest(true))
                 }
@@ -69,7 +68,7 @@ export const ChangePasswordTC = (password: ChangePasswordFormInput) => (dispatch
     RestoreApi.changePassword(password)
         .then(res => {
             if (res.status === 200) {
-                dispatch(isFetching(true))
+                dispatch(isFetching(false))
                 setErrorRestore(null)
                 dispatch(setSuccessRequest(true))
             }

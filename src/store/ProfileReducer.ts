@@ -41,12 +41,10 @@ export const SetProfileUserDataAC =(data:ProfileDataType)=> {
 export const GetProfileDataTC = ()=>{
     return (dispatch:Dispatch) =>{
         ProfileAPI.GetProfile({}).then(res=>{
-            debugger
             if (!res?.error){
                 dispatch(SetProfileUserDataAC(res))
             }
         }).catch(e=> {
-            debugger
             console.log(e.response)
         }
     )
