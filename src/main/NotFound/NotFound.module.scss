@@ -3,10 +3,18 @@
 .notFoundPage {
   @extend %main_background;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
 
   h1 {
-    font-size: 190px;
+    font-size: 170px;
     color: $color_deeppink_color;
-    @extend %pick_text_shadow
+    @extend %pick_text_shadow;
+
+    @media (max-width: 1070px) {
+      font-size: 50px;
+    }
   }
 }

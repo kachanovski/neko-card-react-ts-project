@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
-import {authAPI} from "../api/authAPI";
+import {authAPI, ResponseServerType} from "../api/authAPI";
+import {IsFetch, isFetching} from "./isFetchingReducer";
 
 export type InitialLoginReducerState = {
     _id: string
@@ -14,9 +15,9 @@ export type InitialLoginReducerState = {
     rememberMe: boolean
     token?: string,
     tokenDeathTime?: number
-    error: string,
-    isFetching: boolean,
+    error: string | null,
     errorIn?: ErrorInType
+    authMe: boolean
 }
 
 
@@ -25,13 +26,13 @@ const initialState: InitialLoginReducerState = {
     email: '',
     name: '',
     rememberMe: false,
-    error: '',
+    error: null,
     verified: false,
     publicCardPacksCount: 0,
     isAdmin: false,
     created: '',
     updated: '',
-    isFetching: false,
+    authMe: false
 }
 
 export const LoginReducer = (state: InitialLoginReducerState = initialState, action: ActionType): InitialLoginReducerState => {
@@ -40,10 +41,10 @@ export const LoginReducer = (state: InitialLoginReducerState = initialState, act
             return {...state, ...action.user}
         case "login/SET_ERROR":
             return {...state, error: action.error}
-        case "login/SET_FETCHING":
-            return {...state, isFetching: action.isFetch}
-        case "login/SET_ERROR_IN_PASS":
+        case "login/SET_ERROR_IN":
             return {...state, errorIn: action.errorIn}
+        case "login/AUTH_ME":
+            return {...state, authMe: action.authMe}
         default:
             return state
     }
@@ -53,18 +54,18 @@ export const LoginReducer = (state: InitialLoginReducerState = initialState, act
 //thunk
 export const setLogin = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch) => {
     try {
-        debugger
         dispatch(isFetching(true))
         const promise = await authAPI.login(email, password, rememberMe)
+        dispatch(authMeAction(true))
         dispatch(setUser(promise.data))
         console.log("Response(login): ", promise)
     } catch (e) {
         if (e.response) {
             console.log('ERROR(login): ', e.response.data.error)
             if (e.response.data.password) {                   // если валидацию не прошел пароль
-                dispatch(setErrorInPass("password"))  // диспатч "password", чтобы отобразить ошибку в логине
+                dispatch(setErrorInPass("password"))  // диспатч "password", чтобы отобразить ошибку в пароле
             } else if (e.response.data.email) {             // если валидацию не прошел логин (email)
-                dispatch(setErrorInPass("email"))   // диспатч "email", чтобы отобразить ошибку в пароле
+                dispatch(setErrorInPass("email"))   // диспатч "email", чтобы отобразить ошибку в логине
             }
             dispatch(setError(e.response.data.error))
         } else {
@@ -73,17 +74,38 @@ export const setLogin = (email: string, password: string, rememberMe: boolean) =
     }
     dispatch(isFetching(false))
 }
+export const setLogOutUser = () => async (dispatch: Dispatch) => {
+    dispatch(authMeAction(false))
+    dispatch(isFetching(true))
+    try {
+        await authAPI.logout()
+    } catch (e) {
+        const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+        console.log('Log out error: ', error)
+    }
+    dispatch(isFetching(false))
+}
+export const AuthMe = () => async (dispatch: Dispatch) => {
+    try {
+        const promise = await authAPI.authMe()
+        dispatch(authMeAction(true))
+        dispatch(setUser(promise.data))
+    } catch (e) {
+        const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+        console.log('Authorization: ', error)
+    }
+}
 
-type ErrorInType = 'password' | 'email'
+export type ErrorInType = 'password' | 'email'
 //AC
-export const setUser = (user: InitialLoginReducerState) => ({type: 'login/SET_USER', user} as const)
-export const setError = (error: string) => ({type: 'login/SET_ERROR', error} as const)
-export const isFetching = (isFetch: boolean) => ({type: 'login/SET_FETCHING', isFetch} as const)
-export const setErrorInPass = (errorIn: ErrorInType) => ({type: 'login/SET_ERROR_IN_PASS', errorIn} as const)
+export const setUser = (user: ResponseServerType) => ({type: 'login/SET_USER', user} as const)
+export const setError = (error: string | null) => ({type: 'login/SET_ERROR', error} as const)
+export const setErrorInPass = (errorIn: ErrorInType) => ({type: 'login/SET_ERROR_IN', errorIn} as const)
+export const authMeAction = (authMe: boolean) => ({type: 'login/AUTH_ME', authMe} as const)
 
 export type SetUserType = ReturnType<typeof setUser>
 export type SetError = ReturnType<typeof setError>
-export type IsFetch = ReturnType<typeof isFetching>
 export type ErrorPass = ReturnType<typeof setErrorInPass>
+export type authMeAction = ReturnType<typeof authMeAction>
 
-type ActionType = SetUserType | SetError | IsFetch | ErrorPass
+type ActionType = SetUserType | SetError | IsFetch | ErrorPass  | authMeAction

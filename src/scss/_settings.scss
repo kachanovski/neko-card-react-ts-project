@@ -12,7 +12,14 @@ h1 {
   font-weight: bolder;
   font-size: 70px;
   @extend %blue_text_shadow;
+
+  @media (max-width: 470px) {
+    font-size: 40px;
+    letter-spacing: 10px;
+  }
+
 }
+
 //blue-text-shadow
 %blue_text_shadow {
   color: $light_blue_color1;
@@ -99,19 +106,29 @@ h1 {
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
+
+  @media (max-width: 800px) {
+
+  }
+  @media (max-width: 425px) {
+    background-size: initial;
+    height: 100vh;
+  }
+
 }
 
 %container {
   background-color: $dart_blue_color;
   opacity: 0.7;
   border-radius: 10px;
+
+
 }
 
-%errorMessage {
-  h2 {
-    font-size: 60px;
-    color:$color_deeppink_color;
-  }
+%errorMessageColor {
+  padding:10px;
+  color:$color_deeppink_color;
+  font-size: 25px;
 }
 
 //Input

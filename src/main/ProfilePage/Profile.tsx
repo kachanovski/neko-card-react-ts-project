@@ -1,34 +1,66 @@
 import React, {useEffect} from 'react';
 import s from './Profile.module.scss'
 import {useDispatch, useSelector} from "react-redux";
-import {GetProfileDataTC, ProfileDataType} from "../../store/ProfileReducer";
+import {GetProfileDataTC} from "../../store/ProfileReducer";
 import {StateType} from "../../store/redux-store";
-import {Redirect} from 'react-router-dom';
-import Preloader from "../../Components/Preloader/Preloader";
+import Button from "../../Components/Button/Button";
+import {AuthMe, setLogOutUser} from "../../store/LoginReducer";
+import {Redirect} from "react-router-dom";
 
-type ProfileType = {}
+type ProfileType = {
+    isFetching: boolean
+}
 
 const Profile = (props: ProfileType) => {
 
-    const profileData = useSelector<StateType, ProfileDataType>(state => state.profile)
-
+    const authMe = useSelector<StateType, boolean>(state => state.login.authMe)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        debugger
         dispatch(GetProfileDataTC())
-    }, [])
+    }, [dispatch])
 
-    // {!profileData ? <Redirect to={'/login'}/> : null}
-    if(!profileData?.email) return <Redirect to={'/login'}/>
+
+    useEffect(() => {
+        dispatch(AuthMe())
+    }, [dispatch, authMe])
+
+    const logOut = () => {
+        dispatch(setLogOutUser())
+    }
+
+    if (!authMe) return <Redirect to={'/login'}/>
+
+    console.log('profile')
 
     return (
         <>
-            {/*{!profileData?.email? <Preloader/>:null}*/}
             <div className={s.profilePage}>
                 <div className={s.profileContainer}>
-                    <h1>profile</h1>
+                    <div className={s.titleProfile}>Profile</div>
+                    <div>
+                        <div>Ava</div>
+                        <div>Ava</div>
+                        <div>name</div>
+                    </div>
+                    <Button onClick={logOut} title={'LogOut'}/>
                 </div>
+                <div className={s.profileContent}>
+                    <div className={s.cardField}></div>
+                    <div className={s.cardField}></div>
+                    <div className={s.cardField}></div>
+                    <div className={s.cardField}></div>
+                    <div className={s.cardField}></div>
+                    <div className={s.cardField}></div>
+                    <div className={s.cardField}></div>
+                    <div className={s.cardField}></div>
+                    <div className={s.cardField}></div>
+                    <div className={s.cardField}></div>
+                    <div className={s.cardField}></div>
+                    <div className={s.cardField}></div>
+                    <div className={s.cardField}></div>
+                </div>
+
             </div>
         </>
     )

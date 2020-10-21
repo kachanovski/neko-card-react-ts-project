@@ -1,17 +1,19 @@
-import {combineReducers, createStore, applyMiddleware} from 'redux';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
 import {ProfileReducer} from "./ProfileReducer";
 import {LoginReducer} from "./LoginReducer";
 import {RegisterReducer} from "./RegisterReducer";
 import {RestoreReducer} from "./RestoreReducer";
 import {ChangePasswordReducer} from "./ChangePasswordReducer";
 import thunkMiddleWare from "redux-thunk"
+import {IsFetchingReducer} from "./isFetchingReducer";
 
 let reducers = combineReducers({
     profile: ProfileReducer,
     login: LoginReducer,
     register: RegisterReducer,
     restore: RestoreReducer,
-    changePassword: ChangePasswordReducer
+    changePassword: ChangePasswordReducer,
+    isFetching: IsFetchingReducer,
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleWare))

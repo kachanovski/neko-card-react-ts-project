@@ -1,13 +1,85 @@
 @import "../../scss/settings";
 
 .profilePage {
-    @extend %main_background;
-    flex-direction: row-reverse;
-}
+  @extend %main_background;
+  flex-direction: row-reverse;
 
-.profileContainer {
+  @media (max-width: 800px) {
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  @media (max-width: 380px) {
+
+  }
+
+  .profileContent {
+    @extend %container;
+    width: 100%;
+    margin: 20px;
+    padding: 30px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+
+    @media (max-width: 800px) {
+      width: 100%;
+      height: 80vh;
+      margin: 0;
+      padding: 0;
+    }
+
+
+    .cardField {
+      border: deeppink 2px solid;
+      border-radius: 5px;
+      width: content-box;
+      height: 10%;
+      margin-top: 10px;
+      color: white;
+
+
+      @media (max-width: 800px) {
+        padding: 10px;
+      }
+
+      @media (max-width: 425px) {
+
+      }
+
+    }
+
+  }
+
+
+  .profileContainer {
     @extend %container;
     width: 20%;
-    margin: 60px;
-    padding: 60px;
+    margin: 20px;
+    padding: 30px;
+    text-align: center;
+
+
+    @media (max-width: 800px) {
+      width: 100%;
+      margin: 0 0 20px;
+      padding: 0;
+      display: grid;
+      height: 20vh;
+      grid-template-columns: 20% 50% 30%;
+      align-items: center;
+    }
+
+    @media (max-width: 540px) {
+      width: content-box;
+      padding: 10px;
+    }
+
+    .titleProfile {
+      font-size: 50px;
+      @extend %pick_text_shadow;
+      animation: none;
+    }
+
+  }
 }
