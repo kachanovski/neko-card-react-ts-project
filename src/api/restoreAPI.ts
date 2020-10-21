@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {RegisterUserDataType} from "../store/RegisterReducer";
 import {RestoreFormInput} from "../main/authGroup/RestorePage/Restore";
 import {ChangePasswordFormInput} from "../main/authGroup/RestorePage/RestoreChangePassword";
 
@@ -37,7 +36,7 @@ export const RestoreApi = {
     },
     changePassword(data: ChangePasswordFormInput) {
         const passwordToken = window.location.href.split('/')[5]
-        const password = data.repeat_password
+        const password = data.confirm_password
         return instance.post<ChangePasswordResponseType>('auth/set-new-password', {password: password, resetPasswordToken: passwordToken})
     }
 }

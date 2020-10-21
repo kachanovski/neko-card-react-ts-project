@@ -38,7 +38,7 @@ export const RegisterReducer = (state: initialStateType = initialState, action: 
 export const SetRegisterDataAC = (data: RegisterUserDataType) => {
     return {type: "REGISTER/SET-REGISTER-DATA", data} as const
 }
-export const SetErrorMessageAC = (message: string) => {
+export const SetErrorRegisterAC = (message: string) => {
     return {type: "REGISTER/SET-ERROR-MESSAGE-TYPE", message} as const
 }
 
@@ -50,13 +50,13 @@ export const RegisterUserTC = (data: PostType) => {
                 if (!res.data.error) {
                     dispatch(SetRegisterDataAC(res.data.addedUser))
                 } else {
-                    dispatch(SetErrorMessageAC(res.data.error))
+                    dispatch(SetErrorRegisterAC(res.data.error))
                 }
                 dispatch(isFetching(false))
             })
             .catch(e => {
                     console.log(e.response.data.error)
-                    dispatch(SetErrorMessageAC(e.response.data.error))
+                    dispatch(SetErrorRegisterAC(e.response.data.error))
                     dispatch(isFetching(false))
                 }
             )
@@ -65,5 +65,5 @@ export const RegisterUserTC = (data: PostType) => {
 }
 
 type SetRegisterDataAcType = ReturnType<typeof SetRegisterDataAC>
-type SetErrorMessageAcType = ReturnType<typeof SetErrorMessageAC>
+type SetErrorMessageAcType = ReturnType<typeof SetErrorRegisterAC>
 

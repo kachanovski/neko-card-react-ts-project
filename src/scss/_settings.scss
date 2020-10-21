@@ -12,6 +12,12 @@ h1 {
   font-weight: bolder;
   font-size: 70px;
   @extend %blue_text_shadow;
+
+  @media (max-width: 470px) {
+    font-size: 40px;
+    letter-spacing: 10px;
+  }
+
 }
 
 //blue-text-shadow
@@ -102,7 +108,11 @@ h1 {
   display: flex;
 
   @media (max-width: 800px) {
-    height: max-content;
+
+  }
+  @media (max-width: 425px) {
+    background-size: initial;
+    height: 100vh;
   }
 
 }
@@ -111,6 +121,8 @@ h1 {
   background-color: $dart_blue_color;
   opacity: 0.7;
   border-radius: 10px;
+
+
 }
 
 %errorMessageColor {

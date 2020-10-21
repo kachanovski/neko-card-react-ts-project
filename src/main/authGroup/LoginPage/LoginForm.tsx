@@ -1,11 +1,11 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import Button from "../../../Components/Button/Button";
 import Input from "../../../Components/Input/Input";
 import Checkbox from "../../../Components/Checkbox/Checkbox";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../../store/redux-store";
 import {Controller, useForm} from "react-hook-form";
-import {ErrorInType, setLogin} from "../../../store/LoginReducer";
+import {ErrorInType, setLogin, setError} from "../../../store/LoginReducer";
 import * as yup from "yup";
 import {yupResolver} from '@hookform/resolvers/yup';
 import s from './Login.module.scss'
@@ -22,12 +22,12 @@ type FormType = {
 }
 
 
-const LoginForm = React.memo((props: LoginFormType) => {
+export const schemaLogin = yup.object().shape({
+    login: yup.string().required().email(),
+    password: yup.string().required().min(7)
+})
 
-    const schemaLogin = yup.object().shape({
-        login: yup.string().required().email(),
-        password: yup.string().required().min(7)
-    })
+const LoginForm = React.memo((props: LoginFormType) => {
 
     const {register, control, handleSubmit, errors, reset} = useForm<FormType>({
         resolver: yupResolver(schemaLogin)
@@ -36,16 +36,22 @@ const LoginForm = React.memo((props: LoginFormType) => {
     const dispatch = useDispatch()
 
     const authMe = useSelector<StateType, boolean>(state => state.login.authMe)
-    const error = useSelector<StateType, string>(state => state.login.error)
+    const error = useSelector<StateType, string | null>(state => state.login.error)
     const errorIn = useSelector<StateType, ErrorInType | undefined>(state => state.login.errorIn)
-
 
     const onSubmit = useCallback(function (data: FormType) {
         dispatch(setLogin(data.login, data.password, data.rememberMe))
-        reset()
-    }, [authMe])
+        if (authMe) {
+            reset()
+        }
 
-    console.log(authMe)
+    }, [dispatch, authMe, reset])
+
+    useEffect(() => {
+        dispatch(setError(null))
+    }, [dispatch])
+
+    console.log('login')
     if (authMe) return <Redirect to={'/profile'}/>
 
     return (

@@ -13,7 +13,8 @@ const Menu = React.memo (() => {
 
     useEffect(() => {
         dispatch(AuthMe())
-    }, [])
+
+    }, [dispatch])
 
     const logOut = () => {
         dispatch(setLogOutUser())
@@ -22,12 +23,6 @@ const Menu = React.memo (() => {
         if (isHide) setIsHide(false)
         if (!isHide) setIsHide(true)
     },[isHide])
-    // const hideMenu = () => {
-    //     setIsHide(true)
-    // }
-    // const showMenu = () => {
-    //     setIsHide(false)
-    // }
     console.log('Menu render')
 
     return (
@@ -44,23 +39,6 @@ const Menu = React.memo (() => {
                     : <NavLink to='/login' className={s.link} activeClassName={s.activeLink}>Login</NavLink>}
                 <NavLink to='/profile' className={s.link} activeClassName={s.activeLink}>Profile</NavLink>
             </div>}
-
-            {/*{isHide*/}
-            {/*    ? <button onClick={showMenu}>menu</button>*/}
-            {/*    : <div className={s.menuActive}>*/}
-            {/*        <button onClick={hideMenu}>menu</button>*/}
-            {/*        <NavLink to='/restore' className={s.link} activeClassName={s.activeLink}>Forgot password</NavLink>*/}
-            {/*        <NavLink to='/register' className={s.link} activeClassName={s.activeLink}>Register</NavLink>*/}
-            {/*        {*/}
-            {/*            authMe*/}
-            {/*                ? <NavLink onClick={logOut} to='/login' className={s.link} activeClassName={s.activeLink}>*/}
-            {/*                    Log out*/}
-            {/*                </NavLink>*/}
-            {/*                : <NavLink to='/login' className={s.link} activeClassName={s.activeLink}>Login</NavLink>*/}
-            {/*        }*/}
-            {/*        <NavLink to='/profile' className={s.link} activeClassName={s.activeLink}>Profile</NavLink>*/}
-            {/*    </div>*/}
-            {/*}*/}
         </div>
 
     )

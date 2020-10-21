@@ -15,7 +15,7 @@ export type InitialLoginReducerState = {
     rememberMe: boolean
     token?: string,
     tokenDeathTime?: number
-    error: string,
+    error: string | null,
     errorIn?: ErrorInType
     authMe: boolean
 }
@@ -26,7 +26,7 @@ const initialState: InitialLoginReducerState = {
     email: '',
     name: '',
     rememberMe: false,
-    error: '',
+    error: null,
     verified: false,
     publicCardPacksCount: 0,
     isAdmin: false,
@@ -76,12 +76,14 @@ export const setLogin = (email: string, password: string, rememberMe: boolean) =
 }
 export const setLogOutUser = () => async (dispatch: Dispatch) => {
     dispatch(authMeAction(false))
+    dispatch(isFetching(true))
     try {
         await authAPI.logout()
     } catch (e) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
         console.log('Log out error: ', error)
     }
+    dispatch(isFetching(false))
 }
 export const AuthMe = () => async (dispatch: Dispatch) => {
     try {
@@ -97,7 +99,7 @@ export const AuthMe = () => async (dispatch: Dispatch) => {
 export type ErrorInType = 'password' | 'email'
 //AC
 export const setUser = (user: ResponseServerType) => ({type: 'login/SET_USER', user} as const)
-export const setError = (error: string) => ({type: 'login/SET_ERROR', error} as const)
+export const setError = (error: string | null) => ({type: 'login/SET_ERROR', error} as const)
 export const setErrorInPass = (errorIn: ErrorInType) => ({type: 'login/SET_ERROR_IN', errorIn} as const)
 export const authMeAction = (authMe: boolean) => ({type: 'login/AUTH_ME', authMe} as const)
 

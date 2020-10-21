@@ -29,7 +29,7 @@ export const RestoreReducer = (state = initialState, action: ActionsType) => {
     }
 }
 
-export const setError = (error: string | null) => ({
+export const setErrorRestore = (error: string | null) => ({
     type: 'RESTORE/SET_ERROR', error
 } as const)
 export const setSuccessRequest = (success: boolean) => ({
@@ -37,7 +37,7 @@ export const setSuccessRequest = (success: boolean) => ({
 } as const)
 
 //types
-export type SetLoadingType = ReturnType<typeof setError>
+export type SetLoadingType = ReturnType<typeof setErrorRestore>
 export type SetSuccessRequest = ReturnType<typeof setSuccessRequest>
 
 
@@ -51,14 +51,14 @@ export const RestoreTC = (data: RestoreFormInput) => (dispatch: Dispatch) => {
         .then(res => {
                 if (res.status === 200) {
                     dispatch(isFetching(true))
-                    dispatch(setError(null))
+                    dispatch(setErrorRestore(null))
                     dispatch(setSuccessRequest(true))
                 }
             }
         )
         .catch(e => {
             dispatch(isFetching(false))
-            dispatch(setError(e.response.data.error))
+            dispatch(setErrorRestore(e.response.data.error))
         })
 
 }
@@ -70,12 +70,12 @@ export const ChangePasswordTC = (password: ChangePasswordFormInput) => (dispatch
         .then(res => {
             if (res.status === 200) {
                 dispatch(isFetching(true))
-                setError(null)
+                setErrorRestore(null)
                 dispatch(setSuccessRequest(true))
             }
         })
         .catch(e => {
             dispatch(isFetching(false))
-            dispatch(setError(e.response.data.error))
+            dispatch(setErrorRestore(e.response.data.error))
         })
 }

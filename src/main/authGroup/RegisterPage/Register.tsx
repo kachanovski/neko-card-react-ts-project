@@ -1,14 +1,13 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import * as yup from "yup";
 import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import s from "./Register.module.scss";
 import Button from "../../../Components/Button/Button";
 import {useDispatch, useSelector} from "react-redux";
-import {initialStateType, RegisterUserTC, SetErrorMessageAC} from "../../../store/RegisterReducer";
+import {initialStateType, RegisterUserTC, SetErrorRegisterAC} from "../../../store/RegisterReducer";
 import {StateType} from "../../../store/redux-store";
 import {Redirect} from "react-router-dom";
-import Preloader from "../../../Components/Preloader/Preloader";
 import Input from "../../../Components/Input/Input";
 
 type RegisterPropsType = {
@@ -34,7 +33,7 @@ const Register = React.memo((props: RegisterPropsType) => {
 
 
 
-    const {handleSubmit, errors, reset, setError, control, clearErrors} = useForm<FormsType>(
+    const {handleSubmit, errors, reset, setError, control} = useForm<FormsType>(
         {
             resolver: yupResolver(schema)
         }
@@ -55,8 +54,12 @@ const Register = React.memo((props: RegisterPropsType) => {
         }
     }
 
+    useEffect(() => {
+        dispatch(SetErrorRegisterAC(''))
+    },[dispatch])
+
     const onBlur = () => {
-        dispatch(SetErrorMessageAC(''))
+        dispatch(SetErrorRegisterAC(''))
         // clearErrors('password')
         // clearErrors('confirm_password')
         // clearErrors('email')

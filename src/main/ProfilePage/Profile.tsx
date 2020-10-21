@@ -1,9 +1,11 @@
 import React, {useEffect} from 'react';
 import s from './Profile.module.scss'
 import {useDispatch, useSelector} from "react-redux";
-import {GetProfileDataTC, ProfileDataType} from "../../store/ProfileReducer";
+import {GetProfileDataTC} from "../../store/ProfileReducer";
 import {StateType} from "../../store/redux-store";
 import Button from "../../Components/Button/Button";
+import {AuthMe, setLogOutUser} from "../../store/LoginReducer";
+import {Redirect} from "react-router-dom";
 
 type ProfileType = {
     isFetching: boolean
@@ -11,21 +13,38 @@ type ProfileType = {
 
 const Profile = (props: ProfileType) => {
 
-    const profileData = useSelector<StateType, ProfileDataType>(state => state.profile)
-
+    const authMe = useSelector<StateType, boolean>(state => state.login.authMe)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(GetProfileDataTC)
-    }, [])
+        dispatch(GetProfileDataTC())
+    }, [dispatch])
 
-  /*  if (!profileData?._id) return <Redirect to={'/login'}/>
-*/
 
+    useEffect(() => {
+        dispatch(AuthMe())
+    }, [dispatch, authMe])
+
+    const logOut = () => {
+        dispatch(setLogOutUser())
+    }
+
+    if (!authMe) return <Redirect to={'/login'}/>
+
+    console.log('profile')
 
     return (
         <>
             <div className={s.profilePage}>
+                <div className={s.profileContainer}>
+                    <div className={s.titleProfile}>Profile</div>
+                    <div>
+                        <div>Ava</div>
+                        <div>Ava</div>
+                        <div>name</div>
+                    </div>
+                    <Button onClick={logOut} title={'LogOut'}/>
+                </div>
                 <div className={s.profileContent}>
                     <div className={s.cardField}></div>
                     <div className={s.cardField}></div>
@@ -42,13 +61,6 @@ const Profile = (props: ProfileType) => {
                     <div className={s.cardField}></div>
                 </div>
 
-                <div className={s.profileContainer}>
-                    <div className={s.titleProfile}>Profile </div>
-                    <div>Ava</div>
-                    <div>Ava</div>
-                    <div>name</div>
-                    <Button disable={props.isFetching} title={'LogOut'} />
-                </div>
             </div>
         </>
     )
