@@ -4,8 +4,8 @@ import {ChangePasswordFormInput} from "../main/authGroup/RestorePage/RestoreChan
 
 const instance = axios.create({
     withCredentials: true,
-    // baseURL: "http://localhost:7542/2.0/"
-    baseURL: "https://neko-back.herokuapp.com/2.0"
+    baseURL: "http://localhost:7542/2.0/"
+    //baseURL: "https://neko-back.herokuapp.com/2.0"
 })
 type RestoreResponseType = {
     answer: boolean,
@@ -15,11 +15,6 @@ type RestoreResponseType = {
 }
 type ChangePasswordResponseType = {
     info: string
-}
-
-export type PostType = {
-    email: string
-    password: string
 }
 
 
@@ -37,6 +32,9 @@ export const RestoreApi = {
     changePassword(data: ChangePasswordFormInput) {
         const passwordToken = window.location.href.split('/')[5]
         const password = data.confirm_password
-        return instance.post<ChangePasswordResponseType>('auth/set-new-password', {password: password, resetPasswordToken: passwordToken})
+        return instance.post<ChangePasswordResponseType>('auth/set-new-password', {
+            password: password,
+            resetPasswordToken: passwordToken
+        })
     }
 }
