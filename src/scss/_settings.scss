@@ -13,6 +13,7 @@ h1 {
   font-size: 70px;
   @extend %blue_text_shadow;
 }
+
 //blue-text-shadow
 %blue_text_shadow {
   color: $light_blue_color1;
@@ -99,6 +100,11 @@ h1 {
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
+
+  @media (max-width: 800px) {
+    height: max-content;
+  }
+
 }
 
 %container {

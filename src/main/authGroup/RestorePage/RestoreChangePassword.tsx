@@ -1,7 +1,6 @@
 import React from 'react';
 import s from './Restore.module.scss'
 import Input from "../../../Components/Input/Input";
-import LoginForm from '../LoginPage/LoginForm';
 import Button from "../../../Components/Button/Button";
 import {Controller, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";

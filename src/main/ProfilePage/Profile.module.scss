@@ -1,13 +1,50 @@
 @import "../../scss/settings";
 
 .profilePage {
-    @extend %main_background;
-    flex-direction: row-reverse;
-}
+  @extend %main_background;
 
-.profileContainer {
+  @media (max-width: 800px) {
+    height: 100vh;
+    width: 100%;
+  }
+
+  .profileContent {
+    @extend %container;
+    width: 100%;
+    margin: 20px;
+    padding: 30px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+
+    @media (max-width: 800px) {
+
+    }
+
+
+    .cardField {
+      border: deeppink 2px solid;
+      border-radius: 5px;
+      width: 100%;
+      height: 10%;
+      margin-top: 10px;
+      color: white;
+    }
+
+  }
+
+
+  .profileContainer {
     @extend %container;
     width: 20%;
-    margin: 60px;
-    padding: 60px;
+    margin: 20px;
+    padding: 30px;
+    text-align: center;
+
+    .titleProfile {
+      font-size: 50px;
+      @extend %pick_text_shadow;
+      animation: none;
+    }
+
+  }
 }
