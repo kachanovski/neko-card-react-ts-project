@@ -75,10 +75,11 @@ export const setLogin = (email: string, password: string, rememberMe: boolean) =
     dispatch(isFetching(false))
 }
 export const setLogOutUser = () => async (dispatch: Dispatch) => {
-    dispatch(authMeAction(false))
     dispatch(isFetching(true))
     try {
         await authAPI.logout()
+        dispatch(authMeAction(false))
+
     } catch (e) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
         console.log('Log out error: ', error)
