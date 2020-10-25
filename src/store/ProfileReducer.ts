@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
 import {ProfileAPI} from "../api/ProfileAPI";
 
-export type ActionsType=
+export type ActionsType =
     SetProfileUserDataAcType
 
 
@@ -19,35 +19,36 @@ export type ProfileDataType = {
     error: string;
 } | null
 
-let ProfileInitialState:ProfileDataType = null
+let ProfileInitialState: ProfileDataType = null
 
 export const ProfileReducer = (state = ProfileInitialState, action: ActionsType) => {
- switch (action.type) {
-     case "PROFILE/SET-PROFILE-USER-DATA":{
-        return {
-            ...state,...action.data
+    switch (action.type) {
+        case "PROFILE/SET-PROFILE-USER-DATA": {
+            return {
+                ...state, ...action.data
+            }
         }
-     }
-         default:return state
- }
+        default:
+            return state
+    }
 }
 
-export const SetProfileUserDataAC =(data:ProfileDataType)=> {
-    return{
-        type:"PROFILE/SET-PROFILE-USER-DATA", data
+export const SetProfileUserDataAC = (data: ProfileDataType) => {
+    return {
+        type: "PROFILE/SET-PROFILE-USER-DATA", data
     } as const
 }
 
-export const GetProfileDataTC = ()=>{
-    return (dispatch:Dispatch) =>{
-        ProfileAPI.GetProfile({}).then(res=>{
-            if (!res?.error){
+export const GetProfileDataTC = () => {
+    return (dispatch: Dispatch) => {
+        ProfileAPI.GetProfile({}).then(res => {
+            if (!res?.error) {
                 dispatch(SetProfileUserDataAC(res))
             }
-        }).catch(e=> {
-            console.log(e.response)
-        }
-    )
+        }).catch(e => {
+                console.log(e.response)
+            }
+        )
     }
 }
 

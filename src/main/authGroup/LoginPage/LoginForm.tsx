@@ -51,7 +51,7 @@ const LoginForm = React.memo((props: LoginFormType) => {
         dispatch(setError(null))
     }, [dispatch])
 
-    console.log('login')
+
     if (authMe) return <Redirect to={'/profile'}/>
 
     return (

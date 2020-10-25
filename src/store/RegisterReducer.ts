@@ -55,7 +55,6 @@ export const RegisterUserTC = (data: PostType) => {
                 dispatch(isFetching(false))
             })
             .catch(e => {
-                    console.log(e.response.data.error)
                     dispatch(SetErrorRegisterAC(e.response.data.error))
                     dispatch(isFetching(false))
                 }

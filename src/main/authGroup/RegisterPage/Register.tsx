@@ -46,7 +46,6 @@ const Register = React.memo((props: RegisterPropsType) => {
                 password: data.password
             }
             dispatch(RegisterUserTC(newData))
-            console.log(newData);
             reset()
         } else {
             setError('password', {message: 'Пароли не совпадают'})

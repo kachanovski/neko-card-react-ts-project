@@ -23,7 +23,6 @@ const Menu = React.memo (() => {
         if (isHide) setIsHide(false)
         if (!isHide) setIsHide(true)
     },[isHide])
-    console.log('Menu render')
 
     return (
         <div className={s.menu}>

@@ -6,6 +6,7 @@ import {RestoreReducer} from "./RestoreReducer";
 import {ChangePasswordReducer} from "./ChangePasswordReducer";
 import thunkMiddleWare from "redux-thunk"
 import {IsFetchingReducer} from "./isFetchingReducer";
+import { PacksReducer } from './PacksReducer';
 
 let reducers = combineReducers({
     profile: ProfileReducer,
@@ -14,6 +15,7 @@ let reducers = combineReducers({
     restore: RestoreReducer,
     changePassword: ChangePasswordReducer,
     isFetching: IsFetchingReducer,
+    packs: PacksReducer
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleWare))
