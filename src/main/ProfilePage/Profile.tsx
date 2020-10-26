@@ -3,45 +3,35 @@ import s from './Profile.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../store/redux-store";
 import Button from "../../Components/Button/Button";
-import {AuthMe, setLogOutUser} from "../../store/LoginReducer";
+import {AuthMe, setLogOutUser, InitialLoginReducerState} from "../../store/LoginReducer";
 import {Redirect} from "react-router-dom";
-import {getPacks, PackType} from '../../store/PacksReducer';
+import {getPacks, PackType, sortPacksUp, sortPacksDown} from '../../store/PacksReducer';
 import Input from "../../Components/Input/Input";
+import { ModalWindow } from './ModalWindow/ModalWindow';
 
 
 type ProfileType = {
     isFetching: boolean
 }
 
-type SearchInputForm = {
-    searchName: string
-    searchRange: string
-}
 
 const Profile = (props: ProfileType) => {
     const authMe = useSelector<StateType, boolean>(state => state.login.authMe)
+    const profile = useSelector<StateType, InitialLoginReducerState>(state => state.login)
     const pack = useSelector<StateType, Array<PackType>>(state => state.packs.packs)
     const dispatch = useDispatch()
 
-    const [rangeValue, setRangeValue] = useState('')
-    const [searchValue, setSearchValue] = useState('')
+    const [showModalWindow, setShowModalWindow] = useState(false)
 
+    const [searchValue, setSearchValue] = useState('')
 
     const onChangeSearchInput = (e:ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.currentTarget.value)
     }
-    const onChangeRangeInput = (e:ChangeEvent<HTMLInputElement>) => {
-        setRangeValue(e.currentTarget.value)
-    }
 
     const onClickSearch = () => {
-        const searchData = searchValue
-        dispatch(getPacks(searchData))
+        dispatch(getPacks(searchValue))
     }
-
-    /* useEffect(() => {
-         dispatch(GetProfileDataTC())
-     }, [dispatch])*/
 
     useEffect(() => {
         dispatch(AuthMe())
@@ -58,30 +48,33 @@ const Profile = (props: ProfileType) => {
 
 
     return (
-        <>
-            <div className={s.profilePage}>
+
+            <div className={s.profilePage} >
+
+                {showModalWindow ? <ModalWindow setShowModalWindow={setShowModalWindow} /> : null}
+
+
                 <div className={s.profileContainer}>
                     <div className={s.titleProfile}>Profile</div>
                     <div>
-                        <div>Ava</div>
-                        <div>Ava</div>
-                        <div>name</div>
+                        <div>{profile.avatar}</div>
+                        <div>{profile.name}</div>
                     </div>
+                    <button onClick={() => setShowModalWindow(true)}>++++</button>
                     <Button onClick={logOut} title={'LogOut'}/>
                 </div>
 
                 <div className={s.profileContent}>
                     <div className={s.searchField}>
-                        <Input onChange={onChangeSearchInput} type={'text'} value={searchValue} />
+                        <Input onChange={onChangeSearchInput} label={'Search'}  type={'text'} value={searchValue} />
                         <Button onClick={onClickSearch} title={"Search"} />
                     </div>
-
 
                         <div className={s.packsContainer}>
                             <div>
                                 Name
-                                <button>up</button>
-                                <button>down</button>
+                                <button onClick={() => dispatch(sortPacksUp())}>up</button>
+                                <button onClick={() => dispatch(sortPacksDown())}>down</button>
                             </div>
                             <div>
                                 Update
@@ -112,7 +105,6 @@ const Profile = (props: ProfileType) => {
                 </div>
 
             </div>
-        </>
 )
 }
 

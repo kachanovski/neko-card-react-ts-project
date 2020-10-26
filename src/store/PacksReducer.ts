@@ -2,7 +2,7 @@ import {Dispatch} from "redux";
 import {PacksAPI} from "../api/PacksAPI";
 import {isFetching} from "./isFetchingReducer";
 
-export type ActionsType = GetPacksType | SetSearchPacks
+export type ActionsType = GetPacksType | SetSearchPacks | SetSortPacksNameUp | SetSortPacksNameDown
 
 export type PackType = {
     _id: string
@@ -47,7 +47,37 @@ export const PacksReducer = (state = PacksInitialState, action: ActionsType) => 
         }
         case "/PACKS/SEARCH_PACKS": {
             return {
+                ...state
+            }
+        }
+         case "/PACKS/SORT_PACKS_NAME_UP": {
+            return {
                 ...state,
+                ...state.packs,
+                    packs:state.packs.sort(function (a, b) {
+                    let nameA = a.name.toLowerCase(),
+                        nameB = b.name.toLowerCase()
+                            if (nameA < nameB)
+                                return -1
+                            if (nameA > nameB)
+                                return 1
+                            return 0
+                })
+            }
+        }
+        case "/PACKS/SORT_PACKS_NAME_DOWN": {
+            return {
+                ...state,
+                ...state.packs,
+                    packs:state.packs.sort(function (a, b) {
+                    let nameA = a.name.toLowerCase(),
+                        nameB = b.name.toLowerCase()
+                            if (nameA > nameB)
+                                return -1
+                            if (nameA < nameB)
+                                return 1
+                            return 0
+                })
             }
         }
         default:
@@ -66,6 +96,16 @@ export const setSearchPacks = (searchName: string) => {
         type: '/PACKS/SEARCH_PACKS', searchName
     } as const
 }
+export const setSortPacksNameUp = () => {
+    return {
+        type: '/PACKS/SORT_PACKS_NAME_UP'
+    } as const
+}
+export const setSortPacksNameDown = () => {
+    return {
+        type: '/PACKS/SORT_PACKS_NAME_DOWN'
+    } as const
+}
 
 export const getPacks = (searchName: string) => {
     return (dispatch: Dispatch) => {
@@ -82,7 +122,38 @@ export const getPacks = (searchName: string) => {
     }
 }
 
+export const sortPacksUp = () => {
+    return (dispatch: Dispatch) => {
+        dispatch(isFetching(true))
+        PacksAPI.getPacks('').then(res => {
+                dispatch(setSortPacksNameUp())
+                dispatch(isFetching(false))
+            }
+        ).catch(e => {
+                console.log(e.response.data)
+                dispatch(isFetching(false))
+            }
+        )
+    }
+}
+export const sortPacksDown = () => {
+    return (dispatch: Dispatch) => {
+        dispatch(isFetching(true))
+        PacksAPI.getPacks('').then(res => {
+                dispatch(setSortPacksNameDown())
+                dispatch(isFetching(false))
+            }
+        ).catch(e => {
+                console.log(e.response.data)
+                dispatch(isFetching(false))
+            }
+        )
+    }
+}
+
 
 type GetPacksType = ReturnType<typeof getPacksAC>
 type SetSearchPacks = ReturnType<typeof setSearchPacks>
+type SetSortPacksNameUp = ReturnType<typeof setSortPacksNameUp>
+type SetSortPacksNameDown = ReturnType<typeof setSortPacksNameDown>
 
