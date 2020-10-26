@@ -34,7 +34,7 @@ let PacksInitialState: PacksInitialStateType = {
     searchName: null,
     page: 1,
     pageCount: 10,
-    cardsPacksTotalCount:100
+    cardsPacksTotalCount:1000
 }
 
 
