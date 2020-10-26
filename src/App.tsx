@@ -5,7 +5,6 @@ import Login from './main/authGroup/LoginPage/Login';
 import Restore from "./main/authGroup/RestorePage/Restore";
 import Profile from "./main/ProfilePage/Profile";
 import NotFound from './main/NotFound/NotFound';
-import Menu from "./main/Menu/Menu";
 import RestoreChangePassword from "./main/authGroup/RestorePage/RestoreChangePassword";
 import {useSelector} from "react-redux";
 import {StateType} from "./store/redux-store";
@@ -22,7 +21,6 @@ const App = () => {
         <HashRouter>
             <div className="App">
                 {isFetching && <Preloader/>}
-                <Menu/>
                 <Switch>
                     <Route path='/restore' render={() => (<Restore isFetching={isFetching}/>)}/>
                     <Route exact path='/register' render={() => (<Register isFetching={isFetching}/>)}/>

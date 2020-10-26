@@ -1,24 +1,39 @@
 import {Dispatch} from "redux";
 import {PacksAPI} from "../api/PacksAPI";
+import {isFetching} from "./isFetchingReducer";
 
 export type ActionsType = GetPacksType | SetSearchPacks
 
 export type PackType = {
     _id: string
+    user_id: string
     name: string
     email: string
+    grade: number
+    shots: number
+    rating: number
+    type: string
+    created: string
+    update: string
 }
 
 export type PacksInitialStateType = {
     packs: Array<PackType>
     packUser_id: string
     searchName: string | null
+    cardsPacksTotalCount? : number | null
+    maxCardsCount?: number | null
+    minCardsCount?: number
+    page?: number
+    pageCount?: number
 }
 
 let PacksInitialState: PacksInitialStateType = {
     packs: [],
     packUser_id: '',
-    searchName: null
+    searchName: null,
+    page: 1,
+    pageCount: 10
 }
 
 
@@ -54,11 +69,15 @@ export const setSearchPacks = (searchName: string) => {
 
 export const getPacks = (searchName: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(isFetching(true))
         PacksAPI.getPacks(searchName).then(res => {
                 dispatch(getPacksAC(res.data.cardPacks))
+                dispatch(isFetching(false))
             }
-        ).catch(e =>
-            console.log(e.response.data)
+        ).catch(e => {
+                console.log(e.response.data)
+                dispatch(isFetching(false))
+            }
         )
     }
 }
