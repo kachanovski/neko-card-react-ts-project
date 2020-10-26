@@ -1,5 +1,4 @@
 import axios from "axios";
-import {string} from "yup";
 
 export type PacksType = {
     name?: string           //"no Name" если не отправить будет таким
