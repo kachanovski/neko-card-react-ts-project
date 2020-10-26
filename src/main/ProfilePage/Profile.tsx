@@ -7,6 +7,7 @@ import {AuthMe, setLogOutUser} from "../../store/LoginReducer";
 import {Redirect} from "react-router-dom";
 import {getPacks, PackType} from '../../store/PacksReducer';
 import Input from "../../Components/Input/Input";
+import {Paginator} from "../../Components/Paginator/Paginator";
 
 
 type ProfileType = {
@@ -59,6 +60,7 @@ const Profile = (props: ProfileType) => {
 
     return (
         <>
+            <Paginator/>
             <div className={s.profilePage}>
                 <div className={s.profileContainer}>
                     <div className={s.titleProfile}>Profile</div>
