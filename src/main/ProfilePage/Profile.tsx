@@ -14,7 +14,7 @@ type ProfileType = {
 }
 
 type SearchInputForm = {
-    data: string
+    searchName: string
 }
 
 const Profile = (props: ProfileType) => {
@@ -24,7 +24,7 @@ const Profile = (props: ProfileType) => {
 
     const {register, handleSubmit} = useForm<SearchInputForm>();
     const onSubmit = (data: SearchInputForm) => {
-        console.log(data)
+       dispatch(getPacks(data.searchName))
     };
 
    /* useEffect(() => {
@@ -35,9 +35,9 @@ const Profile = (props: ProfileType) => {
         dispatch(AuthMe())
     }, [dispatch, authMe])
 
-    useEffect(() => {
+/*    useEffect(() => {
             dispatch(getPacks())
-    }, [dispatch])
+    }, [dispatch])*/
 
     const logOut = () => {
         dispatch(setLogOutUser())
@@ -59,7 +59,7 @@ const Profile = (props: ProfileType) => {
                 </div>
                 <div className={s.profileContent}>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <input name="searchValue" ref={register({required: true, maxLength: 20})}/>
+                        <input name="searchName" ref={register({required: true, maxLength: 20})}/>
                         <button type="submit">send</button>
                     </form>
 

@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
 import {PacksAPI} from "../api/PacksAPI";
 
-export type ActionsType = getPacksType
+export type ActionsType = GetPacksType | SetSearchPacks
 
 export type PackType = {
     _id: string
@@ -12,13 +12,14 @@ export type PackType = {
 export type PacksInitialStateType = {
     packs: Array<PackType>
     packUser_id: string
+    searchName: string | null
 }
 
-let PacksInitialState:PacksInitialStateType  = {
+let PacksInitialState: PacksInitialStateType = {
     packs: [],
-    packUser_id: ''
+    packUser_id: '',
+    searchName: null
 }
-
 
 
 export const PacksReducer = (state = PacksInitialState, action: ActionsType) => {
@@ -27,6 +28,11 @@ export const PacksReducer = (state = PacksInitialState, action: ActionsType) => 
             return {
                 ...state,
                 packs: action.packs
+            }
+        }
+        case "/PACKS/SEARCH_PACKS": {
+            return {
+                ...state,
             }
         }
         default:
@@ -40,9 +46,15 @@ export const getPacksAC = (packs: Array<PackType>) => {
     } as const
 }
 
-export const getPacks = () => {
+export const setSearchPacks = (searchName: string) => {
+    return {
+        type: '/PACKS/SEARCH_PACKS', searchName
+    } as const
+}
+
+export const getPacks = (searchName: string) => {
     return (dispatch: Dispatch) => {
-        PacksAPI.getPacks().then(res => {
+        PacksAPI.getPacks(searchName).then(res => {
                 dispatch(getPacksAC(res.data.cardPacks))
             }
         ).catch(e =>
@@ -52,5 +64,6 @@ export const getPacks = () => {
 }
 
 
-type getPacksType = ReturnType<typeof getPacksAC>
+type GetPacksType = ReturnType<typeof getPacksAC>
+type SetSearchPacks = ReturnType<typeof setSearchPacks>
 
