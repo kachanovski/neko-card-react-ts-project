@@ -7,7 +7,7 @@ import {AuthMe, setLogOutUser, InitialLoginReducerState} from "../../store/Login
 import {Redirect} from "react-router-dom";
 import {getPacks, PackType, sortPacksUp, sortPacksDown} from '../../store/PacksReducer';
 import Input from "../../Components/Input/Input";
-import { ModalWindow } from './ModalWindow/ModalWindow';
+import {ModalWindow} from './ModalWindow/ModalWindow';
 import {Paginator} from "../../Components/Paginator/Paginator";
 
 
@@ -26,7 +26,7 @@ const Profile = (props: ProfileType) => {
 
     const [searchValue, setSearchValue] = useState('')
 
-    const onChangeSearchInput = (e:ChangeEvent<HTMLInputElement>) => {
+    const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.currentTarget.value)
     }
 
@@ -50,9 +50,9 @@ const Profile = (props: ProfileType) => {
 
     return (
 
-            <div className={s.profilePage} >
+        <div className={s.profilePage}>
 
-                {showModalWindow ? <ModalWindow setShowModalWindow={setShowModalWindow} /> : null}
+            {showModalWindow ? <ModalWindow setShowModalWindow={setShowModalWindow}/> : null}
 
             <Paginator/>
             <div className={s.profilePage}>
@@ -68,47 +68,45 @@ const Profile = (props: ProfileType) => {
 
                 <div className={s.profileContent}>
                     <div className={s.searchField}>
-                        <Input onChange={onChangeSearchInput} label={'Search'}  type={'text'} value={searchValue} />
-                        <Button onClick={onClickSearch} title={"Search"} />
+                        <Input onChange={onChangeSearchInput} label={'Search'} type={'text'} value={searchValue}/>
+                        <Button onClick={onClickSearch} title={"Search"}/>
                     </div>
 
-                        <div className={s.packsContainer}>
-                            <div>
-                                Name
-                                <button onClick={() => dispatch(sortPacksUp())}>up</button>
-                                <button onClick={() => dispatch(sortPacksDown())}>down</button>
-                            </div>
-                            <div>
-                                Update
-                                <button>up</button>
-                                <button>down</button>
-                            </div>
-                            <div>Rating</div>
-                            <div>oper</div>
-
+                    <div className={s.packsContainer}>
+                        <div>
+                            Name
+                            <button onClick={() => dispatch(sortPacksUp())}>up</button>
+                            <button onClick={() => dispatch(sortPacksDown())}>down</button>
                         </div>
                         <div>
-                            {pack.map(pack => <div id={pack._id} className={s.cardField}>
-                                {pack.name}
-                                <div>
-                                    {pack.created}
-                                </div>
-                                <div>
-                                    {pack.rating}
-                                </div>
-                                <div>
-                                    <button>delete</button>
-                                    <button>update</button>
-                                </div>
-                            </div>)}
+                            Update
+                            <button>up</button>
+                            <button>down</button>
                         </div>
+                        <div>Rating</div>
+                        <div>oper</div>
 
-
+                    </div>
+                    <div>
+                        {pack.map(pack => <div id={pack._id} className={s.cardField}>
+                            {pack.name}
+                            <div>
+                                {pack.created}
+                            </div>
+                            <div>
+                                {pack.rating}
+                            </div>
+                            <div>
+                                <button>delete</button>
+                                <button>update</button>
+                            </div>
+                        </div>)}
+                    </div>
                 </div>
-
             </div>
+        </div>
 
-)
+    )
 }
 
 export default Profile
@@ -116,8 +114,8 @@ export default Profile
 
 const Pack = () => {
     return (
-    <div className={s.cardField}>
+        <div className={s.cardField}>
 
-    </div>
+        </div>
     )
 }
