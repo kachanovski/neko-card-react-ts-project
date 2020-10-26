@@ -21,11 +21,11 @@ export type PacksInitialStateType = {
     packs: Array<PackType>
     packUser_id: string
     searchName: string | null
-    cardsPacksTotalCount? : number | null
+    cardsPacksTotalCount : number
     maxCardsCount?: number | null
     minCardsCount?: number
     page?: number
-    pageCount?: number
+    pageCount: number
 }
 
 let PacksInitialState: PacksInitialStateType = {
@@ -33,7 +33,8 @@ let PacksInitialState: PacksInitialStateType = {
     packUser_id: '',
     searchName: null,
     page: 1,
-    pageCount: 10
+    pageCount: 10,
+    cardsPacksTotalCount:100
 }
 
 

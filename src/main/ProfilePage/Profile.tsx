@@ -8,6 +8,7 @@ import {Redirect} from "react-router-dom";
 import {getPacks, PackType, sortPacksUp, sortPacksDown} from '../../store/PacksReducer';
 import Input from "../../Components/Input/Input";
 import { ModalWindow } from './ModalWindow/ModalWindow';
+import {Paginator} from "../../Components/Paginator/Paginator";
 
 
 type ProfileType = {
@@ -53,7 +54,8 @@ const Profile = (props: ProfileType) => {
 
                 {showModalWindow ? <ModalWindow setShowModalWindow={setShowModalWindow} /> : null}
 
-
+            <Paginator/>
+            <div className={s.profilePage}>
                 <div className={s.profileContainer}>
                     <div className={s.titleProfile}>Profile</div>
                     <div>
@@ -105,6 +107,7 @@ const Profile = (props: ProfileType) => {
                 </div>
 
             </div>
+
 )
 }
 

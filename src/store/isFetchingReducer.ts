@@ -1,6 +1,5 @@
 export type InitIsFetchingReducerState = {
     isFetching: boolean
-
 }
 
 const initialState: InitIsFetchingReducerState = {
