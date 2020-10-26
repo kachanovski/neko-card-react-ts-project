@@ -19,7 +19,10 @@ export const Paginator = React.memo(() => {
 
     const [startPage, setStartPage] = useState<number>(packs.page = 1)
 
-    const [endPage, setEndPage] = useState(startPage + packs.pageCount)
+    // const [endPage, setEndPage] = useState(startPage + packs.pageCount)
+
+    const endPage = 10
+
 
     let pages: Array<number> = [];
     for (
@@ -32,7 +35,7 @@ export const Paginator = React.memo(() => {
 
     // пролистывание вверх
     const listUpp = () => {
-        let newStartCount = startPage + packs.pageCount
+        let newStartCount = startPage + endPage
         if (newStartCount >= pagesCount) {
            if(newStartCount<packs.pageCount) {newStartCount=1}
            else {
@@ -40,7 +43,7 @@ export const Paginator = React.memo(() => {
            }
         }
         setStartPage(newStartCount)
-        setEndPage(newStartCount + packs.pageCount)
+        // setEndPage(newStartCount + endPage)
         // dispatch(getPageTC(startPage))
     }
 
@@ -51,21 +54,21 @@ export const Paginator = React.memo(() => {
             newStartCount = 1
         }
         setStartPage(newStartCount)
-        setEndPage(newStartCount + packs.pageCount)
+        // setEndPage(newStartCount + packs.pageCount)
         // dispatch(getPageTC(startPage))
     }
 
     // перейти к первой странице
     const toStartPage = () => {
         setStartPage(1)
-        setEndPage(startPage + endPage)
+        // setEndPage(startPage + endPage)
         // dispatch(getPageTC(startPage))
     }
 
     // перейти к последней странице
     const toEndPage = () => {
         setStartPage(pagesCount - endPage)
-        setEndPage(pagesCount)
+        // setEndPage(pagesCount)
         // dispatch(getPageTC(pagesCount))
     }
 
@@ -86,7 +89,7 @@ export const Paginator = React.memo(() => {
             newStartPage = pagesCount - endPage
         }
         setStartPage(newStartPage)
-        setEndPage(newStartPage + endPage)
+        // setEndPage(newStartPage + endPage)
         // dispatch(getPageTC(startPage))
         setNewPage('')
     }
