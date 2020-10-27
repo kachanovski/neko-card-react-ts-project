@@ -1,8 +1,10 @@
 import React, {useState} from "react";
 import {deletePack, editPack, PackType} from "../../../store/PacksReducer";
 import s from "../Profile.module.scss";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useForm} from "react-hook-form";
+import {getCards} from "../../../store/CardsReducer";
+import {NavLink} from "react-router-dom";
 
 type PackPropsType = PackType
 type EditInput = {
@@ -14,7 +16,7 @@ type EditInput = {
 const Pack = (pack: PackPropsType) => {
     const [editMode, setEditMode] = useState<boolean>(true)
     const dispatch = useDispatch()
-    const {register, handleSubmit, reset} = useForm<EditInput>();
+    const {register, handleSubmit} = useForm<EditInput>();
 
     const deletePackHandler = () => {
         dispatch(deletePack(pack._id))
@@ -24,14 +26,24 @@ const Pack = (pack: PackPropsType) => {
         if (!editMode) setEditMode(true)
     }
     const saveChanges = (data: EditInput) => {
-        dispatch(editPack(pack._id,{name: data.packName, type: data.packType}))
+        dispatch(editPack(pack._id, {name: data.packName, type: data.packType}))
         setEditMode(true)
+    }
+
+    const goToCards = () => {
+        dispatch(getCards(pack._id))
     }
 
     return (
         <div className={s.cardField}>
             {editMode
-                ? <div><span>{pack.name}</span></div>
+                ? <div>
+                    <span>
+                        <NavLink to={`/cards/${pack._id}`} className={s.packLink} onClick={goToCards}>
+                            {pack.name}
+                        </NavLink>
+                </span>
+                </div>
                 : <div>
                     <form onSubmit={handleSubmit(saveChanges)}>
                         <input name="packName" ref={register({maxLength: 20})} defaultValue={pack.name}/>
@@ -40,6 +52,9 @@ const Pack = (pack: PackPropsType) => {
                     </form>
                 </div>
             }
+            <div>
+                {pack.cardsCount}
+            </div>
             <div>
                 {pack.type}
             </div>

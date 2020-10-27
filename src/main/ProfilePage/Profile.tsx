@@ -88,6 +88,9 @@ const Profile = (props: ProfileType) => {
                             <button onClick={() => dispatch(sortPacksDown())}>down</button>
                         </div>
                         <div>
+                            Cards
+                        </div>
+                        <div>
                             type
                         </div>
                         <div>

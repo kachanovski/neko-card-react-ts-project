@@ -1,0 +1,30 @@
+@import "../../../../scss/settings";
+
+.cardPage {
+  @extend %main_background;
+
+  .cardsContainer {
+    @extend %container;
+    width: 100%;
+    margin: 20px;
+    padding: 30px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    color: white;
+    display: grid;
+
+    .settingsField {
+      display: grid;
+      grid-template-columns: 20% 20% 20% 20% 20%;
+    }
+
+    .cardsField {
+      border-bottom: deeppink 2px solid;
+      color: white;
+      display: grid;
+      grid-template-columns: 20% 20% 20% 20% 20%;
+    }
+
+  }
+
+}

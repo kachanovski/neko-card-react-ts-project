@@ -10,6 +10,7 @@ import {useSelector} from "react-redux";
 import {StateType} from "./store/redux-store";
 import Preloader from "./Components/Preloader/Preloader";
 import Register from './main/authGroup/RegisterPage/Register';
+import Card from "./main/ProfilePage/Packs/Cards/Card";
 
 
 const App = () => {
@@ -27,6 +28,8 @@ const App = () => {
                     <Route exact path={['/login', '/']} render={() => (<Login isFetching={isFetching}/>)}/>
                     <Route exact path='/profile' render={() => (<Profile isFetching={isFetching}/>)}/>
                     <Route path='/changePassword' render={() => (<RestoreChangePassword isFetching={isFetching}/>)}/>
+                    <Route path='/cards' render={() => (<Card/>)}/>
+
                     <Route render={() => (<NotFound/>)}/>
                 </Switch>
             </div>
