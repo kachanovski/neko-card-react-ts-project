@@ -25,21 +25,21 @@ export type PackType = {
 export type PacksInitialStateType = {
     packs: Array<PackType>
     packUser_id: string
-    searchName: string | null
-    cardsPacksTotalCount : number
+    searchName: string
+    cardsPacksTotalCount: number
     maxCardsCount?: number | null
     minCardsCount?: number
-    page?: number
+    page?: number | null
     pageCount: number
 }
 
 let PacksInitialState: PacksInitialStateType = {
     packs: [],
     packUser_id: '',
-    searchName: null,
+    searchName: '',
     page: 1,
     pageCount: 10,
-    cardsPacksTotalCount:1000
+    cardsPacksTotalCount: 1000
 }
 
 
@@ -53,21 +53,23 @@ export const PacksReducer = (state = PacksInitialState, action: ActionsType) => 
         }
         case "/PACKS/SEARCH_PACKS": {
             return {
-                ...state
+                ...state,
+                searchName: action.searchName,
+                cardsPacksTotalCount:action.cardsPacksTotalCount
             }
         }
-         case "/PACKS/SORT_PACKS_NAME_UP": {
+        case "/PACKS/SORT_PACKS_NAME_UP": {
             return {
                 ...state,
                 ...state.packs,
-                    packs:state.packs.sort(function (a, b) {
+                packs: state.packs.sort(function (a, b) {
                     let nameA = a.name.toLowerCase(),
                         nameB = b.name.toLowerCase()
-                            if (nameA < nameB)
-                                return -1
-                            if (nameA > nameB)
-                                return 1
-                            return 0
+                    if (nameA < nameB)
+                        return -1
+                    if (nameA > nameB)
+                        return 1
+                    return 0
                 })
             }
         }
@@ -76,7 +78,7 @@ export const PacksReducer = (state = PacksInitialState, action: ActionsType) => 
             return {
                 ...state,
                 ...state.packs,
-                packs:state.packs.sort(function (a, b) {
+                packs: state.packs.sort(function (a, b) {
                     let nameA = a.name.toLowerCase(),
                         nameB = b.name.toLowerCase()
                     if (nameA > nameB)
@@ -105,9 +107,9 @@ export const getPacksAC = (packs: Array<PackType>) => {
     } as const
 }
 
-export const setSearchPacks = (searchName: string) => {
+export const setSearchPacks = (searchName: string, cardsPacksTotalCount:number) => {
     return {
-        type: '/PACKS/SEARCH_PACKS', searchName
+        type: '/PACKS/SEARCH_PACKS', searchName, cardsPacksTotalCount
     } as const
 }
 export const setSortPacksNameUp = () => {
@@ -133,12 +135,13 @@ export const editPackAC = () => {
     }
 }
 
-export const getPacks = (searchName: string) => {
+export const getPacks = (searchName: string, page?: number) => {
     return (dispatch: Dispatch) => {
         dispatch(isFetching(true))
-        PacksAPI.getPacks(searchName).then(res => {
+        PacksAPI.getPacks(searchName, page).then(res => {
                 dispatch(getPacksAC(res.data.cardPacks))
                 dispatch(isFetching(false))
+                dispatch(setSearchPacks(searchName, res.data.cardPacksTotalCount ))
             }
         ).catch(e => {
                 console.log(e.response)
@@ -200,7 +203,7 @@ export const deletePack = (packID: string) => {
 }
 export const editPack = (_id: string, props: PacksType) => {
     return async (dispatch: Dispatch) => {
-        let editPack = await PacksAPI.editPack({_id,...props})
+        let editPack = await PacksAPI.editPack({_id, ...props})
         let myPacks = await PacksAPI.getMyPacks(editPack.data.updatedCardsPack.user_id)
         dispatch(updPack(myPacks.data.cardPacks))
     }

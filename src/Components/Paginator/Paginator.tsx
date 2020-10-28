@@ -21,13 +21,15 @@ export const Paginator = React.memo(() => {
 
     // const [endPage, setEndPage] = useState(startPage + packs.pageCount)
 
-    const endPage = 10
-
+    let endPage = 10
+    if(endPage>pagesCount){
+        endPage=pagesCount-1
+    }
 
     let pages: Array<number> = [];
     for (
         let i = startPage;
-        i <= startPage + endPage;
+        i <= (startPage + endPage);
         i++
     ) {
         pages.push(i)
@@ -44,7 +46,7 @@ export const Paginator = React.memo(() => {
         }
         setStartPage(newStartCount)
         // setEndPage(newStartCount + endPage)
-        // dispatch(getPacks('',startPage))
+        dispatch(getPacks(packs.searchName,newStartCount))
     }
 
     // пролистывание вниз
@@ -55,21 +57,21 @@ export const Paginator = React.memo(() => {
         }
         setStartPage(newStartCount)
         // setEndPage(newStartCount + packs.pageCount)
-        // dispatch(getPacks('',startPage))
+        dispatch(getPacks(packs.searchName,newStartCount))
     }
 
     // перейти к первой странице
     const toStartPage = () => {
         setStartPage(1)
         // setEndPage(startPage + endPage)
-        // dispatch(getPacks('',startPage))
+        dispatch(getPacks(packs.searchName,1))
     }
 
     // перейти к последней странице
     const toEndPage = () => {
-        setStartPage(pagesCount - endPage)
+        setStartPage(pagesCount)
         // setEndPage(pagesCount)
-        // dispatch(getPacks('',pagesCount))
+        dispatch(getPacks(packs.searchName,pagesCount))
     }
 
     //контроль поля ввода
@@ -90,7 +92,7 @@ export const Paginator = React.memo(() => {
         }
         setStartPage(newStartPage)
         // setEndPage(newStartPage + endPage)
-        // dispatch(getPacks('',startPage))
+        dispatch(getPacks(packs.searchName,newStartPage))
         setNewPage('')
     }
 
@@ -103,7 +105,7 @@ export const Paginator = React.memo(() => {
 
     // загрузка страницы по клику
     const onPageChange = (value: number) => {
-        // dispatch(getPacks('',value))
+        dispatch(getPacks(packs.searchName,value))
     }
 
     let isDisabled = false

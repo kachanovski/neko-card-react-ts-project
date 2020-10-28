@@ -21,7 +21,7 @@ const instance = axios.create({
 export const PacksAPI = {
     getPacks: (searchName: string, page?:number) => {
         return instance.get(
-            `/cards/pack?packName=${searchName}&pageCount=100&page=1&sortPacks=0updated`
+            `/cards/pack?packName=${searchName}&pageCount=10&page=${page||1}&sortPacks=0updated`
         );
     },
     addPacks: (cardsPack: PacksType) => {
