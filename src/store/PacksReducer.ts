@@ -179,9 +179,10 @@ export const sortPacksDown = () => {
 
 export const addPacks = (name?: string, type?: string) => {
     return async (dispatch: Dispatch) => {
+        dispatch(isFetching(true))
         let promise = await PacksAPI.addPacks({name, type})
-        let getPacks = await PacksAPI.getMyPacks(promise.data.newCardsPack.user_id)
-        dispatch(updPack(getPacks.data.cardPacks))
+        await PacksAPI.getPacks(promise.data.cardsPack)
+        dispatch(isFetching(false))
     }
 }
 

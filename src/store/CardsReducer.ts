@@ -2,19 +2,22 @@ import {Dispatch} from "redux";
 import {isFetching} from "./isFetchingReducer";
 import {CardsAPI} from "../api/CardAPI";
 
-export type ActionsType = GetCardsType | GetCardsTotalCountType
+export type ActionsType =
+    GetCardsType |
+    AddCardType |
+    GetCardsTotalCountType
 
 export type CardType = {
     cardsPack_id: string
-    question: string
-    answer: string
-    grade: number
-    shots: number
-    rating: number
-    answerImg: string
-    questionImg: string
-    questionVideo: string
-    answerVideo: string
+    question?: string
+    answer?: string
+    grade?: number
+    shots?: number
+    rating?: number
+    answerImg?: string
+    questionImg?: string
+    questionVideo?: string
+    answerVideo?: string
     type: string
 }
 
@@ -39,11 +42,17 @@ export const CardsReducer = (state = CardsInitialState, action: ActionsType) => 
                 cards: action.cards
             }
         }
-
         case "CARDS/GET_CARDS_TOTAL_COUNT": {
             return {
                 ...state,
                 cardsTotalCount: action.cardsTotalCount
+            }
+        }
+        case "CARDS/ADD_CARD": {
+            return {
+                ...state,
+                ...state.cards,
+                cards: action.card, ...state.cards
             }
         }
         default:
@@ -63,10 +72,10 @@ export const getCardsTotalCount = (cardsTotalCount: number) => {
     } as const
 }
 
-export const editPackAC = () => {
+export const addCardAC = (card: CardType) => {
     return {
-        type: 'PACKS/EDIT_PACK'
-    }
+        type: 'CARDS/ADD_CARD', card
+    } as const
 }
 
 export const getCards = (packId: string) => {
@@ -84,17 +93,22 @@ export const getCards = (packId: string) => {
         )
     }
 }
-/*
 
-
-export const addPacks = (name?: string, type?: string) => {
-    return async (dispatch: Dispatch) => {
-        let promise = await PacksAPI.addPacks({name, type})
-        let getPacks = await PacksAPI.getMyPacks(promise.data.newCardsPack.user_id)
-        dispatch(updPack(getPacks.data.cardPacks))
+export const addCard = (card: CardType) => {
+    return (dispatch: Dispatch) => {
+        dispatch(isFetching(true))
+        CardsAPI.addCard(card).then(res => {
+                dispatch(addCardAC(card))
+                dispatch(isFetching(false))
+            }
+        ).catch(e => {
+                console.log(e.response.data)
+                dispatch(isFetching(false))
+            }
+        )
     }
 }
-
+/*
 export const deletePack = (packID: string) => {
     return async (dispatch: Dispatch) => {
         let deletePack = await PacksAPI.deletePack(packID)
@@ -114,6 +128,7 @@ export const updatePack = (_id: string, props: PacksType) => {
 
 type GetCardsType = ReturnType<typeof getCardsAC>
 type GetCardsTotalCountType = ReturnType<typeof getCardsTotalCount>
+type AddCardType = ReturnType<typeof addCardAC>
 
 
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import {CardType} from "../store/CardsReducer";
 
 export type PacksType = {
     name?: string           //"no Name" если не отправить будет таким
@@ -32,8 +33,8 @@ export const CardsAPI = {
             `&pageCount=7`*/
         );
     },
-    addCard: () => {
-        return instance.post('/cards/card', {})  //{cardPack: type}
+    addCard: (card: CardType) => {
+        return instance.post('/cards/card', {card})
     },
     deleteCard: (cardId: string) => {
         return instance.delete(`/cards/pack?id=${cardId}`)
