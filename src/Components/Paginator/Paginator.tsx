@@ -1,7 +1,7 @@
 import React, {useState, ChangeEvent, KeyboardEvent} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../store/redux-store";
-import {PacksInitialStateType} from "../../store/PacksReducer";
+import {getPacks, PacksInitialStateType} from "../../store/PacksReducer";
 import s from "./Paginator.module.css"
 import {InitIsFetchingReducerState} from "../../store/isFetchingReducer";
 
@@ -44,7 +44,7 @@ export const Paginator = React.memo(() => {
         }
         setStartPage(newStartCount)
         // setEndPage(newStartCount + endPage)
-        // dispatch(getPageTC(startPage))
+        // dispatch(getPacks('',startPage))
     }
 
     // пролистывание вниз
@@ -55,21 +55,21 @@ export const Paginator = React.memo(() => {
         }
         setStartPage(newStartCount)
         // setEndPage(newStartCount + packs.pageCount)
-        // dispatch(getPageTC(startPage))
+        // dispatch(getPacks('',startPage))
     }
 
     // перейти к первой странице
     const toStartPage = () => {
         setStartPage(1)
         // setEndPage(startPage + endPage)
-        // dispatch(getPageTC(startPage))
+        // dispatch(getPacks('',startPage))
     }
 
     // перейти к последней странице
     const toEndPage = () => {
         setStartPage(pagesCount - endPage)
         // setEndPage(pagesCount)
-        // dispatch(getPageTC(pagesCount))
+        // dispatch(getPacks('',pagesCount))
     }
 
     //контроль поля ввода
@@ -90,7 +90,7 @@ export const Paginator = React.memo(() => {
         }
         setStartPage(newStartPage)
         // setEndPage(newStartPage + endPage)
-        // dispatch(getPageTC(startPage))
+        // dispatch(getPacks('',startPage))
         setNewPage('')
     }
 
@@ -101,23 +101,27 @@ export const Paginator = React.memo(() => {
         }
     }
 
-
     // загрузка страницы по клику
     const onPageChange = (value: number) => {
-        // dispatch(getPageTC(value))
+        // dispatch(getPacks('',value))
+    }
+
+    let isDisabled = false
+    if (isFetching||packs.cardsPacksTotalCount>endPage){
+        isDisabled=true
     }
 
     return <div className={s.sliderWrapper}>
         <div>
             <button
                 onClick={() => toStartPage()}
-                // disabled={props.isFetching}
+                disabled={isDisabled}
             >
                 {"<<"}
             </button>
             <button
                 onClick={listDown}
-                // disabled={props.isFetching}
+                disabled={isDisabled}
             >
                 {'<'}
             </button>
@@ -130,12 +134,12 @@ export const Paginator = React.memo(() => {
         <div>
             <button
                 onClick={listUpp}
-                // disabled={props.isFetching}
+                disabled={isDisabled}
             >
                 {">"}
             </button>
             <button
-                // disabled={props.isFetching}
+                disabled={isDisabled}
                 onClick={() => toEndPage()}
             >
                 {">>"}
@@ -150,7 +154,7 @@ export const Paginator = React.memo(() => {
                                                // disabled={isFetching}
         />
             <button onClick={goToPageNumber}
-                    // disabled={isFetching}
+                    disabled={isDisabled}
             >Go
             </button>
         </div>

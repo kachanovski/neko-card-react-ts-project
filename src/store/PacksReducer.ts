@@ -141,7 +141,7 @@ export const getPacks = (searchName: string) => {
                 dispatch(isFetching(false))
             }
         ).catch(e => {
-                console.log(e.response.data)
+                console.log(e.response)
                 dispatch(isFetching(false))
             }
         )
