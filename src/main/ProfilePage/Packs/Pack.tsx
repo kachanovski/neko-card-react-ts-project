@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {deletePack, editPack, PackType} from "../../store/PacksReducer";
-import s from "./Profile.module.scss";
+import {deletePack, editPack, PackType} from "../../../store/PacksReducer";
+import s from "../Profile.module.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
 
@@ -31,7 +31,7 @@ const Pack = (pack: PackPropsType) => {
     return (
         <div className={s.cardField}>
             {editMode
-                ? <div><span>name: {pack.name} - type: {pack.type}</span></div>
+                ? <div><span>{pack.name}</span></div>
                 : <div>
                     <form onSubmit={handleSubmit(saveChanges)}>
                         <input name="packName" ref={register({maxLength: 20})} defaultValue={pack.name}/>
@@ -41,10 +41,19 @@ const Pack = (pack: PackPropsType) => {
                 </div>
             }
             <div>
+                {pack.type}
+            </div>
+            <div>
+                {pack.updated}
+            </div>
+            <div>
+                {pack.rating}
+            </div>
+            <span>{pack.user_name}</span>
+            <div>
                 <button onClick={deletePackHandler}>delete</button>
                 <button onClick={editPackMode}>edit</button>
             </div>
-            <span>email/user_name:{pack.user_name}</span>
         </div>
     )
 }
