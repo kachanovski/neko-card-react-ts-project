@@ -88,12 +88,10 @@ export const setLogOutUser = () => async (dispatch: Dispatch) => {
 }
 export const AuthMe = () => async (dispatch: Dispatch) => {
     try {
-        debugger
         const promise = await authAPI.authMe()
         dispatch(authMeAction(true))
         dispatch(setUser(promise.data))
     } catch (e) {
-        debugger
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
         console.log('Authorization: ', error)
     }

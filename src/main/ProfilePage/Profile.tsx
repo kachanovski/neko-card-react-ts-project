@@ -53,7 +53,6 @@ const Profile = (props: ProfileType) => {
     }
     if (!authMe) return <Redirect to={'/login'}/>
 
-
     return (
 
         <div className={s.profilePage}>

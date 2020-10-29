@@ -1,0 +1,38 @@
+.sliderWrapper {
+  /*color: white;*/
+  padding: 10px;
+  box-shadow: 0 0 3px black;
+  margin-bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid #e7e8e9;
+  border-radius: 0.5rem;
+  display: flex;
+  span {
+    padding: 0 3px;
+  }
+  span:hover {
+    border: 1px solid;
+    transition: 0.5s;
+  }
+  button {
+    background: none;
+    border: none;
+    margin: 0 2px;
+  }
+  button:hover {
+    border: 1px solid;
+    transition: 0.5s;
+  }
+  .inputWrapper {
+    float: right;
+    input{
+      max-width: 50px;
+      border: 1px solid #e7e8e9;
+      border-radius: 0.5rem;
+    }
+  }
+}
+
+.active{
+  border: 1px solid black;
+}
