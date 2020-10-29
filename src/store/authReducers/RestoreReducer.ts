@@ -56,8 +56,6 @@ export const RestoreTC = (data: RestoreFormInput) => (dispatch: Dispatch) => {
             }
         )
         .catch(e => {
-            debugger
-            console.log(e.response)
             dispatch(isFetching(false))
             dispatch(setErrorRestore(e.response.data.error))
         })

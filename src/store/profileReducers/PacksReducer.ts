@@ -38,6 +38,7 @@ export type PacksInitialStateType = {
     minCardsCount?: number
     page: number
     pageCount: number
+    isMyPacks: boolean
 }
 
 let PacksInitialState: PacksInitialStateType = {
@@ -46,7 +47,8 @@ let PacksInitialState: PacksInitialStateType = {
     searchName: '',
     page: 1,
     pageCount: 10,
-    cardsPacksTotalCount: 1000
+    cardsPacksTotalCount: 1000,
+    isMyPacks: false
 }
 
 export const PacksReducer = (state = PacksInitialState, action: ActionsType) => {
@@ -173,7 +175,6 @@ export const getPacks = (searchName: string, page?: number) => {
                 dispatch(setPage(res.data.page))
             }
         ).catch(e => {
-                console.log(e.response)
                 dispatch(isFetching(false))
             }
         )
@@ -188,7 +189,6 @@ export const sortPacksUp = (searchName: string) => {
                 dispatch(isFetching(false))
             }
         ).catch(e => {
-                console.log(e.response.data)
                 dispatch(isFetching(false))
             }
         )
@@ -202,7 +202,6 @@ export const sortPacksDown = () => {
                 dispatch(isFetching(false))
             }
         ).catch(e => {
-                console.log(e.response.data)
                 dispatch(isFetching(false))
             }
         )

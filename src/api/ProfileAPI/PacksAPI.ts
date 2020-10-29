@@ -16,7 +16,7 @@ export type EditPackType = { _id: string} & PacksType
 export const PacksAPI = {
     getPacks: (searchName: string, page?:number) => {
         return instance.get(
-            `/cards/pack?packName=${searchName}&pageCount=10&page=${page}&sortPacks=1`
+            `/cards/pack?packName=${searchName}&pageCount=10&page=${page}&sortPacks=0updated`
         );
     },
     addPacks: (cardsPack: PacksType) => {

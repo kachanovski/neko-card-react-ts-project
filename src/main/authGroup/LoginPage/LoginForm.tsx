@@ -64,7 +64,7 @@ const LoginForm = React.memo((props: LoginFormType) => {
                                label={'login'}/>}
                     name="login"
                     control={control}
-                    defaultValue=""
+                    defaultValue="kachanovski03@gmail.com"
                 />
 
                 <div className={s.errorMessageColor}>
@@ -80,7 +80,7 @@ const LoginForm = React.memo((props: LoginFormType) => {
                                label={'password'}/>}
                     name="password"
                     control={control}
-                    defaultValue=""
+                    defaultValue="password"
                 />
                 <div className={s.errorMessageColor}>
                     {errors.password && <span>{errors.password.message}</span>}

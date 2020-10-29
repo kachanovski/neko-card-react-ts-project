@@ -46,7 +46,6 @@ export const GetProfileDataTC = () => {
                 dispatch(SetProfileUserDataAC(res))
             }
         }).catch(e => {
-                console.log(e.response)
             }
         )
     }

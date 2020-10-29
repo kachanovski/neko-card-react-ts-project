@@ -17,125 +17,125 @@ type ProfileType = {
     isFetching: boolean
 }
 
-const Profile = (props: ProfileType) => {
-    const authMe = useSelector<StateType, boolean>(state => state.login.authMe)
-    const profile = useSelector<StateType, InitialLoginReducerState>(state => state.login)
-    const pack = useSelector<StateType, Array<PackType>>(state => state.packs.packs)
-    const userID = useSelector<StateType, string>(state => state.login._id)
-    const searchName = useSelector<StateType, string>(state => state.packs.searchName)
+const Profile = React.memo((props: ProfileType) => {
+        const authMe = useSelector<StateType, boolean>(state => state.login.authMe)
+        const profile = useSelector<StateType, InitialLoginReducerState>(state => state.login)
+        const pack = useSelector<StateType, Array<PackType>>(state => state.packs.packs)
+        const userID = useSelector<StateType, string>(state => state.login._id)
+        const searchName = useSelector<StateType, string>(state => state.packs.searchName)
 
-    const dispatch = useDispatch()
-    useEffect(() => {
-        !authMe && dispatch(AuthMe())
-    }, [dispatch, authMe])
-    useEffect(() => {
-        dispatch(getPacks(searchName))
-    }, [dispatch, searchName])
+        const dispatch = useDispatch()
+        useEffect(() => {
+            !authMe && dispatch(AuthMe())
+        }, [dispatch, authMe])
+        useEffect(() => {
+            dispatch(getPacks(searchName))
+        }, [dispatch, searchName])
 
-    const [sortUp, setSortUp] = useState(false)
-    const [sortDown, setSortDow] = useState(false)
-    const [showModalWindow, setShowModalWindow] = useState<boolean>(false)
-    const [searchValue, setSearchValue] = useState<string>('')
-    const showMyPacks = () => {
-        dispatch(showMyPacksTC(userID))
-    }
-    const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(e.currentTarget.value)
-    }
-    const onClickSearch = () => {
-        dispatch(getPacks(searchValue))
-    }
+        const [sortUp, setSortUp] = useState(false)
+        const [sortDown, setSortDow] = useState(false)
+        const [showModalWindow, setShowModalWindow] = useState<boolean>(false)
+        const [searchValue, setSearchValue] = useState<string>('')
+        const showMyPacks = () => {
+            dispatch(showMyPacksTC(userID))
+        }
+        const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
+            setSearchValue(e.currentTarget.value)
+        }
+        const onClickSearch = () => {
+            dispatch(getPacks(searchValue))
+        }
 
-    const logOut = () => {
-        dispatch(setLogOutUser())
-    }
-    const addPackMode = () => {
-        setShowModalWindow(true)
-    }
-    const onClickSortUpName = () => {
-        dispatch(sortPacksUp(searchName))
-        setSortUp(true)
-        setSortDow(false)
-    }
-    const onClickSortDownName = () => {
-        dispatch(sortPacksDown())
-        setSortUp(false)
-        setSortDow(true)
-    }
-    const resetSort = () => {
-        dispatch(getPacks(searchName))
-        setSortUp(false)
-        setSortDow(false)
+        const logOut = () => {
+            dispatch(setLogOutUser())
+        }
+        const addPackMode = () => {
+            setShowModalWindow(true)
+        }
+        const onClickSortUpName = () => {
+            dispatch(sortPacksUp(searchName))
+            setSortUp(true)
+            setSortDow(false)
+        }
+        const onClickSortDownName = () => {
+            dispatch(sortPacksDown())
+            setSortUp(false)
+            setSortDow(true)
+        }
+        const resetSort = () => {
+            dispatch(getPacks(searchName))
+            setSortUp(false)
+            setSortDow(false)
 
-    }
+        }
 
-    if (!authMe) return <Redirect to={'/login'}/>
+        if (!authMe) return <Redirect to={'/login'}/>
 
-    return (
-
-        <div className={s.profilePage}>
-
-            {showModalWindow
-                ? <ModalWindow searchName={searchName} setShowModalWindow={setShowModalWindow}
-                />
-                : null}
-
+        return (
 
             <div className={s.profilePage}>
-                <div className={s.profileContainer}>
-                    <div className={s.titleProfile}>Profile</div>
-                    <div>
-                        <div>{profile.avatar}</div>
-                        <div>{profile.name}</div>
-                    </div>
-                    <Button onClick={logOut} title={'LogOut'}/>
-                </div>
 
-                <div className={s.profileContent}>
-
-                    <SearchPacks onChangeSearchInput={onChangeSearchInput}
-                                 onClickSearch={onClickSearch}
-                                 searchValue={searchValue}
+                {showModalWindow
+                    ? <ModalWindow searchName={searchName} setShowModalWindow={setShowModalWindow}
                     />
+                    : null}
 
-                    <div className={s.packsContainer}>
+
+                <div className={s.profilePage}>
+                    <div className={s.profileContainer}>
+                        <div className={s.titleProfile}>Profile</div>
                         <div>
-                            Name
-                            {!sortUp
-                                ? <button onClick={onClickSortUpName}>up</button>
-                                : <button className={s.activeSort}  onClick={resetSort}>up</button>}
-                            {!sortDown
-                                ? <button  onClick={onClickSortDownName}>down</button>
-                                : <button className={s.activeSort} onClick={resetSort}>up</button>}
+                            <div>{profile.avatar}</div>
+                            <div>{profile.name}</div>
                         </div>
-                        <div>
-                            Cards
-                        </div>
-                        <div>
-                            type
-                        </div>
-                        <div>
-                            Update
-                            <button>up</button>
-                            <button>down</button>
-                        </div>
-                        <div>Rating</div>
-                        <div>email/user_name</div>
-                        <div>
-                            <AddButton onClick={addPackMode}/>
-                            <button onClick={showMyPacks}> My packs</button>
-                        </div>
+                        <Button onClick={logOut} title={'LogOut'}/>
                     </div>
 
-                    <div>
-                        {pack.map(pack => <Pack key={pack._id} {...pack}/>)}
+                    <div className={s.profileContent}>
+
+                        <SearchPacks onChangeSearchInput={onChangeSearchInput}
+                                     onClickSearch={onClickSearch}
+                                     searchValue={searchValue}
+                        />
+
+                        <div className={s.packsContainer}>
+                            <div>
+                                Name
+                                {!sortUp
+                                    ? <button onClick={onClickSortUpName}>up</button>
+                                    : <button className={s.activeSort} onClick={resetSort}>up</button>}
+                                {!sortDown
+                                    ? <button onClick={onClickSortDownName}>down</button>
+                                    : <button className={s.activeSort} onClick={resetSort}>down</button>}
+                            </div>
+                            <div>
+                                Cards
+                            </div>
+                            <div>
+                                type
+                            </div>
+                            <div>
+                                Update
+                                <button>up</button>
+                                <button>down</button>
+                            </div>
+                            <div>Rating</div>
+                            <div>email/user_name</div>
+                            <div>
+                                <AddButton onClick={addPackMode}/>
+                                <button onClick={showMyPacks}> My packs</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            {pack.map(pack => <Pack key={pack._id} {...pack}/>)}
+                        </div>
+                        <Paginator/>
                     </div>
-                    <Paginator/>
                 </div>
             </div>
-        </div>
 
-    )
-}
-
+        )
+    }
+)
 export default Profile

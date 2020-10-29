@@ -22,6 +22,7 @@ const Pack = (pack: PackPropsType) => {
     const {register, handleSubmit} = useForm<EditInput>();
     const searchName = useSelector<StateType, string>(state => state.packs.searchName)
 
+
     const deletePackHandler = () => {
         dispatch(deletePack(pack._id,searchName))
     }

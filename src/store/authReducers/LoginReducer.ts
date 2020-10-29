@@ -58,10 +58,8 @@ export const setLogin = (email: string, password: string, rememberMe: boolean) =
         const promise = await authAPI.login(email, password, rememberMe)
         dispatch(authMeAction(true))
         dispatch(setUser(promise.data))
-        console.log("Response(login): ", promise)
     } catch (e) {
         if (e.response) {
-            console.log('ERROR(login): ', e.response.data.error)
             if (e.response.data.password) {                   // если валидацию не прошел пароль
                 dispatch(setErrorInPass("password"))  // диспатч "password", чтобы отобразить ошибку в пароле
             } else if (e.response.data.email) {             // если валидацию не прошел логин (email)
@@ -82,7 +80,7 @@ export const setLogOutUser = () => async (dispatch: Dispatch) => {
 
     } catch (e) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
-        console.log('Log out error: ', error)
+        console.log(error)
     }
     dispatch(isFetching(false))
 }
@@ -93,7 +91,7 @@ export const AuthMe = () => async (dispatch: Dispatch) => {
         dispatch(setUser(promise.data))
     } catch (e) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
-        console.log('Authorization: ', error)
+        console.log(error)
     }
 }
 
@@ -109,4 +107,4 @@ export type SetError = ReturnType<typeof setError>
 export type ErrorPass = ReturnType<typeof setErrorInPass>
 export type authMeAction = ReturnType<typeof authMeAction>
 
-type ActionType = SetUserType | SetError | IsFetch | ErrorPass  | authMeAction
+type ActionType = SetUserType | SetError | IsFetch | ErrorPass | authMeAction
