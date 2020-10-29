@@ -1,38 +1,54 @@
 .sliderWrapper {
-  /*color: white;*/
+  color: white;
   padding: 10px;
-  box-shadow: 0 0 3px black;
-  margin-bottom: 10px;
-  background-color: rgba(255, 255, 255, 0.7);
-  border: 1px solid #e7e8e9;
-  border-radius: 0.5rem;
+  //box-shadow: 0 0 3px black;
+  //background-color: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid deeppink;
+  //border-radius: 0.5rem;
   display: flex;
+  justify-content: center;
+  width: fit-content;
+  margin: 30px auto;
+
   span {
     padding: 0 3px;
+    font-size: 20px;
   }
+
   span:hover {
     border: 1px solid;
     transition: 0.5s;
   }
+
   button {
     background: none;
     border: none;
     margin: 0 2px;
+    color: white;
+    font-size: 20px;
   }
+
   button:hover {
     border: 1px solid;
     transition: 0.5s;
   }
+
   .inputWrapper {
-    float: right;
+    padding: 0 20px;
     input{
-      max-width: 50px;
+      max-width: 70px;
       border: 1px solid #e7e8e9;
-      border-radius: 0.5rem;
+      //border-radius: 0.5rem;
+      font-size: 20px;
+    }
+
+    button{
+      color: white;
+      font-size: 20px;
     }
   }
 }
 
 .active{
-  border: 1px solid black;
+  border: 1px solid white;
 }
