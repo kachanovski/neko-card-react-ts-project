@@ -178,10 +178,10 @@ export const sortPacksDown = () => {
 }
 
 export const addPacks = (name?: string, type?: string) => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch<any>) => {
         dispatch(isFetching(true))
-        let promise = await PacksAPI.addPacks({name, type})
-        await PacksAPI.getPacks(promise.data.cardsPack)
+        await PacksAPI.addPacks({name, type})
+        dispatch(getPacks(''))
         dispatch(isFetching(false))
     }
 }
@@ -193,17 +193,17 @@ export const showMyPacksTC = (userID: string) => {
     }
 }
 export const deletePack = (packID: string) => {
-    return async (dispatch: Dispatch) => {
-        let deletePack = await PacksAPI.deletePack(packID)
-        let myPacks = await PacksAPI.getMyPacks(deletePack.data.deletedCardsPack.user_id)
-        dispatch(updPack(myPacks.data.cardPacks))
+    return async (dispatch: Dispatch<any>) => {
+        await PacksAPI.deletePack(packID)
+        dispatch(getPacks(''))
+        dispatch(isFetching(false))
     }
 }
 export const editPack = (_id: string, props: PacksType) => {
-    return async (dispatch: Dispatch) => {
-        let editPack = await PacksAPI.editPack({_id,...props})
-        let myPacks = await PacksAPI.getMyPacks(editPack.data.updatedCardsPack.user_id)
-        dispatch(updPack(myPacks.data.cardPacks))
+    return async (dispatch: Dispatch<any>) => {
+        await PacksAPI.editPack({_id,...props})
+        dispatch(getPacks(''))
+        dispatch(isFetching(false))
     }
 }
 

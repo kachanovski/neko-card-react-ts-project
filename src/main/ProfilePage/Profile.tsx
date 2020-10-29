@@ -51,6 +51,7 @@ const Profile = (props: ProfileType) => {
     const addPackMode = () => {
         setShowModalWindow(true)
     }
+
     if (!authMe) return <Redirect to={'/login'}/>
 
 

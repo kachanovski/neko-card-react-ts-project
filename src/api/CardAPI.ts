@@ -11,7 +11,7 @@ export type PacksType = {
     private?: boolean       //false если не отправить будет такой
     type?: string           //"pack" если не отправить будет таким
 }
-export type EditPackType = { _id: string } & PacksType
+export type EditPackType = { _id: string | undefined } & CardType
 
 const instance = axios.create({
     withCredentials: true,
@@ -22,7 +22,7 @@ const instance = axios.create({
 export const CardsAPI = {
     getCards: (packId: string) => {
         return instance.get(
-            `cards/card?cardsPack_id=${packId}`
+            `cards/card?cardsPack_id=${packId}&pageCount=100`
             /*`?cardAnswer=''` +
             `&cardQuestion=''` +*/
              /*+
@@ -36,10 +36,10 @@ export const CardsAPI = {
     addCard: (card: CardType) => {
         return instance.post('/cards/card', {card})
     },
-    deleteCard: (cardId: string) => {
-        return instance.delete(`/cards/pack?id=${cardId}`)
+    deleteCard: (cardId: string | undefined) => {
+        return instance.delete(`/cards/card?id=${cardId}`)
     },
-    updateCard: () => {
-        return instance.put('/cards/pack', {}) //{cardPack:{id,question} type}
+    updateCard: (card: EditPackType) => {
+        return instance.put('/cards/card', {card})
     }
 }

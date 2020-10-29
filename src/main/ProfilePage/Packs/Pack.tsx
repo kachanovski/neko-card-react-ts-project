@@ -30,7 +30,7 @@ const Pack = (pack: PackPropsType) => {
         setEditMode(true)
     }
 
-    const goToCards = () => {
+    const onClickCard = () => {
         dispatch(getCards(pack._id))
     }
 
@@ -39,7 +39,7 @@ const Pack = (pack: PackPropsType) => {
             {editMode
                 ? <div>
                     <span>
-                        <NavLink to={`/cards/${pack._id}`} className={s.packLink} onClick={goToCards}>
+                        <NavLink to={`/cards/${pack._id}`} className={s.packLink} onClick={onClickCard}>
                             {pack.name}
                         </NavLink>
                 </span>
