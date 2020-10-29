@@ -3,13 +3,14 @@ import s from './Profile.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../store/redux-store";
 import Button from "../../Components/Button/Button";
-import {AuthMe, InitialLoginReducerState, setLogOutUser} from "../../store/LoginReducer";
+import {AuthMe, InitialLoginReducerState, setLogOutUser} from "../../store/authReducers/LoginReducer";
 import {Redirect} from "react-router-dom";
-import {getPacks, PackType, showMyPacksTC, sortPacksDown, sortPacksUp} from '../../store/PacksReducer';
+import {getPacks, PackType, showMyPacksTC, sortPacksDown, sortPacksUp} from '../../store/profileReducers/PacksReducer';
 import {ModalWindow} from './Packs/ModalWindow/ModalWindow';
 import {Paginator} from "../../Components/Paginator/Paginator";
 import SearchPacks from './Packs/Search/SearchPacks';
 import Pack from "./Packs/Pack";
+import AddButton from "../../Components/AddButton/AddButton";
 
 
 type ProfileType = {
@@ -21,6 +22,7 @@ const Profile = (props: ProfileType) => {
     const profile = useSelector<StateType, InitialLoginReducerState>(state => state.login)
     const pack = useSelector<StateType, Array<PackType>>(state => state.packs.packs)
     const userID = useSelector<StateType, string>(state => state.login._id)
+    const searchName = useSelector<StateType, string>(state => state.packs.searchName)
     const dispatch = useDispatch()
 
     const [showModalWindow, setShowModalWindow] = useState<boolean>(false)
@@ -59,7 +61,7 @@ const Profile = (props: ProfileType) => {
         <div className={s.profilePage}>
 
             {showModalWindow
-                ? <ModalWindow setShowModalWindow={setShowModalWindow}
+                ? <ModalWindow searchName={searchName} setShowModalWindow={setShowModalWindow}
                 />
                 : null}
 
@@ -101,7 +103,7 @@ const Profile = (props: ProfileType) => {
                         <div>Rating</div>
                         <div>email/user_name</div>
                         <div>
-                            <button onClick={addPackMode}> Add Pack</button>
+                            <AddButton onClick={addPackMode} />
                             <button onClick={showMyPacks}> My packs</button>
                         </div>
                     </div>

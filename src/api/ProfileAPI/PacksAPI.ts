@@ -1,4 +1,4 @@
-import axios from "axios";
+import {instance} from "../instance";
 
 export type PacksType = {
     name?: string           //"no Name" если не отправить будет таким
@@ -12,11 +12,6 @@ export type PacksType = {
 }
 export type EditPackType = { _id: string} & PacksType
 
-const instance = axios.create({
-    withCredentials: true,
-    baseURL: "https://neko-back.herokuapp.com/2.0"
-    // baseURL: "http://localhost:7542/2.0/"
-})
 
 export const PacksAPI = {
     getPacks: (searchName: string, page?:number) => {

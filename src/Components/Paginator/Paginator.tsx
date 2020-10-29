@@ -1,7 +1,7 @@
 import React, {useState, ChangeEvent, KeyboardEvent} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../store/redux-store";
-import {getPacks, PacksInitialStateType} from "../../store/PacksReducer";
+import {getPacks, PacksInitialStateType} from "../../store/profileReducers/PacksReducer";
 import s from "./Paginator.module.scss"
 import {InitIsFetchingReducerState} from "../../store/isFetchingReducer";
 

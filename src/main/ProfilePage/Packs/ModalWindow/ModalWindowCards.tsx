@@ -3,7 +3,7 @@ import s from './ModalWindow.module.scss'
 import Input from "../../../../Components/Input/Input";
 import {Controller, useForm} from "react-hook-form";
 import {useDispatch} from "react-redux";
-import {addCard} from "../../../../store/CardsReducer";
+import {addCard} from "../../../../store/profileReducers/CardsReducer";
 
 type ModalWindowPropsType = {
     setShowModalWindowCard: (showModalWindowCard: boolean) => void

@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
-import {authAPI, ResponseServerType} from "../api/authAPI";
-import {IsFetch, isFetching} from "./isFetchingReducer";
+import {authAPI, ResponseServerType} from "../../api/AuthAPI/authAPI";
+import {IsFetch, isFetching} from "../isFetchingReducer";
 
 export type InitialLoginReducerState = {
     _id: string

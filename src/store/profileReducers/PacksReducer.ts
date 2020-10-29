@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
-import {PacksType, PacksAPI} from "../api/PacksAPI";
-import {isFetching} from "./isFetchingReducer";
+import {PacksType, PacksAPI} from "../../api/ProfileAPI/PacksAPI";
+import {isFetching} from "../isFetchingReducer";
 
 export type ActionsType =
     GetPacksType
@@ -69,10 +69,10 @@ export const PacksReducer = (state = PacksInitialState, action: ActionsType) => 
                 cardsPacksTotalCount: action.cardsPacksTotalCount
             }
         }
-        case "/PACKS/SET-CURRENT-PAGE":{
+        case "/PACKS/SET-CURRENT-PAGE": {
             return {
                 ...state,
-                page:action.page
+                page: action.page
             }
         }
 
@@ -161,11 +161,6 @@ export const updPack = (data: Array<PackType>) => {
     } as const
 }
 
-export const editPackAC = () => {
-    return {
-        type: 'PACKS/EDIT_PACK'
-    }
-}
 
 export const getPacks = (searchName: string, page?: number) => {
     return (dispatch: Dispatch) => {
@@ -214,11 +209,11 @@ export const sortPacksDown = () => {
     }
 }
 
-export const addPacks = (name?: string, type?: string) => {
+export const addPacks = (searchName: string, name?: string, type?: string) => {
     return async (dispatch: Dispatch<any>) => {
         dispatch(isFetching(true))
         await PacksAPI.addPacks({name, type})
-        dispatch(getPacks(''))
+        dispatch(getPacks(searchName))
         dispatch(isFetching(false))
     }
 }
@@ -229,17 +224,17 @@ export const showMyPacksTC = (userID: string) => {
         dispatch(updPack(myPacks.data.cardPacks))
     }
 }
-export const deletePack = (packID: string) => {
+export const deletePack = (packID: string, searchName: string) => {
     return async (dispatch: Dispatch<any>) => {
         await PacksAPI.deletePack(packID)
-        dispatch(getPacks(''))
+        dispatch(getPacks(searchName))
         dispatch(isFetching(false))
     }
 }
-export const editPack = (_id: string, props: PacksType) => {
+export const editPack = (_id: string, props: PacksType, searchName: string) => {
     return async (dispatch: Dispatch<any>) => {
-        await PacksAPI.editPack({_id,...props})
-        dispatch(getPacks(''))
+        await PacksAPI.editPack({_id, ...props})
+        dispatch(getPacks(searchName))
         dispatch(isFetching(false))
     }
 }

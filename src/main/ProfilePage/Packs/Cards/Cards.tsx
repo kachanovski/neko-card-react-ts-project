@@ -2,9 +2,10 @@ import React, {useEffect, useState} from "react";
 import s from "./Card.module.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../../../store/redux-store";
-import {CardsInitialStateType, getCards} from "../../../../store/CardsReducer";
+import {CardsInitialStateType, getCards} from "../../../../store/profileReducers/CardsReducer";
 import {ModalWindowCards} from "../ModalWindow/ModalWindowCards";
 import Card from "./Card";
+import AddButton from "../../../../Components/AddButton/AddButton";
 
 type CardPropsType = {}
 
@@ -32,7 +33,6 @@ const Cards = (pack: CardPropsType) => {
                 : null}
 
             <div className={s.cardsContainer}>
-                <button onClick={onClickAddCard}>add</button>
                 <div className={s.settingsField}>
                     <div>
                         question
@@ -46,8 +46,9 @@ const Cards = (pack: CardPropsType) => {
                     <div>
                         rating
                     </div>
-                    <div>
-                        Rating
+                    <div style={{display: "flex"}}>
+                       AddCard:
+                        <AddButton onClick={onClickAddCard}/>
                     </div>
                 </div>
 

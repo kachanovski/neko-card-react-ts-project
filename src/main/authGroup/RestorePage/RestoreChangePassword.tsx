@@ -4,7 +4,7 @@ import Input from "../../../Components/Input/Input";
 import Button from "../../../Components/Button/Button";
 import {Controller, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import {ChangePasswordTC, InitialRestoreStateType, setErrorRestore} from "../../../store/RestoreReducer";
+import {ChangePasswordTC, InitialRestoreStateType, setErrorRestore} from "../../../store/authReducers/RestoreReducer";
 import {StateType} from "../../../store/redux-store";
 import {Redirect} from "react-router-dom";
 import * as yup from "yup";

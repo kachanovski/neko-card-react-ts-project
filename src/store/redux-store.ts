@@ -1,13 +1,13 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
-import {ProfileReducer} from "./ProfileReducer";
-import {LoginReducer} from "./LoginReducer";
-import {RegisterReducer} from "./RegisterReducer";
-import {RestoreReducer} from "./RestoreReducer";
-import {ChangePasswordReducer} from "./ChangePasswordReducer";
+import {ProfileReducer} from "./profileReducers/ProfileReducer";
+import {LoginReducer} from "./authReducers/LoginReducer";
+import {RegisterReducer} from "./authReducers/RegisterReducer";
+import {RestoreReducer} from "./authReducers/RestoreReducer";
+import {ChangePasswordReducer} from "./authReducers/ChangePasswordReducer";
 import thunkMiddleWare from "redux-thunk"
 import {IsFetchingReducer} from "./isFetchingReducer";
-import { PacksReducer } from './PacksReducer';
-import {CardsReducer} from "./CardsReducer";
+import { PacksReducer } from './profileReducers/PacksReducer';
+import {CardsReducer} from "./profileReducers/CardsReducer";
 
 let reducers = combineReducers({
     profile: ProfileReducer,

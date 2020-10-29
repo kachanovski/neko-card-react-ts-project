@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
-import {isFetching} from "./isFetchingReducer";
-import {CardsAPI} from "../api/CardAPI";
+import {isFetching} from "../isFetchingReducer";
+import {CardsAPI} from "../../api/ProfileAPI/CardAPI";
 
 export type ActionsType =
     GetCardsType |

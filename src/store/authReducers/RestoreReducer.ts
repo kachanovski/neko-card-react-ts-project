@@ -1,8 +1,8 @@
-import {RestoreFormInput} from "../main/authGroup/RestorePage/Restore"
+import {RestoreFormInput} from "../../main/authGroup/RestorePage/Restore"
 import {Dispatch} from "redux";
-import {ChangePasswordFormInput} from "../main/authGroup/RestorePage/RestoreChangePassword";
-import {RestoreApi} from "../api/restoreAPI";
-import {IsFetch, isFetching} from "./isFetchingReducer";
+import {ChangePasswordFormInput} from "../../main/authGroup/RestorePage/RestoreChangePassword";
+import {RestoreApi} from "../../api/AuthAPI/restoreAPI";
+import {IsFetch, isFetching} from "../isFetchingReducer";
 
 export type ActionsType = SetLoadingType | IsFetch | SetSuccessRequest
 

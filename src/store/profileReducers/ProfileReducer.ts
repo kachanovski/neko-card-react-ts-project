@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {ProfileAPI} from "../api/ProfileAPI";
+import {ProfileAPI} from "../../api/ProfileAPI/ProfileAPI";
 
 export type ActionsType =
     SetProfileUserDataAcType

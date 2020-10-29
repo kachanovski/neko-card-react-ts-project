@@ -2,8 +2,16 @@ import React, {useEffect, useState} from "react";
 import s from "./Card.module.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../../../store/redux-store";
-import {CardsInitialStateType, CardType, deleteCard, getCards, updateCard} from "../../../../store/CardsReducer";
+import {
+    CardsInitialStateType,
+    CardType,
+    deleteCard,
+    getCards,
+    updateCard
+} from "../../../../store/profileReducers/CardsReducer";
 import {useForm} from "react-hook-form";
+import EditButton from "../../../../Components/EditButton/EditButton";
+import DeleteButton from "../../../../Components/Delete/DeleteButton";
 
 type CardPropsType = CardType
 
@@ -29,6 +37,11 @@ const Card = (props: CardPropsType) => {
         if (editMode) setEditMode(false)
         if (!editMode) setEditMode(true)
     }
+
+    const onClickDeleteCard = () => {
+        dispatch(deleteCard(props, packId))
+    }
+
     const saveChanges = (data: EditInputCards) => {
         dispatch(updateCard(props._id, {
             question: data.question,
@@ -38,54 +51,38 @@ const Card = (props: CardPropsType) => {
         setEditMode(false)
 
     }
-        return (
-            <div className={s.cardsField}>
-
-                {editMode
-                    ? <form onSubmit={handleSubmit(saveChanges)}>
-                        <input name="question" ref={register({maxLength: 20})}
-                               defaultValue={props.question}/>
-                        <input name="type" ref={register({maxLength: 20})}
-                               defaultValue={props.type}/>
-                        <button type="submit">save</button>
-                    </form>
-                    : <div>
-                        <div>
-                            {props.question}
-                        </div>
-                        <div>
-                            {props.type}
-                        </div>
-                        <div>
-                            {props.answer}
-                        </div>
-                    </div>
-                }
-
-                <div>
-                    <div>
-                        {props.question}
-                    </div>
-                    <div>
-                        {props.type}
-                    </div>
-                    <div>
-                        {props.answer}
-                    </div>
+    return (
+        <div className={s.cardsField}>
+            {editMode
+                ? <form onSubmit={handleSubmit(saveChanges)}>
+                    <input name="question" ref={register({maxLength: 20})}
+                           defaultValue={props.question}/>
+                    <input name="type" ref={register({maxLength: 20})}
+                           defaultValue={props.type}/>
+                    <button type="submit">save</button>
+                </form>
+                : <div>
+                    {props.question}
                 </div>
+            }
 
-                <div>
-                    {props.rating}
-                </div>
-                <div>
-                    <button onClick={() => {
-                        dispatch(deleteCard(props, packId))
-                    }}>delete
-                    </button>
-                    <button onClick={editPackMode}>update
-                    </button>
-                </div>
+            <div>
+                {props.type}
             </div>
-        )
+            <div>
+                {props.answer}
+            </div>
+
+            <div>
+                {props.rating}
+            </div>
+
+            <div style={{display: 'flex'}}>
+                <EditButton onClick={editPackMode}/>
+                <DeleteButton onClick={onClickDeleteCard}/>
+            </div>
+
+        </div>
+    )
 }
 export default Card

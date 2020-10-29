@@ -1,10 +1,13 @@
 import React, {useState} from "react";
-import {deletePack, editPack, PackType} from "../../../store/PacksReducer";
+import {deletePack, editPack, PackType} from "../../../store/profileReducers/PacksReducer";
 import s from "../Profile.module.scss";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
-import {getCards} from "../../../store/CardsReducer";
+import {getCards} from "../../../store/profileReducers/CardsReducer";
 import {NavLink} from "react-router-dom";
+import {StateType} from "../../../store/redux-store";
+import DeleteButton from "../../../Components/Delete/DeleteButton";
+import EditButton from "../../../Components/EditButton/EditButton";
 
 type PackPropsType = PackType
 type EditInput = {
@@ -17,16 +20,17 @@ const Pack = (pack: PackPropsType) => {
     const [editMode, setEditMode] = useState<boolean>(true)
     const dispatch = useDispatch()
     const {register, handleSubmit} = useForm<EditInput>();
+    const searchName = useSelector<StateType, string>(state => state.packs.searchName)
 
     const deletePackHandler = () => {
-        dispatch(deletePack(pack._id))
+        dispatch(deletePack(pack._id,searchName))
     }
     const editPackMode = () => {
         if (editMode) setEditMode(false)
         if (!editMode) setEditMode(true)
     }
     const saveChanges = (data: EditInput) => {
-        dispatch(editPack(pack._id, {name: data.packName, type: data.packType}))
+        dispatch(editPack(pack._id, {name: data.packName, type: data.packType},searchName))
         setEditMode(true)
     }
 
@@ -65,9 +69,9 @@ const Pack = (pack: PackPropsType) => {
                 {pack.rating}
             </div>
             <span>{pack.user_name}</span>
-            <div>
-                <button onClick={deletePackHandler}>delete</button>
-                <button onClick={editPackMode}>edit</button>
+            <div style={{display: 'flex'}}>
+                <EditButton onClick={editPackMode} />
+                <DeleteButton onClick={deletePackHandler} />
             </div>
         </div>
     )
