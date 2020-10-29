@@ -2,7 +2,14 @@ import {Dispatch} from "redux";
 import {PacksType, PacksAPI} from "../api/PacksAPI";
 import {isFetching} from "./isFetchingReducer";
 
-export type ActionsType = GetPacksType | SetSearchPacks | UpdPacksType | SetSortPacksNameUp | SetSortPacksNameDown
+export type ActionsType =
+    GetPacksType
+    | SetSearchPacks
+    | UpdPacksType
+    | SetSortPacksNameUp
+    | SetSortPacksNameDown
+    | cardsPacksTotalCountType
+    | setPageType
 
 export type PackType = {
     cardsCount: number
@@ -25,23 +32,22 @@ export type PackType = {
 export type PacksInitialStateType = {
     packs: Array<PackType>
     packUser_id: string
-    searchName: string | null
-    cardsPacksTotalCount : number
+    searchName: string
+    cardsPacksTotalCount: number
     maxCardsCount?: number | null
     minCardsCount?: number
-    page?: number
+    page: number
     pageCount: number
 }
 
 let PacksInitialState: PacksInitialStateType = {
     packs: [],
     packUser_id: '',
-    searchName: null,
+    searchName: '',
     page: 1,
     pageCount: 10,
-    cardsPacksTotalCount:1000
+    cardsPacksTotalCount: 1000
 }
-
 
 export const PacksReducer = (state = PacksInitialState, action: ActionsType) => {
     switch (action.type) {
@@ -53,21 +59,35 @@ export const PacksReducer = (state = PacksInitialState, action: ActionsType) => 
         }
         case "/PACKS/SEARCH_PACKS": {
             return {
-                ...state
+                ...state,
+                searchName: action.searchName,
             }
         }
-         case "/PACKS/SORT_PACKS_NAME_UP": {
+        case "/PACKS/TOTAL-COUNT": {
+            return {
+                ...state,
+                cardsPacksTotalCount: action.cardsPacksTotalCount
+            }
+        }
+        case "/PACKS/SET-CURRENT-PAGE":{
+            return {
+                ...state,
+                page:action.page
+            }
+        }
+
+        case "/PACKS/SORT_PACKS_NAME_UP": {
             return {
                 ...state,
                 ...state.packs,
-                    packs:state.packs.sort(function (a, b) {
+                packs: state.packs.sort(function (a, b) {
                     let nameA = a.name.toLowerCase(),
                         nameB = b.name.toLowerCase()
-                            if (nameA < nameB)
-                                return -1
-                            if (nameA > nameB)
-                                return 1
-                            return 0
+                    if (nameA < nameB)
+                        return -1
+                    if (nameA > nameB)
+                        return 1
+                    return 0
                 })
             }
         }
@@ -76,7 +96,7 @@ export const PacksReducer = (state = PacksInitialState, action: ActionsType) => 
             return {
                 ...state,
                 ...state.packs,
-                packs:state.packs.sort(function (a, b) {
+                packs: state.packs.sort(function (a, b) {
                     let nameA = a.name.toLowerCase(),
                         nameB = b.name.toLowerCase()
                     if (nameA > nameB)
@@ -110,11 +130,25 @@ export const setSearchPacks = (searchName: string) => {
         type: '/PACKS/SEARCH_PACKS', searchName
     } as const
 }
+
+export const cardsPacksTotalCount = (cardsPacksTotalCount: number) => {
+    return {
+        type: '/PACKS/TOTAL-COUNT', cardsPacksTotalCount
+    } as const
+}
+
 export const setSortPacksNameUp = () => {
     return {
         type: '/PACKS/SORT_PACKS_NAME_UP'
     } as const
 }
+
+export const setPage = (page: number) => {
+    return {
+        type: '/PACKS/SET-CURRENT-PAGE', page
+    } as const
+}
+
 export const setSortPacksNameDown = () => {
     return {
         type: '/PACKS/SORT_PACKS_NAME_DOWN'
@@ -133,15 +167,18 @@ export const editPackAC = () => {
     }
 }
 
-export const getPacks = (searchName: string) => {
+export const getPacks = (searchName: string, page?: number) => {
     return (dispatch: Dispatch) => {
         dispatch(isFetching(true))
-        PacksAPI.getPacks(searchName).then(res => {
+        PacksAPI.getPacks(searchName, page).then(res => {
                 dispatch(getPacksAC(res.data.cardPacks))
                 dispatch(isFetching(false))
+                dispatch(setSearchPacks(searchName))
+                dispatch(cardsPacksTotalCount(res.data.cardPacksTotalCount))
+                dispatch(setPage(res.data.page))
             }
         ).catch(e => {
-                console.log(e.response.data)
+                console.log(e.response)
                 dispatch(isFetching(false))
             }
         )
@@ -213,4 +250,6 @@ type GetPacksType = ReturnType<typeof getPacksAC>
 type SetSearchPacks = ReturnType<typeof setSearchPacks>
 type SetSortPacksNameUp = ReturnType<typeof setSortPacksNameUp>
 type SetSortPacksNameDown = ReturnType<typeof setSortPacksNameDown>
+type cardsPacksTotalCountType = ReturnType<typeof cardsPacksTotalCount>
+type setPageType = ReturnType<typeof setPage>
 

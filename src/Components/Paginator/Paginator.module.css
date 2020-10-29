@@ -29,7 +29,7 @@
     transition: 0.5s;
 }
 
-.inputWrapper {
+.sliderWrapper .inputWrapper {
     float: right;
 }
 
@@ -37,4 +37,8 @@
     max-width: 50px;
     border: 1px solid #e7e8e9;
     border-radius: 0.5rem;
+}
+
+.active{
+     border: 1px solid black;
 }
