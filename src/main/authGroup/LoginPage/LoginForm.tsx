@@ -5,7 +5,7 @@ import Checkbox from "../../../Components/Checkbox/Checkbox";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../../store/redux-store";
 import {Controller, useForm} from "react-hook-form";
-import {ErrorInType, setLogin, setError} from "../../../store/LoginReducer";
+import {ErrorInType, setLogin, setError} from "../../../store/authReducers/LoginReducer";
 import * as yup from "yup";
 import {yupResolver} from '@hookform/resolvers/yup';
 import s from './Login.module.scss'

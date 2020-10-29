@@ -1,11 +1,5 @@
-import axios from 'axios'
-import { RegisterUserDataType} from "../store/RegisterReducer";
-
-const instance = axios.create({
-    withCredentials:true,
-    //baseURL: "https://neko-back.herokuapp.com/2.0"
-    baseURL: "http://localhost:7542/2.0/"
-})
+import {RegisterUserDataType} from "../../store/authReducers/RegisterReducer";
+import {instance} from "../instance";
 
 type RegisterResponseType={
     addedUser:RegisterUserDataType

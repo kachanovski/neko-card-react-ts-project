@@ -5,7 +5,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import s from "./Register.module.scss";
 import Button from "../../../Components/Button/Button";
 import {useDispatch, useSelector} from "react-redux";
-import {initialStateType, RegisterUserTC, SetErrorRegisterAC} from "../../../store/RegisterReducer";
+import {initialStateType, RegisterUserTC, SetErrorRegisterAC} from "../../../store/authReducers/RegisterReducer";
 import {StateType} from "../../../store/redux-store";
 import {Redirect} from "react-router-dom";
 import Input from "../../../Components/Input/Input";

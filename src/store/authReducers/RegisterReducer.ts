@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
-import {RegisterAPI, PostType} from "../api/registerAPI";
-import {IsFetch, isFetching} from "./isFetchingReducer";
+import {RegisterAPI, PostType} from "../../api/AuthAPI/registerAPI";
+import {IsFetch, isFetching} from "../isFetchingReducer";
 
 export type ActionsType =
     SetRegisterDataAcType

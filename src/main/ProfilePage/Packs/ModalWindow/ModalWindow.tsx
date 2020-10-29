@@ -2,11 +2,12 @@ import React from "react";
 import s from './ModalWindow.module.scss'
 import Input from "../../../../Components/Input/Input";
 import {Controller, useForm} from "react-hook-form";
-import {addPacks} from "../../../../store/PacksReducer";
+import {addPacks} from "../../../../store/profileReducers/PacksReducer";
 import {useDispatch} from "react-redux";
 
 type ModalWindowPropsType = {
     setShowModalWindow: (showModalWindow: boolean) => void
+    searchName: string
 }
 
 type SearchInputForm = {
@@ -19,7 +20,7 @@ export const ModalWindow = (props: ModalWindowPropsType) => {
     const {handleSubmit, control, reset} = useForm<SearchInputForm>();
 
     const onSubmit = (data: SearchInputForm) => {
-        dispatch(addPacks(data.packName, data.packType))
+        dispatch(addPacks(props.searchName, data.packName, data.packType))
         reset()
         props.setShowModalWindow(false)
     }

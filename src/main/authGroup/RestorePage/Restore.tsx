@@ -4,7 +4,7 @@ import Input from "../../../Components/Input/Input";
 import Button from "../../../Components/Button/Button";
 import {Controller, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import {InitialRestoreStateType, RestoreTC, setErrorRestore} from '../../../store/RestoreReducer';
+import {InitialRestoreStateType, RestoreTC, setErrorRestore} from '../../../store/authReducers/RestoreReducer';
 import {StateType} from "../../../store/redux-store";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";

@@ -1,22 +1,17 @@
 import React, {useState, ChangeEvent, KeyboardEvent} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../store/redux-store";
-import {getPacks, PacksInitialStateType} from "../../store/PacksReducer";
+import {getPacks, PacksInitialStateType} from "../../store/profileReducers/PacksReducer";
 import s from "./Paginator.module.scss"
 import {InitIsFetchingReducerState} from "../../store/isFetchingReducer";
 
-export const Paginator = (() => {
+export const Paginator = React.memo(() => {
 
     const packs = useSelector<StateType, PacksInitialStateType>(state => state.packs)
-
     const isFetching = useSelector<StateType, InitIsFetchingReducerState>(state => state.isFetching)
-
     const dispatch = useDispatch()
-
     const [newPage, setNewPage] = useState<number | string>('')
-
     const pagesCount = Math.ceil(packs.cardsPacksTotalCount / packs.pageCount);
-
     const [startPage, setStartPage] = useState<number>(packs.page)
 
     let endPage = 10
@@ -24,15 +19,10 @@ export const Paginator = (() => {
         endPage = pagesCount - 1
     }
 
-    let start = packs.page
-    if (start===pagesCount&&endPage<pagesCount)
-    {
-        start = start - endPage
-    }
     let pages: Array<number> = [];
     for (
-        let i = start;
-        i <= (start + endPage);
+        let i = startPage;
+        i <= (startPage + endPage);
         i++
     ) {
         pages.push(i)
@@ -40,7 +30,7 @@ export const Paginator = (() => {
 
     // пролистывание вверх
     const listUpp = () => {
-        let newStartCount = packs.page + endPage
+        let newStartCount = startPage + endPage
         if (newStartCount >= pagesCount) {
             if (newStartCount < packs.pageCount) {
                 newStartCount = 1
@@ -48,30 +38,30 @@ export const Paginator = (() => {
                 newStartCount = pagesCount - endPage
             }
         }
+        //  setStartPage(newStartCount)
         dispatch(getPacks(packs.searchName, newStartCount))
-        setStartPage(newStartCount)
     }
 
     // пролистывание вниз
     const listDown = () => {
-        let newStartCount = packs.page - endPage
+        let newStartCount = startPage - endPage
         if (newStartCount <= 1) {
             newStartCount = 1
         }
-        setStartPage(newStartCount)
+        //setStartPage(newStartCount)
         dispatch(getPacks(packs.searchName, newStartCount))
     }
 
     // перейти к первой странице
     const toStartPage = () => {
-        setStartPage(1)
+        //setStartPage(1)
         dispatch(getPacks(packs.searchName, 1))
     }
 
     // перейти к последней странице
     const toEndPage = () => {
+        //setStartPage(pagesCount - endPage)
         dispatch(getPacks(packs.searchName, pagesCount))
-        setStartPage(packs.page - endPage)
     }
 
     //контроль поля ввода
@@ -84,6 +74,7 @@ export const Paginator = (() => {
     }
 
     //загрузка страницы по номеру из input
+
     const goToPageNumber = () => {
         let newStartPage = +newPage
         if (+newPage + endPage > pagesCount) {
@@ -103,7 +94,6 @@ export const Paginator = (() => {
 
     // загрузка страницы по клику
     const onPageChange = (value: number) => {
-        if (pagesCount === 1) return
         dispatch(getPacks(packs.searchName, value))
     }
 
@@ -119,26 +109,24 @@ export const Paginator = (() => {
                     <>
                         <button
                             onClick={() => toStartPage()}
+                            disabled={isDisabled}
                         >
                             {"<<"}
                         </button>
                         <button
                             onClick={listDown}
+                            disabled={isDisabled}
                         >
                             {'<'}
                         </button>
                     </>
             }
         </div>
-        <div>{pages.map(p =>
-            <span
-                className={packs.page === p ? s.active : ''}
-                onClick={() => onPageChange(p)}
-                key={p}
-            >
-                {p}
-            </span>)}
-        </div>
+        <div>{pages.map(p => <span
+            className={packs.page === p ? s.active : ''}
+            onClick={() => onPageChange(p)}
+            key={p}
+        >{p}</span>)}</div>
         <div>
             {isDisabled || pagesCount === packs.page ? null :
                 <>
@@ -157,7 +145,7 @@ export const Paginator = (() => {
                 </>}
         </div>
         <div className={s.inputWrapper}>
-            {isDisabled || start === pagesCount ? null :
+            {isDisabled ? null :
                 <>
                     <input type='number'
                            placeholder='№'
@@ -165,8 +153,10 @@ export const Paginator = (() => {
                            value={newPage == null ? '' : newPage}
                            className={s.input}
                            onKeyPress={onKeyPress}
+                           disabled={isDisabled}
                     />
                     <button onClick={goToPageNumber}
+                            disabled={isDisabled}
                     >Go
                     </button>
                 </>}

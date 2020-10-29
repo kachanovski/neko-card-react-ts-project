@@ -1,12 +1,7 @@
-import axios from 'axios'
-import {RestoreFormInput} from "../main/authGroup/RestorePage/Restore";
-import {ChangePasswordFormInput} from "../main/authGroup/RestorePage/RestoreChangePassword";
+import {RestoreFormInput} from "../../main/authGroup/RestorePage/Restore";
+import {ChangePasswordFormInput} from "../../main/authGroup/RestorePage/RestoreChangePassword";
+import {instance} from "../instance";
 
-const instance = axios.create({
-    withCredentials: true,
-    // baseURL: "http://localhost:7542/2.0/"
-        baseURL: "https://neko-back.herokuapp.com/2.0"
-})
 type RestoreResponseType = {
     answer: boolean,
     html: boolean,
@@ -16,7 +11,6 @@ type RestoreResponseType = {
 type ChangePasswordResponseType = {
     info: string
 }
-
 
 export const RestoreApi = {
     restore(data: RestoreFormInput) {
