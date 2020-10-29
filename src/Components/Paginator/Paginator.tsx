@@ -5,10 +5,9 @@ import {getPacks, PacksInitialStateType} from "../../store/PacksReducer";
 import s from "./Paginator.module.scss"
 import {InitIsFetchingReducerState} from "../../store/isFetchingReducer";
 
-export const Paginator = React.memo(() => {
+export const Paginator = (() => {
 
-    const packs = useSelector<StateType, PacksInitialStateType>(state => state.packs
-    )
+    const packs = useSelector<StateType, PacksInitialStateType>(state => state.packs)
 
     const isFetching = useSelector<StateType, InitIsFetchingReducerState>(state => state.isFetching)
 
@@ -25,10 +24,15 @@ export const Paginator = React.memo(() => {
         endPage = pagesCount - 1
     }
 
+    let start = packs.page
+    if (start===pagesCount&&endPage<pagesCount)
+    {
+        start = start - endPage
+    }
     let pages: Array<number> = [];
     for (
-        let i = startPage;
-        i <= (startPage + endPage);
+        let i = start;
+        i <= (start + endPage);
         i++
     ) {
         pages.push(i)
@@ -36,7 +40,7 @@ export const Paginator = React.memo(() => {
 
     // пролистывание вверх
     const listUpp = () => {
-        let newStartCount = startPage + endPage
+        let newStartCount = packs.page + endPage
         if (newStartCount >= pagesCount) {
             if (newStartCount < packs.pageCount) {
                 newStartCount = 1
@@ -44,13 +48,13 @@ export const Paginator = React.memo(() => {
                 newStartCount = pagesCount - endPage
             }
         }
-        setStartPage(newStartCount)
         dispatch(getPacks(packs.searchName, newStartCount))
+        setStartPage(newStartCount)
     }
 
     // пролистывание вниз
     const listDown = () => {
-        let newStartCount = startPage - endPage
+        let newStartCount = packs.page - endPage
         if (newStartCount <= 1) {
             newStartCount = 1
         }
@@ -66,8 +70,8 @@ export const Paginator = React.memo(() => {
 
     // перейти к последней странице
     const toEndPage = () => {
-        setStartPage(pagesCount - endPage)
         dispatch(getPacks(packs.searchName, pagesCount))
+        setStartPage(packs.page - endPage)
     }
 
     //контроль поля ввода
@@ -80,7 +84,6 @@ export const Paginator = React.memo(() => {
     }
 
     //загрузка страницы по номеру из input
-
     const goToPageNumber = () => {
         let newStartPage = +newPage
         if (+newPage + endPage > pagesCount) {
@@ -100,6 +103,7 @@ export const Paginator = React.memo(() => {
 
     // загрузка страницы по клику
     const onPageChange = (value: number) => {
+        if (pagesCount === 1) return
         dispatch(getPacks(packs.searchName, value))
     }
 
@@ -111,28 +115,30 @@ export const Paginator = React.memo(() => {
     return <div className={s.sliderWrapper}>
         <div>
             {
-                isDisabled || packs.page ===1 ? null :
+                isDisabled || packs.page === 1 ? null :
                     <>
                         <button
                             onClick={() => toStartPage()}
-                            disabled={isDisabled}
                         >
                             {"<<"}
                         </button>
                         <button
                             onClick={listDown}
-                            disabled={isDisabled}
                         >
                             {'<'}
                         </button>
                     </>
             }
         </div>
-        <div>{pages.map(p => <span
-            className={packs.page === p ? s.active : ''}
-            onClick={() => onPageChange(p)}
-            key={p}
-        >{p}</span>)}</div>
+        <div>{pages.map(p =>
+            <span
+                className={packs.page === p ? s.active : ''}
+                onClick={() => onPageChange(p)}
+                key={p}
+            >
+                {p}
+            </span>)}
+        </div>
         <div>
             {isDisabled || pagesCount === packs.page ? null :
                 <>
@@ -151,7 +157,7 @@ export const Paginator = React.memo(() => {
                 </>}
         </div>
         <div className={s.inputWrapper}>
-            {isDisabled ? null :
+            {isDisabled || start === pagesCount ? null :
                 <>
                     <input type='number'
                            placeholder='№'
@@ -159,10 +165,8 @@ export const Paginator = React.memo(() => {
                            value={newPage == null ? '' : newPage}
                            className={s.input}
                            onKeyPress={onKeyPress}
-                           disabled={isDisabled}
                     />
                     <button onClick={goToPageNumber}
-                            disabled={isDisabled}
                     >Go
                     </button>
                 </>}
