@@ -7,17 +7,11 @@ import {InitIsFetchingReducerState} from "../../store/isFetchingReducer";
 
 export const Paginator = React.memo(() => {
 
-    const packs = useSelector<StateType, PacksInitialStateType>(state => state.packs
-    )
-
+    const packs = useSelector<StateType, PacksInitialStateType>(state => state.packs)
     const isFetching = useSelector<StateType, InitIsFetchingReducerState>(state => state.isFetching)
-
     const dispatch = useDispatch()
-
     const [newPage, setNewPage] = useState<number | string>('')
-
     const pagesCount = Math.ceil(packs.cardsPacksTotalCount / packs.pageCount);
-
     const [startPage, setStartPage] = useState<number>(packs.page)
 
     let endPage = 10
@@ -44,7 +38,7 @@ export const Paginator = React.memo(() => {
                 newStartCount = pagesCount - endPage
             }
         }
-        setStartPage(newStartCount)
+        //  setStartPage(newStartCount)
         dispatch(getPacks(packs.searchName, newStartCount))
     }
 
@@ -54,19 +48,19 @@ export const Paginator = React.memo(() => {
         if (newStartCount <= 1) {
             newStartCount = 1
         }
-        setStartPage(newStartCount)
+        //setStartPage(newStartCount)
         dispatch(getPacks(packs.searchName, newStartCount))
     }
 
     // перейти к первой странице
     const toStartPage = () => {
-        setStartPage(1)
+        //setStartPage(1)
         dispatch(getPacks(packs.searchName, 1))
     }
 
     // перейти к последней странице
     const toEndPage = () => {
-        setStartPage(pagesCount - endPage)
+        //setStartPage(pagesCount - endPage)
         dispatch(getPacks(packs.searchName, pagesCount))
     }
 
@@ -111,7 +105,7 @@ export const Paginator = React.memo(() => {
     return <div className={s.sliderWrapper}>
         <div>
             {
-                isDisabled || packs.page ===1 ? null :
+                isDisabled || packs.page === 1 ? null :
                     <>
                         <button
                             onClick={() => toStartPage()}

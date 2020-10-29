@@ -180,10 +180,10 @@ export const getPacks = (searchName: string, page?: number) => {
     }
 }
 
-export const sortPacksUp = () => {
+export const sortPacksUp = (searchName: string) => {
     return (dispatch: Dispatch) => {
         dispatch(isFetching(true))
-        PacksAPI.getPacks('').then(res => {
+        PacksAPI.getPacks(searchName).then(res => {
                 dispatch(setSortPacksNameUp())
                 dispatch(isFetching(false))
             }

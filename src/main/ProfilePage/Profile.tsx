@@ -23,35 +23,50 @@ const Profile = (props: ProfileType) => {
     const pack = useSelector<StateType, Array<PackType>>(state => state.packs.packs)
     const userID = useSelector<StateType, string>(state => state.login._id)
     const searchName = useSelector<StateType, string>(state => state.packs.searchName)
-    const dispatch = useDispatch()
 
+    const dispatch = useDispatch()
+    useEffect(() => {
+        !authMe && dispatch(AuthMe())
+    }, [dispatch, authMe])
+    useEffect(() => {
+        dispatch(getPacks(searchName))
+    }, [dispatch, searchName])
+
+    const [sortUp, setSortUp] = useState(false)
+    const [sortDown, setSortDow] = useState(false)
     const [showModalWindow, setShowModalWindow] = useState<boolean>(false)
     const [searchValue, setSearchValue] = useState<string>('')
-
     const showMyPacks = () => {
         dispatch(showMyPacksTC(userID))
     }
     const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.currentTarget.value)
     }
-
     const onClickSearch = () => {
         dispatch(getPacks(searchValue))
     }
-
-    useEffect(() => {
-        !authMe && dispatch(AuthMe())
-    }, [dispatch, authMe])
-
-    useEffect(() => {
-        dispatch(getPacks(''))
-    }, [dispatch])
 
     const logOut = () => {
         dispatch(setLogOutUser())
     }
     const addPackMode = () => {
         setShowModalWindow(true)
+    }
+    const onClickSortUpName = () => {
+        dispatch(sortPacksUp(searchName))
+        setSortUp(true)
+        setSortDow(false)
+    }
+    const onClickSortDownName = () => {
+        dispatch(sortPacksDown())
+        setSortUp(false)
+        setSortDow(true)
+    }
+    const resetSort = () => {
+        dispatch(getPacks(searchName))
+        setSortUp(false)
+        setSortDow(false)
+
     }
 
     if (!authMe) return <Redirect to={'/login'}/>
@@ -86,8 +101,12 @@ const Profile = (props: ProfileType) => {
                     <div className={s.packsContainer}>
                         <div>
                             Name
-                            <button onClick={() => dispatch(sortPacksUp())}>up</button>
-                            <button onClick={() => dispatch(sortPacksDown())}>down</button>
+                            {!sortUp
+                                ? <button onClick={onClickSortUpName}>up</button>
+                                : <button className={s.activeSort}  onClick={resetSort}>up</button>}
+                            {!sortDown
+                                ? <button  onClick={onClickSortDownName}>down</button>
+                                : <button className={s.activeSort} onClick={resetSort}>up</button>}
                         </div>
                         <div>
                             Cards
@@ -103,7 +122,7 @@ const Profile = (props: ProfileType) => {
                         <div>Rating</div>
                         <div>email/user_name</div>
                         <div>
-                            <AddButton onClick={addPackMode} />
+                            <AddButton onClick={addPackMode}/>
                             <button onClick={showMyPacks}> My packs</button>
                         </div>
                     </div>
