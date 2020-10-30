@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import s from './ModalWindow.module.scss'
 import Input from "../../../../Components/Input/Input";
 import {Controller, useForm} from "react-hook-form";
 import {useDispatch} from "react-redux";
 import {addCard} from "../../../../store/profileReducers/CardsReducer";
+import {useParams} from "react-router-dom";
 
 type ModalWindowPropsType = {
     setShowModalWindowCard: (showModalWindowCard: boolean) => void
@@ -13,13 +14,15 @@ type SearchInputForm = {
     question: string
     answer: string
     cardType: string
+    packId: any
 }
 
 export const ModalWindowCards = (props: ModalWindowPropsType) => {
 
     const dispatch = useDispatch()
     const {handleSubmit, control, reset} = useForm<SearchInputForm>();
-    const [packId] = useState(window.location.href.split('/')[5])
+    const {packId} = useParams()
+
 
     const onSubmit = (data: SearchInputForm) => {
 
@@ -29,7 +32,7 @@ export const ModalWindowCards = (props: ModalWindowPropsType) => {
             answer: data.answer,
             type: data.cardType,
         }
-        dispatch(addCard(newCard, packId))
+        dispatch(addCard(newCard,packId))
         reset()
         props.setShowModalWindowCard(false)
     }

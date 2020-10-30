@@ -6,7 +6,7 @@ import {CardsInitialStateType, getCards} from "../../../../store/profileReducers
 import {ModalWindowCards} from "../ModalWindow/ModalWindowCards";
 import Card from "./Card";
 import AddButton from "../../../../Components/AddButton/AddButton";
-import {useParams} from "react-router-dom";
+import {useParams, useHistory} from "react-router-dom";
 
 type CardPropsType = {}
 
@@ -16,14 +16,19 @@ const Cards = React.memo((pack: CardPropsType) => {
         const [showModalWindowCard, setShowModalWindowCard] = useState(false)
         const dispatch = useDispatch()
         const {packId} = useParams()
+        const history = useHistory()
+
+        useEffect(() => {
+            dispatch(getCards(packId))
+        }, [dispatch, card.cards.length, packId])
 
         const onClickAddCard = useCallback(function () {
             setShowModalWindowCard(true)
         }, [setShowModalWindowCard])
 
-        useEffect(() => {
-            dispatch(getCards(packId))
-        }, [dispatch, card.cards.length, packId])
+        const packButton = () => {
+            history.push('/profile')
+        }
 
         return (
             <div className={s.cardPage}>
@@ -34,6 +39,7 @@ const Cards = React.memo((pack: CardPropsType) => {
                     : null}
 
                 <div className={s.cardsContainer}>
+                    <button onClick={packButton}> back</button>
                     <div className={s.settingsField}>
                         <div>
                             question
