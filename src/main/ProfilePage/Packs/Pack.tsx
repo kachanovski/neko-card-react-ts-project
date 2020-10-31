@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import {deletePack, editPack, PackType} from "../../../store/profileReducers/PacksReducer";
 import s from "../Profile.module.scss";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,28 +16,30 @@ type EditInput = {
     packType: string
 }
 
-const Pack = (pack: PackPropsType) => {
+const Pack = React.memo ((pack: PackPropsType) => {
     const [editMode, setEditMode] = useState<boolean>(true)
     const dispatch = useDispatch()
-    const {register, handleSubmit} = useForm<EditInput>();
+    const {register, handleSubmit, getValues} = useForm<EditInput>();
     const searchName = useSelector<StateType, string>(state => state.packs.searchName)
 
 
-    const deletePackHandler = () => {
+    const deletePackHandler = useCallback (() => {
         dispatch(deletePack(pack._id,searchName))
-    }
-    const editPackMode = () => {
+    },[pack._id,searchName])
+
+    const editPackMode = useCallback (() => {
         if (editMode) setEditMode(false)
         if (!editMode) setEditMode(true)
-    }
-    const saveChanges = (data: EditInput) => {
+    },[editMode])
+
+    const saveChanges = useCallback ((data: EditInput) => {
         dispatch(editPack(pack._id, {name: data.packName, type: data.packType},searchName))
         setEditMode(true)
-    }
+    },[pack._id,searchName, getValues().packName, getValues().packType])
 
-    const onClickCard = () => {
+    const onClickCard = useCallback(() => {
         dispatch(getCards(pack._id))
-    }
+    },[pack._id])
 
     return (
         <div className={s.cardField}>
@@ -76,5 +78,6 @@ const Pack = (pack: PackPropsType) => {
             </div>
         </div>
     )
-}
+})
+
 export default Pack

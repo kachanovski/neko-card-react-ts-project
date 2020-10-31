@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import s from './Profile.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../store/redux-store";
@@ -36,38 +36,37 @@ const Profile = React.memo((props: ProfileType) => {
         const [sortDown, setSortDow] = useState(false)
         const [showModalWindow, setShowModalWindow] = useState<boolean>(false)
         const [searchValue, setSearchValue] = useState<string>('')
-        const showMyPacks = () => {
+        const showMyPacks = useCallback (() => {
             dispatch(showMyPacksTC(userID))
-        }
-        const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
+        },[userID])
+        const onChangeSearchInput = useCallback ((e: ChangeEvent<HTMLInputElement>) => {
             setSearchValue(e.currentTarget.value)
-        }
+        },[searchValue])
         const onClickSearch = () => {
             dispatch(getPacks(searchValue))
         }
 
-        const logOut = () => {
+        const logOut = useCallback (() => {
             dispatch(setLogOutUser())
-        }
-        const addPackMode = () => {
+        },[])
+        const addPackMode = useCallback (() => {
             setShowModalWindow(true)
-        }
-        const onClickSortUpName = () => {
+        },[])
+        const onClickSortUpName = useCallback (() => {
             dispatch(sortPacksUp(searchName))
             setSortUp(true)
             setSortDow(false)
-        }
-        const onClickSortDownName = () => {
+        },[searchName])
+        const onClickSortDownName = useCallback (() => {
             dispatch(sortPacksDown())
             setSortUp(false)
             setSortDow(true)
-        }
-        const resetSort = () => {
+        },[])
+        const resetSort = useCallback (() => {
             dispatch(getPacks(searchName))
             setSortUp(false)
             setSortDow(false)
-
-        }
+        },[searchName])
 
         if (!authMe) return <Redirect to={'/login'}/>
 
