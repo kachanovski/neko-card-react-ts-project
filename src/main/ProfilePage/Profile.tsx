@@ -5,7 +5,14 @@ import {StateType} from "../../store/redux-store";
 import Button from "../../Components/Button/Button";
 import {AuthMe, InitialLoginReducerState, setLogOutUser} from "../../store/authReducers/LoginReducer";
 import {Redirect} from "react-router-dom";
-import {getPacks, PackType, showMyPacksTC, sortPacksDown, sortPacksUp} from '../../store/profileReducers/PacksReducer';
+import {
+    getPacks,
+    PackType,
+    showMyPacksTC,
+    sortPacks,
+    sortPacksDown,
+    sortPacksUp
+} from '../../store/profileReducers/PacksReducer';
 import {ModalWindow} from './Packs/ModalWindow/ModalWindow';
 import {Paginator} from "../../Components/Paginator/Paginator";
 import SearchPacks from './Packs/Search/SearchPacks';
@@ -52,16 +59,27 @@ const Profile = (props: ProfileType) => {
     const addPackMode = () => {
         setShowModalWindow(true)
     }
+    // const onClickSortUpName = () => {
+    //     dispatch(sortPacksUp(searchName))
+    //     setSortUp(true)
+    //     setSortDow(false)
+    // }
+    // const onClickSortDownName = () => {
+    //     dispatch(sortPacksDown())
+    //     setSortUp(false)
+    //     setSortDow(true)
+    // }
     const onClickSortUpName = () => {
-        dispatch(sortPacksUp(searchName))
+        dispatch(sortPacks(1))
         setSortUp(true)
         setSortDow(false)
     }
     const onClickSortDownName = () => {
-        dispatch(sortPacksDown())
+        dispatch(sortPacks(-1))
         setSortUp(false)
         setSortDow(true)
     }
+
     const resetSort = () => {
         dispatch(getPacks(searchName))
         setSortUp(false)

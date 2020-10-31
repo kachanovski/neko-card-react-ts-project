@@ -10,6 +10,7 @@ export type ActionsType =
     | SetSortPacksNameDown
     | cardsPacksTotalCountType
     | setPageType
+    | setSortPacksNameType
 
 export type PackType = {
     cardsCount: number
@@ -107,6 +108,21 @@ export const PacksReducer = (state = PacksInitialState, action: ActionsType) => 
                 })
             }
         }
+        case "/PACKS/SORT_PACKS_NAME": {
+            return {
+                ...state,
+                ...state.packs,
+                packs: state.packs.sort(function (a, b) {
+                    let nameA = a.name.toLowerCase(),
+                        nameB = b.name.toLowerCase()
+                    if (nameA < nameB)
+                        return -action.sortFlag
+                    if (nameA > nameB)
+                        return action.sortFlag
+                    return 0
+                })
+            }
+        }
 
         case "PACKS/ADD_PACK": {
             return {
@@ -140,6 +156,11 @@ export const cardsPacksTotalCount = (cardsPacksTotalCount: number) => {
 export const setSortPacksNameUp = () => {
     return {
         type: '/PACKS/SORT_PACKS_NAME_UP'
+    } as const
+}
+export const setSortPacksName = (sortFlag: number) => {
+    return {
+        type: '/PACKS/SORT_PACKS_NAME', sortFlag
     } as const
 }
 
@@ -208,6 +229,20 @@ export const sortPacksDown = () => {
         )
     }
 }
+export const sortPacks = (sortFlag: number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(isFetching(true))
+        PacksAPI.getPacks('').then(res => {
+                dispatch(setSortPacksName(sortFlag))
+                dispatch(isFetching(false))
+            }
+        ).catch(e => {
+                console.log(e.response.data)
+                dispatch(isFetching(false))
+            }
+        )
+    }
+}
 
 export const addPacks = (searchName: string, name?: string, type?: string) => {
     return async (dispatch: Dispatch<any>) => {
@@ -222,6 +257,7 @@ export const showMyPacksTC = (userID: string) => {
     return async (dispatch: Dispatch) => {
         let myPacks = await PacksAPI.getMyPacks(userID)
         dispatch(updPack(myPacks.data.cardPacks))
+        dispatch(cardsPacksTotalCount(+myPacks.data.cardPacks.length))
     }
 }
 export const deletePack = (packID: string, searchName: string) => {
@@ -247,4 +283,5 @@ type SetSortPacksNameUp = ReturnType<typeof setSortPacksNameUp>
 type SetSortPacksNameDown = ReturnType<typeof setSortPacksNameDown>
 type cardsPacksTotalCountType = ReturnType<typeof cardsPacksTotalCount>
 type setPageType = ReturnType<typeof setPage>
+type setSortPacksNameType = ReturnType<typeof setSortPacksName>
 

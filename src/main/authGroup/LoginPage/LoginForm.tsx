@@ -48,14 +48,17 @@ const LoginForm = React.memo((props: LoginFormType) => {
     }, [dispatch, authMe, reset])
 
     useEffect(() => {
-        dispatch(setError(null))
-    }, [dispatch])
+        dispatch(setError(error))
+    }, [dispatch, error])
 
+    const onBlur = ()=>{
+        dispatch(setError(null))
+    }
 
     if (authMe) return <Redirect to={'/profile'}/>
 
     return (
-        <div className={props.className}>
+        <div className={props.className} onClick={onBlur}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Controller
                     as={<Input onChange={() => errors.login?.message === null}
@@ -66,12 +69,11 @@ const LoginForm = React.memo((props: LoginFormType) => {
                     control={control}
                     defaultValue=""
                 />
-
+                <p>{error}</p>
                 <div className={s.errorMessageColor}>
                     {errors.login && <span>{errors.login.message}</span>}
                     {errorIn === "email" && <span>{error}</span>}
                 </div>
-
                 <Controller
                     as={<Input onChange={() => errors.login?.message === null}
                                disable={props.isFetching}

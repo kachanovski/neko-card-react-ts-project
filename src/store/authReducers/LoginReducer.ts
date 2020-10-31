@@ -69,6 +69,7 @@ export const setLogin = (email: string, password: string, rememberMe: boolean) =
             }
             dispatch(setError(e.response.data.error))
         } else {
+            dispatch(setError(e.message))
             console.log('ERROR: ', e.message + ', more details in the console')
         }
     }
@@ -91,7 +92,9 @@ export const AuthMe = () => async (dispatch: Dispatch) => {
         const promise = await authAPI.authMe()
         dispatch(authMeAction(true))
         dispatch(setUser(promise.data))
+        dispatch(setError(promise.data.error))
     } catch (e) {
+        dispatch(setError(e.message))
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
         console.log('Authorization: ', error)
     }
