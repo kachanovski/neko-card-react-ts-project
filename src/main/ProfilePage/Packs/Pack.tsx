@@ -51,6 +51,13 @@ const Pack = React.memo((pack: PackPropsType) => {
                             {pack.name}
                         </NavLink>
                 </span>
+                    {pack.cardsCount !== 0 && <div>
+                        <span>
+                            <NavLink to={`/learn/${pack._id}`} className={s.packLink} onClick={onClickCard}>
+                                learn
+                            </NavLink>
+                        </span>
+                    </div>}
                 </div>
                 : <div>
                     <form onSubmit={handleSubmit(saveChanges)}>
