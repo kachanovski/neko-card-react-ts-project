@@ -16,30 +16,31 @@ type EditInput = {
     packType: string
 }
 
-const Pack = React.memo ((pack: PackPropsType) => {
+const Pack = React.memo((pack: PackPropsType) => {
     const [editMode, setEditMode] = useState<boolean>(true)
     const dispatch = useDispatch()
     const {register, handleSubmit, getValues} = useForm<EditInput>();
     const searchName = useSelector<StateType, string>(state => state.packs.searchName)
+    const userID = useSelector<StateType, string>(state => state.login._id)
 
 
-    const deletePackHandler = useCallback (() => {
-        dispatch(deletePack(pack._id,searchName))
-    },[pack._id,searchName])
+    const deletePackHandler = useCallback(() => {
+        dispatch(deletePack(pack._id, searchName))
+    }, [pack._id, searchName])
 
-    const editPackMode = useCallback (() => {
+    const editPackMode = useCallback(() => {
         if (editMode) setEditMode(false)
         if (!editMode) setEditMode(true)
-    },[editMode])
+    }, [editMode])
 
-    const saveChanges = useCallback ((data: EditInput) => {
-        dispatch(editPack(pack._id, {name: data.packName, type: data.packType},searchName))
+    const saveChanges = useCallback((data: EditInput) => {
+        dispatch(editPack(pack._id, {name: data.packName, type: data.packType}, searchName))
         setEditMode(true)
-    },[pack._id,searchName, getValues().packName, getValues().packType])
+    }, [pack._id, searchName, getValues().packName, getValues().packType])
 
     const onClickCard = useCallback(() => {
         dispatch(getCards(pack._id))
-    },[pack._id])
+    }, [pack._id])
 
     return (
         <div className={s.cardField}>
@@ -72,10 +73,10 @@ const Pack = React.memo ((pack: PackPropsType) => {
                 {pack.rating}
             </div>
             <span>{pack.user_name}</span>
-            <div style={{display: 'flex'}}>
-                <EditButton onClick={editPackMode} />
-                <DeleteButton onClick={deletePackHandler} />
-            </div>
+            {userID === pack.user_id && <div style={{display: 'flex'}}>
+                <EditButton onClick={editPackMode}/>
+                <DeleteButton onClick={deletePackHandler}/>
+            </div>}
         </div>
     )
 })

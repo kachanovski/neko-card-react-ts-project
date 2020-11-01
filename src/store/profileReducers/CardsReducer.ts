@@ -20,7 +20,10 @@ export type CardType = {
     answerVideo?: string
     type?: string
     _id?: string
+    comments?: string
+    user_id?: string
 }
+
 
 export type CardsInitialStateType = {
     cards: Array<CardType>
@@ -40,7 +43,7 @@ export const CardsReducer = (state = CardsInitialState, action: ActionsType) => 
         case "CARDS/GET_CARDS": {
             return {
                 ...state,
-                cardsPack_id:action.cards,
+                cardsPack_id: action.cards,
                 cards: action.cards
             }
         }
@@ -89,13 +92,14 @@ export const getCards = (packId: string) => {
                 dispatch(isFetching(false))
             }
         ).catch(e => {
+                console.log('ERROR: ', e.message)
                 dispatch(isFetching(false))
             }
         )
     }
 }
 
-export const addCard = (card: CardType,cardsPack_id:string) => {
+export const addCard = (card: CardType, cardsPack_id: string) => {
     return async (dispatch: Dispatch<any>) => {
         dispatch(isFetching(true))
         await CardsAPI.addCard(card)
@@ -104,7 +108,7 @@ export const addCard = (card: CardType,cardsPack_id:string) => {
 
     }
 }
-export const deleteCard = (card: CardType,cardsPack_id:string) => {
+export const deleteCard = (card: CardType, cardsPack_id: string) => {
     return async (dispatch: Dispatch<any>) => {
         dispatch(isFetching(true))
         await CardsAPI.deleteCard(card._id)
@@ -112,7 +116,7 @@ export const deleteCard = (card: CardType,cardsPack_id:string) => {
         dispatch(isFetching(false))
     }
 }
-export const updateCard = (_id: string | undefined, card: CardType,cardsPack_id:string) => {
+export const updateCard = (_id: string | undefined, card: CardType, cardsPack_id: string) => {
     return async (dispatch: Dispatch<any>) => {
         dispatch(isFetching(true))
         await CardsAPI.updateCard({_id, ...card})
