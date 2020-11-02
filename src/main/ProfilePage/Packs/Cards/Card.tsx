@@ -6,6 +6,7 @@ import {useForm} from "react-hook-form";
 import EditButton from "../../../../Components/EditButton/EditButton";
 import DeleteButton from "../../../../Components/Delete/DeleteButton";
 import {StateType} from "../../../../store/redux-store";
+import {ModalWindowDelete} from "../ModalWindow/ModalWindowDelete";
 
 type CardPropsType = CardType & { packId: string }
 
@@ -21,13 +22,14 @@ const Card = React.memo((props: CardPropsType) => {
         const dispatch = useDispatch()
         const {register, handleSubmit} = useForm<EditInputCards>();
         const userID = useSelector<StateType, string>(state => state.login._id)
+        const [showModalWindowDelete, setShowModalWindowDelete] = useState<boolean>(false)
 
         const editPackMode = () => {
             if (editMode) setEditMode(false)
             if (!editMode) setEditMode(true)
         }
 
-        const onClickDeleteCard = useCallback(() => {
+        const deleteCardHandler = useCallback(() => {
             dispatch(deleteCard(props, props.packId))
         }, [dispatch, props])
 
@@ -42,6 +44,13 @@ const Card = React.memo((props: CardPropsType) => {
 
         return (
             <div className={s.cardsField}>
+
+                {showModalWindowDelete
+                    ? <ModalWindowDelete onClick={deleteCardHandler}
+                                         setShowModalWindowDelete={setShowModalWindowDelete}
+                    />
+                    : null}
+
                 {editMode
                     ? <form onSubmit={handleSubmit(saveChanges)}>
                         <input name="question" ref={register({maxLength: 20})}
@@ -68,7 +77,7 @@ const Card = React.memo((props: CardPropsType) => {
 
                 {userID === props.user_id && <div style={{display: 'flex'}}>
                     <EditButton onClick={editPackMode}/>
-                    <DeleteButton onClick={onClickDeleteCard}/>
+                    <DeleteButton onClick={() => setShowModalWindowDelete(true)}/>
                 </div>}
 
             </div>

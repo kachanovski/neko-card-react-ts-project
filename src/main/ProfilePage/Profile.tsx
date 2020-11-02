@@ -5,14 +5,7 @@ import {StateType} from "../../store/redux-store";
 import Button from "../../Components/Button/Button";
 import {AuthMe, InitialLoginReducerState, setLogOutUser} from "../../store/authReducers/LoginReducer";
 import {Redirect} from "react-router-dom";
-import {
-    getPacks,
-    PackType,
-    showMyPacksTC,
-    sortPacks,
-    sortPacksDown,
-    sortPacksUp
-} from '../../store/profileReducers/PacksReducer';
+import {getPacks, PackType, showMyPacksTC, sortPacksDown, sortPacksUp} from '../../store/profileReducers/PacksReducer';
 import {ModalWindow} from './Packs/ModalWindow/ModalWindow';
 import {Paginator} from "../../Components/Paginator/Paginator";
 import SearchPacks from './Packs/Search/SearchPacks';
@@ -45,17 +38,17 @@ const Profile = React.memo((props: ProfileType) => {
         const [searchValue, setSearchValue] = useState<string>('')
         const showMyPacks = useCallback (() => {
             dispatch(showMyPacksTC(userID))
-        },[userID])
+        },[dispatch, userID])
         const onChangeSearchInput = useCallback ((e: ChangeEvent<HTMLInputElement>) => {
             setSearchValue(e.currentTarget.value)
-        },[searchValue])
+        },[])
         const onClickSearch = () => {
             dispatch(getPacks(searchValue))
         }
 
         const logOut = useCallback (() => {
             dispatch(setLogOutUser())
-        },[])
+        },[dispatch])
         const addPackMode = useCallback (() => {
             setShowModalWindow(true)
         },[])
@@ -63,17 +56,17 @@ const Profile = React.memo((props: ProfileType) => {
             dispatch(sortPacksUp(searchName))
             setSortUp(true)
             setSortDow(false)
-        },[searchName])
+        },[dispatch, searchName])
         const onClickSortDownName = useCallback (() => {
             dispatch(sortPacksDown())
             setSortUp(false)
             setSortDow(true)
-        },[])
+        },[dispatch])
         const resetSort = useCallback (() => {
             dispatch(getPacks(searchName))
             setSortUp(false)
             setSortDow(false)
-        },[searchName])
+        },[dispatch, searchName])
 
         if (!authMe) return <Redirect to={'/login'}/>
 
@@ -104,6 +97,9 @@ const Profile = React.memo((props: ProfileType) => {
                                      searchValue={searchValue}
                         />
 
+                        <AddButton onClick={addPackMode}/>
+                        <button onClick={showMyPacks}> My packs</button>
+
                         <div className={s.packsContainer}>
                             <div>
                                 Name
@@ -118,18 +114,13 @@ const Profile = React.memo((props: ProfileType) => {
                                 Cards
                             </div>
                             <div>
-                                type
-                            </div>
-                            <div>
                                 Update
                                 <button>up</button>
                                 <button>down</button>
                             </div>
-                            <div>Rating</div>
                             <div>email/user_name</div>
                             <div>
-                                <AddButton onClick={addPackMode}/>
-                                <button onClick={showMyPacks}> My packs</button>
+
                             </div>
                         </div>
 

@@ -8,6 +8,8 @@ import {NavLink} from "react-router-dom";
 import {StateType} from "../../../store/redux-store";
 import DeleteButton from "../../../Components/Delete/DeleteButton";
 import EditButton from "../../../Components/EditButton/EditButton";
+import {ModalWindow} from "./ModalWindow/ModalWindow";
+import {ModalWindowDelete} from "./ModalWindow/ModalWindowDelete";
 
 type PackPropsType = PackType
 type EditInput = {
@@ -22,6 +24,7 @@ const Pack = React.memo((pack: PackPropsType) => {
     const {register, handleSubmit, getValues} = useForm<EditInput>();
     const searchName = useSelector<StateType, string>(state => state.packs.searchName)
     const userID = useSelector<StateType, string>(state => state.login._id)
+    const [showModalWindowDelete, setShowModalWindowDelete] = useState<boolean>(false)
 
 
     const deletePackHandler = useCallback(() => {
@@ -44,6 +47,13 @@ const Pack = React.memo((pack: PackPropsType) => {
 
     return (
         <div className={s.cardField}>
+
+            {showModalWindowDelete
+                ? <ModalWindowDelete onClick={deletePackHandler}
+                                     setShowModalWindowDelete={setShowModalWindowDelete}
+                />
+                : null}
+
             {editMode
                 ? <div>
                     <span>
@@ -71,18 +81,12 @@ const Pack = React.memo((pack: PackPropsType) => {
                 {pack.cardsCount}
             </div>
             <div>
-                {pack.type}
-            </div>
-            <div>
                 {pack.updated}
-            </div>
-            <div>
-                {pack.rating}
             </div>
             <span>{pack.user_name}</span>
             {userID === pack.user_id && <div style={{display: 'flex'}}>
                 <EditButton onClick={editPackMode}/>
-                <DeleteButton onClick={deletePackHandler}/>
+                <DeleteButton onClick={() => setShowModalWindowDelete(true)}/>
             </div>}
         </div>
     )

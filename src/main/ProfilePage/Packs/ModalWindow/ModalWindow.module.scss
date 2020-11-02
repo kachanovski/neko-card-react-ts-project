@@ -6,22 +6,26 @@
   background-color: #282c34;
   position: absolute;
   z-index: 2;
-  opacity: 0.9;
+  opacity: 0.95;
   display: flex;
   justify-content: center;
   align-items: center;
+  right: 0;
+  top: 0;
 
   .modalWindow {
-    background-color:$light_blue_color1;
+    background-color: #e7e8e9;
+    color: black ;
     width: 40%;
     height: 40%;
     border-radius: 20px;
-    display: flex;
+    display: grid;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: absolute;
     z-index: 3;
+    opacity: 1;
   }
 
 }
