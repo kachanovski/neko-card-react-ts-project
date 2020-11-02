@@ -7,7 +7,7 @@ type LoginType = {
     isFetching: boolean
 }
 
-const Login = (props: LoginType) => {
+const Login = React.memo ((props: LoginType) => {
 
     return (
         <div className={s.loginPage}>
@@ -21,6 +21,6 @@ const Login = (props: LoginType) => {
             </div>
         </div>
     )
-}
+})
 
 export default Login

@@ -11,6 +11,7 @@ import {StateType} from "./store/redux-store";
 import Preloader from "./Components/Preloader/Preloader";
 import Register from './main/authGroup/RegisterPage/Register';
 import Cards from "./main/ProfilePage/Packs/Cards/Cards";
+import TutorialPage from "./main/ProfilePage/ TutorialPage/TutorialPage";
 
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
                     <Route exact path='/profile' render={() => (<Profile isFetching={isFetching}/>)}/>
                     <Route path='/changePassword' render={() => (<RestoreChangePassword isFetching={isFetching}/>)}/>
                     <Route path='/cards/:packId' render={() => (<Cards/>)}/>
+                    <Route path='/learn/:packId' render={() => (<TutorialPage/>)}/>
 
                     <Route render={() => (<NotFound/>)}/>
                 </Switch>

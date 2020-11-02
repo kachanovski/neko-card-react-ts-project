@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import {deletePack, editPack, PackType} from "../../../store/profileReducers/PacksReducer";
 import s from "../Profile.module.scss";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,28 +16,31 @@ type EditInput = {
     packType: string
 }
 
-const Pack = (pack: PackPropsType) => {
+const Pack = React.memo((pack: PackPropsType) => {
     const [editMode, setEditMode] = useState<boolean>(true)
     const dispatch = useDispatch()
-    const {register, handleSubmit} = useForm<EditInput>();
+    const {register, handleSubmit, getValues} = useForm<EditInput>();
     const searchName = useSelector<StateType, string>(state => state.packs.searchName)
+    const userID = useSelector<StateType, string>(state => state.login._id)
 
 
-    const deletePackHandler = () => {
-        dispatch(deletePack(pack._id,searchName))
-    }
-    const editPackMode = () => {
+    const deletePackHandler = useCallback(() => {
+        dispatch(deletePack(pack._id, searchName))
+    }, [pack._id, searchName])
+
+    const editPackMode = useCallback(() => {
         if (editMode) setEditMode(false)
         if (!editMode) setEditMode(true)
-    }
-    const saveChanges = (data: EditInput) => {
-        dispatch(editPack(pack._id, {name: data.packName, type: data.packType},searchName))
-        setEditMode(true)
-    }
+    }, [editMode])
 
-    const onClickCard = () => {
+    const saveChanges = useCallback((data: EditInput) => {
+        dispatch(editPack(pack._id, {name: data.packName, type: data.packType}, searchName))
+        setEditMode(true)
+    }, [pack._id, searchName, getValues().packName, getValues().packType])
+
+    const onClickCard = useCallback(() => {
         dispatch(getCards(pack._id))
-    }
+    }, [pack._id])
 
     return (
         <div className={s.cardField}>
@@ -48,6 +51,13 @@ const Pack = (pack: PackPropsType) => {
                             {pack.name}
                         </NavLink>
                 </span>
+                    {pack.cardsCount !== 0 && <div>
+                        <span>
+                            <NavLink to={`/learn/${pack._id}`} className={s.packLink} onClick={onClickCard}>
+                                learn
+                            </NavLink>
+                        </span>
+                    </div>}
                 </div>
                 : <div>
                     <form onSubmit={handleSubmit(saveChanges)}>
@@ -70,11 +80,12 @@ const Pack = (pack: PackPropsType) => {
                 {pack.rating}
             </div>
             <span>{pack.user_name}</span>
-            <div style={{display: 'flex'}}>
-                <EditButton onClick={editPackMode} />
-                <DeleteButton onClick={deletePackHandler} />
-            </div>
+            {userID === pack.user_id && <div style={{display: 'flex'}}>
+                <EditButton onClick={editPackMode}/>
+                <DeleteButton onClick={deletePackHandler}/>
+            </div>}
         </div>
     )
-}
+})
+
 export default Pack

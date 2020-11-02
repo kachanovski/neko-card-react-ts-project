@@ -1,10 +1,11 @@
 import React, {useCallback, useState} from "react";
 import s from "./Card.module.scss";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {CardType, deleteCard, updateCard} from "../../../../store/profileReducers/CardsReducer";
 import {useForm} from "react-hook-form";
 import EditButton from "../../../../Components/EditButton/EditButton";
 import DeleteButton from "../../../../Components/Delete/DeleteButton";
+import {StateType} from "../../../../store/redux-store";
 
 type CardPropsType = CardType & { packId: string }
 
@@ -19,6 +20,7 @@ const Card = React.memo((props: CardPropsType) => {
         const [editMode, setEditMode] = useState<boolean>(false)
         const dispatch = useDispatch()
         const {register, handleSubmit} = useForm<EditInputCards>();
+        const userID = useSelector<StateType, string>(state => state.login._id)
 
         const editPackMode = () => {
             if (editMode) setEditMode(false)
@@ -64,10 +66,10 @@ const Card = React.memo((props: CardPropsType) => {
                     {props.rating}
                 </div>
 
-                <div style={{display: 'flex'}}>
+                {userID === props.user_id && <div style={{display: 'flex'}}>
                     <EditButton onClick={editPackMode}/>
                     <DeleteButton onClick={onClickDeleteCard}/>
-                </div>
+                </div>}
 
             </div>
         )

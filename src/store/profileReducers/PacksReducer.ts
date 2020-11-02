@@ -196,6 +196,7 @@ export const getPacks = (searchName: string, page?: number) => {
                 dispatch(setPage(res.data.page))
             }
         ).catch(e => {
+                console.log('ERROR: ', e.message)
                 dispatch(isFetching(false))
             }
         )
