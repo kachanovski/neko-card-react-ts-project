@@ -1,0 +1,14 @@
+@import "src/scss/settings";
+
+.tutorialPage {
+  @extend %main_background;
+  .cardQuestion {
+    @extend %container;
+    width: 100%;
+    margin: 20px;
+    padding: 30px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    color: white;
+  }
+}

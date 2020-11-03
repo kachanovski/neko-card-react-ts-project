@@ -11,7 +11,7 @@ import {StateType} from "./store/redux-store";
 import Preloader from "./Components/Preloader/Preloader";
 import Register from './main/authGroup/RegisterPage/Register';
 import Cards from "./main/ProfilePage/Packs/Cards/Cards";
-import TutorialPage from "./main/ProfilePage/ TutorialPage/TutorialPage";
+import TutorialPage from "./main/ProfilePage/TutorialPage/TutorialPage";
 
 
 const App = () => {

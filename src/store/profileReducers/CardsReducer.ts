@@ -5,7 +5,8 @@ import {CardsAPI} from "../../api/ProfileAPI/CardAPI";
 export type ActionsType =
     GetCardsType |
     AddCardType |
-    GetCardsTotalCountType
+    GetCardsTotalCountType |
+    SetCardGrade
 
 export type CardType = {
     cardsPack_id?: string
@@ -38,12 +39,12 @@ let CardsInitialState: CardsInitialStateType = {
 }
 
 
-export const CardsReducer = (state = CardsInitialState, action: ActionsType) => {
+export const CardsReducer = (state = CardsInitialState, action: ActionsType): CardsInitialStateType => {
     switch (action.type) {
         case "CARDS/GET_CARDS": {
             return {
                 ...state,
-                cardsPack_id: action.cards,
+                cardsPack_id: action.cards[0].cardsPack_id,
                 cards: action.cards
             }
         }
@@ -57,7 +58,13 @@ export const CardsReducer = (state = CardsInitialState, action: ActionsType) => 
             return {
                 ...state,
                 ...state.cards,
-                cards: action.card, ...state.cards
+                cards: [action.card, ...state.cards]
+            }
+        }
+        case "CARDS/SET_GRADE": {
+            return {
+                ...state,
+                cards: state.cards.map(c => c._id === action._id ? {...c, grade: action.grade} : c)
             }
         }
         default:
@@ -82,6 +89,13 @@ export const addCardAC = (card: CardType) => {
         type: 'CARDS/ADD_CARD', card
     } as const
 }
+
+export const setCardGrade = (grade: number, _id: string) => {
+    return {
+        type: 'CARDS/SET_GRADE', grade, _id
+    } as const
+}
+
 
 export const getCards = (packId: string) => {
     return (dispatch: Dispatch) => {
@@ -116,12 +130,26 @@ export const deleteCard = (card: CardType, cardsPack_id: string) => {
         dispatch(isFetching(false))
     }
 }
-export const updateCard = (_id: string | undefined, card: CardType, cardsPack_id: string) => {
+export const updateCard = (card: CardType, cardsPack_id: string) => {
     return async (dispatch: Dispatch<any>) => {
         dispatch(isFetching(true))
-        await CardsAPI.updateCard({_id, ...card})
+        await CardsAPI.updateCard(card)
         dispatch(getCards(cardsPack_id))
         dispatch(isFetching(false))
+    }
+}
+export const setGrade = (grade: number, card_id: string) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(isFetching(true))
+        try {
+            let response = await CardsAPI.setCardGrade(grade, card_id)
+            console.log(response.data.updatedGrade)
+            dispatch(setCardGrade(response.data.updatedGrade.grade, response.data.updatedGrade.card_id))
+        } catch (e) {
+            console.log('ERROR: ', e.message)
+        } finally {
+            dispatch(isFetching(false))
+        }
     }
 }
 
@@ -129,6 +157,7 @@ export const updateCard = (_id: string | undefined, card: CardType, cardsPack_id
 type GetCardsType = ReturnType<typeof getCardsAC>
 type GetCardsTotalCountType = ReturnType<typeof getCardsTotalCount>
 type AddCardType = ReturnType<typeof addCardAC>
+type SetCardGrade = ReturnType<typeof setCardGrade>
 
 
 

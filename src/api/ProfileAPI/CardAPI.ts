@@ -1,7 +1,7 @@
 import {CardType} from "../../store/profileReducers/CardsReducer";
 import {instance} from "../instance";
 
-export type EditPackType = { _id: string | undefined } & CardType
+export type EditPackType = CardType
 
 export const CardsAPI = {
     getCards: (packId: string) => {
@@ -25,5 +25,8 @@ export const CardsAPI = {
     },
     updateCard: (card: EditPackType) => {
         return instance.put('/cards/card', {card})
+    },
+    setCardGrade: (grade: number, card_id: string) => {
+        return instance.put('cards/grade', {grade, card_id})
     }
 }

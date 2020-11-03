@@ -20,7 +20,7 @@ const Card = React.memo((props: CardPropsType) => {
 
         const [editMode, setEditMode] = useState<boolean>(false)
         const dispatch = useDispatch()
-        const {register, handleSubmit} = useForm<EditInputCards>();
+        const {register, handleSubmit, getValues} = useForm<EditInputCards>();
         const userID = useSelector<StateType, string>(state => state.login._id)
         const [showModalWindowDelete, setShowModalWindowDelete] = useState<boolean>(false)
 
@@ -34,12 +34,13 @@ const Card = React.memo((props: CardPropsType) => {
         }, [dispatch, props])
 
         const saveChanges = useCallback((data: EditInputCards) => {
-            dispatch(updateCard(props._id, {
+            dispatch(updateCard( {
+                _id: props._id,
                 question: data.question,
                 type: data.type
             }, props.packId))
             setEditMode(false)
-        }, [dispatch, props._id, props.packId])
+        }, [dispatch, props._id, props.packId, getValues().question, getValues().type])
 
 
         return (
