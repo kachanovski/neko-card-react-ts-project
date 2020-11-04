@@ -15,7 +15,6 @@ type PackPropsType = PackType
 type EditInput = {
     packName: string
     userName: string
-    packType: string
 }
 
 const Pack = React.memo((pack: PackPropsType) => {
@@ -37,9 +36,9 @@ const Pack = React.memo((pack: PackPropsType) => {
     }, [editMode])
 
     const saveChanges = useCallback((data: EditInput) => {
-        dispatch(editPack(pack._id, {name: data.packName, type: data.packType}, searchName))
+        dispatch(editPack(pack._id, {name: data.packName}, searchName))
         setEditMode(true)
-    }, [pack._id, searchName, getValues().packName, getValues().packType])
+    }, [pack._id, searchName, getValues().packName])
 
     const onClickCard = useCallback(() => {
         dispatch(getCards(pack._id))
@@ -61,18 +60,10 @@ const Pack = React.memo((pack: PackPropsType) => {
                             {pack.name}
                         </NavLink>
                 </span>
-                    {pack.cardsCount !== 0 && <div>
-                        <span>
-                            <NavLink to={`/learn/${pack._id}`} className={s.packLink} onClick={onClickCard}>
-                                learn
-                            </NavLink>
-                        </span>
-                    </div>}
                 </div>
                 : <div>
                     <form onSubmit={handleSubmit(saveChanges)}>
                         <input name="packName" ref={register({maxLength: 20})} defaultValue={pack.name}/>
-                        <input name="packType" ref={register({maxLength: 20})} defaultValue={pack.type}/>
                         <button type="submit">save</button>
                     </form>
                 </div>
@@ -84,10 +75,20 @@ const Pack = React.memo((pack: PackPropsType) => {
                 {pack.updated}
             </div>
             <span>{pack.user_name}</span>
+
+            {pack.cardsCount !== 0 && <div>
+                        <span>
+                            <NavLink to={`/learn/${pack._id}`} className={s.packLink} onClick={onClickCard}>
+                                learn
+                            </NavLink>
+                        </span>
+            </div>}
+
             {userID === pack.user_id && <div style={{display: 'flex'}}>
                 <EditButton onClick={editPackMode}/>
                 <DeleteButton onClick={() => setShowModalWindowDelete(true)}/>
             </div>}
+
         </div>
     )
 })

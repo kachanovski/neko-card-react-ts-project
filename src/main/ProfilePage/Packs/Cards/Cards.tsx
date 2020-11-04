@@ -7,6 +7,7 @@ import {ModalWindowCards} from "../ModalWindow/ModalWindowCards";
 import Card from "./Card";
 import AddButton from "../../../../Components/AddButton/AddButton";
 import {useParams, useHistory} from "react-router-dom";
+import Button from "../../../../Components/Button/Button";
 
 type CardPropsType = {}
 
@@ -39,13 +40,10 @@ const Cards = React.memo((pack: CardPropsType) => {
                     : null}
 
                 <div className={s.cardsContainer}>
-                    <button onClick={packButton}> back</button>
+                    <Button title={'Back'} onClick={packButton}/>
                     <div className={s.settingsField}>
                         <div>
                             question
-                        </div>
-                        <div>
-                            type
                         </div>
                         <div>
                             answer

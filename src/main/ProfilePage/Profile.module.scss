@@ -36,7 +36,7 @@
 
     .packsContainer {
       display: grid;
-      grid-template-columns: 20% 10% 20% 40% 10%;
+      grid-template-columns: 20% 10% 20% 30% 10% 10%;
       color: white;
 
       .activeSort {
@@ -55,7 +55,7 @@
       margin-top: 10px;
       color: white;
       display: grid ;
-      grid-template-columns: 20% 10% 20% 40% 10%;
+      grid-template-columns: 20% 10% 20% 30% 10% 10%;
 
       @media (max-width: 800px) {
         padding: 10px;

@@ -12,7 +12,6 @@ type ModalWindowPropsType = {
 
 type SearchInputForm = {
     packName: string
-    packType: string
 }
 
 export const ModalWindow = (props: ModalWindowPropsType) => {
@@ -20,7 +19,7 @@ export const ModalWindow = (props: ModalWindowPropsType) => {
     const {handleSubmit, control, reset} = useForm<SearchInputForm>();
 
     const onSubmit = (data: SearchInputForm) => {
-        dispatch(addPacks(props.searchName, data.packName, data.packType))
+        dispatch(addPacks(props.searchName, data.packName))
         reset()
         props.setShowModalWindow(false)
     }
@@ -36,12 +35,6 @@ export const ModalWindow = (props: ModalWindowPropsType) => {
                         name="packName"
                         control={control}
                         defaultValue=""
-                    />
-                    <Controller as={<Input
-                        label={'Pack Type'}/>}
-                                name="packType"
-                                control={control}
-                                defaultValue=""
                     />
                     <button type={'submit'}>SEND</button>
                 </form>

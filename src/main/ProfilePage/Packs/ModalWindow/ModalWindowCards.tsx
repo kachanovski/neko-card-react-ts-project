@@ -13,7 +13,6 @@ type ModalWindowPropsType = {
 type SearchInputForm = {
     question: string
     answer: string
-    cardType: string
     packId: any
 }
 
@@ -30,7 +29,6 @@ export const ModalWindowCards = (props: ModalWindowPropsType) => {
             cardsPack_id: packId,
             question: data.question,
             answer: data.answer,
-            type: data.cardType,
         }
         dispatch(addCard(newCard,packId))
         reset()
@@ -55,15 +53,9 @@ export const ModalWindowCards = (props: ModalWindowPropsType) => {
                                 control={control}
                                 defaultValue=""
                     />
-                    <Controller as={<Input
-                        label={'Cards Type'}/>}
-                                name="cardType"
-                                control={control}
-                                defaultValue=""
-                    />
                     <button type={'submit'}>SEND</button>
+                    <button onClick={() => props.setShowModalWindowCard(false)}>CLOSE</button>
                 </form>
-                <button onClick={() => props.setShowModalWindowCard(false)}>CLOSE</button>
             </div>
         </div>
     )

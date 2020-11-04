@@ -10,5 +10,14 @@
     overflow-y: scroll;
     -ms-overflow-style: none;
     color: white;
+    display: grid;
+    grid-template-rows: 40% 40% 20% ;
+    font-size: 30px;
+
+    .tutorialButtonsContainer {
+      display: flex;
+      justify-content: space-between;
+    }
+
   }
 }

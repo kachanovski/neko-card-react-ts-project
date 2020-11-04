@@ -12,7 +12,6 @@ type CardPropsType = CardType & { packId: string }
 
 type EditInputCards = {
     question: string
-    type: string
     answer: string
 }
 
@@ -31,16 +30,17 @@ const Card = React.memo((props: CardPropsType) => {
 
         const deleteCardHandler = useCallback(() => {
             dispatch(deleteCard(props, props.packId))
+            setShowModalWindowDelete(false)
         }, [dispatch, props])
 
         const saveChanges = useCallback((data: EditInputCards) => {
             dispatch(updateCard( {
                 _id: props._id,
                 question: data.question,
-                type: data.type
+                answer: data.answer
             }, props.packId))
             setEditMode(false)
-        }, [dispatch, props._id, props.packId, getValues().question, getValues().type])
+        }, [dispatch, props._id, props.packId, getValues().question, getValues().answer])
 
 
         return (
@@ -56,7 +56,7 @@ const Card = React.memo((props: CardPropsType) => {
                     ? <form onSubmit={handleSubmit(saveChanges)}>
                         <input name="question" ref={register({maxLength: 20})}
                                defaultValue={props.question}/>
-                        <input name="type" ref={register({maxLength: 20})}
+                        <input name="answer" ref={register({maxLength: 20})}
                                defaultValue={props.type}/>
                         <button type="submit">save</button>
                     </form>
@@ -64,10 +64,6 @@ const Card = React.memo((props: CardPropsType) => {
                         {props.question}
                     </div>
                 }
-
-                <div>
-                    {props.type}
-                </div>
                 <div>
                     {props.answer}
                 </div>
