@@ -6,8 +6,8 @@ export type ActionsType =
     GetPacksType
     | SetSearchPacks
     | UpdPacksType
-    | SetSortPacksNameUp
-    | SetSortPacksNameDown
+    // | SetSortPacksNameUp
+    // | SetSortPacksNameDown
     | cardsPacksTotalCountType
     | setPageType
     | setSortPacksNameType
@@ -79,37 +79,37 @@ export const PacksReducer = (state = PacksInitialState, action: ActionsType) => 
             }
         }
 
-        case "/PACKS/SORT_PACKS_NAME_UP": {
-            return {
-                ...state,
-                ...state.packs,
-                packs: state.packs.sort(function (a, b) {
-                    let nameA = a.name.toLowerCase(),
-                        nameB = b.name.toLowerCase()
-                    if (nameA < nameB)
-                        return -1
-                    if (nameA > nameB)
-                        return 1
-                    return 0
-                })
-            }
-        }
-
-        case "/PACKS/SORT_PACKS_NAME_DOWN": {
-            return {
-                ...state,
-                ...state.packs,
-                packs: state.packs.sort(function (a, b) {
-                    let nameA = a.name.toLowerCase(),
-                        nameB = b.name.toLowerCase()
-                    if (nameA > nameB)
-                        return -1
-                    if (nameA < nameB)
-                        return 1
-                    return 0
-                })
-            }
-        }
+        // case "/PACKS/SORT_PACKS_NAME_UP": {
+        //     return {
+        //         ...state,
+        //         ...state.packs,
+        //         packs: state.packs.sort(function (a, b) {
+        //             let nameA = a.name.toLowerCase(),
+        //                 nameB = b.name.toLowerCase()
+        //             if (nameA < nameB)
+        //                 return -1
+        //             if (nameA > nameB)
+        //                 return 1
+        //             return 0
+        //         })
+        //     }
+        // }
+        //
+        // case "/PACKS/SORT_PACKS_NAME_DOWN": {
+        //     return {
+        //         ...state,
+        //         ...state.packs,
+        //         packs: state.packs.sort(function (a, b) {
+        //             let nameA = a.name.toLowerCase(),
+        //                 nameB = b.name.toLowerCase()
+        //             if (nameA > nameB)
+        //                 return -1
+        //             if (nameA < nameB)
+        //                 return 1
+        //             return 0
+        //         })
+        //     }
+        // }
         case "/PACKS/SORT_PACKS_NAME": {
             return {
                 ...state,
@@ -154,12 +154,12 @@ export const cardsPacksTotalCount = (cardsPacksTotalCount: number) => {
         type: '/PACKS/TOTAL-COUNT', cardsPacksTotalCount
     } as const
 }
-
-export const setSortPacksNameUp = () => {
-    return {
-        type: '/PACKS/SORT_PACKS_NAME_UP'
-    } as const
-}
+//
+// export const setSortPacksNameUp = () => {
+//     return {
+//         type: '/PACKS/SORT_PACKS_NAME_UP'
+//     } as const
+// }
 export const setSortPacksName = (sortFlag: number) => {
     return {
         type: '/PACKS/SORT_PACKS_NAME', sortFlag
@@ -172,11 +172,11 @@ export const setPage = (page: number) => {
     } as const
 }
 
-export const setSortPacksNameDown = () => {
-    return {
-        type: '/PACKS/SORT_PACKS_NAME_DOWN'
-    } as const
-}
+// export const setSortPacksNameDown = () => {
+//     return {
+//         type: '/PACKS/SORT_PACKS_NAME_DOWN'
+//     } as const
+// }
 
 export const updPack = (data: Array<PackType>) => {
     return {
@@ -203,32 +203,32 @@ export const getPacks = (searchName: string, page?: number) => {
     }
 }
 
-export const sortPacksUp = (searchName: string) => {
-    return (dispatch: Dispatch) => {
-        dispatch(isFetching(true))
-        PacksAPI.getPacks(searchName).then(res => {
-                dispatch(setSortPacksNameUp())
-                dispatch(isFetching(false))
-            }
-        ).catch(e => {
-                dispatch(isFetching(false))
-            }
-        )
-    }
-}
-export const sortPacksDown = () => {
-    return (dispatch: Dispatch) => {
-        dispatch(isFetching(true))
-        PacksAPI.getPacks('').then(res => {
-                dispatch(setSortPacksNameDown())
-                dispatch(isFetching(false))
-            }
-        ).catch(e => {
-                dispatch(isFetching(false))
-            }
-        )
-    }
-}
+// export const sortPacksUp = (searchName: string) => {
+//     return (dispatch: Dispatch) => {
+//         dispatch(isFetching(true))
+//         PacksAPI.getPacks(searchName).then(res => {
+//                 dispatch(setSortPacksNameUp())
+//                 dispatch(isFetching(false))
+//             }
+//         ).catch(e => {
+//                 dispatch(isFetching(false))
+//             }
+//         )
+//     }
+// }
+// export const sortPacksDown = () => {
+//     return (dispatch: Dispatch) => {
+//         dispatch(isFetching(true))
+//         PacksAPI.getPacks('').then(res => {
+//                 dispatch(setSortPacksNameDown())
+//                 dispatch(isFetching(false))
+//             }
+//         ).catch(e => {
+//                 dispatch(isFetching(false))
+//             }
+//         )
+//     }
+// }
 export const sortPacks = (sortFlag: number) => {
     return (dispatch: Dispatch) => {
         dispatch(isFetching(true))
@@ -279,8 +279,8 @@ export const editPack = (_id: string, props: PacksType, searchName: string) => {
 type UpdPacksType = ReturnType<typeof updPack>
 type GetPacksType = ReturnType<typeof getPacksAC>
 type SetSearchPacks = ReturnType<typeof setSearchPacks>
-type SetSortPacksNameUp = ReturnType<typeof setSortPacksNameUp>
-type SetSortPacksNameDown = ReturnType<typeof setSortPacksNameDown>
+// type SetSortPacksNameUp = ReturnType<typeof setSortPacksNameUp>
+// type SetSortPacksNameDown = ReturnType<typeof setSortPacksNameDown>
 type cardsPacksTotalCountType = ReturnType<typeof cardsPacksTotalCount>
 type setPageType = ReturnType<typeof setPage>
 type setSortPacksNameType = ReturnType<typeof setSortPacksName>

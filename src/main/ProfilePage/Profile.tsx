@@ -5,7 +5,7 @@ import {StateType} from "../../store/redux-store";
 import Button from "../../Components/Button/Button";
 import {AuthMe, InitialLoginReducerState, setLogOutUser} from "../../store/authReducers/LoginReducer";
 import {Redirect} from "react-router-dom";
-import {getPacks, PackType, showMyPacksTC, sortPacksDown, sortPacksUp} from '../../store/profileReducers/PacksReducer';
+import {getPacks, PackType, showMyPacksTC, sortPacks} from '../../store/profileReducers/PacksReducer';
 import {ModalWindow} from './Packs/ModalWindow/ModalWindow';
 import {Paginator} from "../../Components/Paginator/Paginator";
 import SearchPacks from './Packs/Search/SearchPacks';
@@ -53,12 +53,12 @@ const Profile = React.memo((props: ProfileType) => {
             setShowModalWindow(true)
         },[])
         const onClickSortUpName = useCallback (() => {
-            dispatch(sortPacksUp(searchName))
+            dispatch(sortPacks(-1))
             setSortUp(true)
             setSortDow(false)
         },[dispatch, searchName])
         const onClickSortDownName = useCallback (() => {
-            dispatch(sortPacksDown())
+            dispatch(sortPacks(1))
             setSortUp(false)
             setSortDow(true)
         },[dispatch])
