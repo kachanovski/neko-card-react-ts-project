@@ -63,7 +63,7 @@ const Card = React.memo((props: CardPropsType) => {
                         <input name="question" ref={register({maxLength: 20})}
                                defaultValue={props.question}/>
                         <input name="answer" ref={register({maxLength: 20})}
-                               defaultValue={props.type}/>
+                               defaultValue={props.answer}/>
                         <button type="submit">save</button>
                     </form>
                     : <div>
