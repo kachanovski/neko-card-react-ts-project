@@ -12,12 +12,13 @@ import SearchPacks from './Packs/Search/SearchPacks';
 import Pack from "./Packs/Pack";
 import AddButton from "../../Components/AddButton/AddButton";
 
-
 type ProfileType = {
     isFetching: boolean
 }
 
 const Profile = React.memo((props: ProfileType) => {
+
+
         const authMe = useSelector<StateType, boolean>(state => state.login.authMe)
         const profile = useSelector<StateType, InitialLoginReducerState>(state => state.login)
         const pack = useSelector<StateType, Array<PackType>>(state => state.packs.packs)
@@ -25,9 +26,13 @@ const Profile = React.memo((props: ProfileType) => {
         const searchName = useSelector<StateType, string>(state => state.packs.searchName)
 
         const dispatch = useDispatch()
+
         useEffect(() => {
             !authMe && dispatch(AuthMe())
         }, [dispatch, authMe])
+
+        if (!authMe) return <Redirect to={'/login'}/>
+
         useEffect(() => {
             dispatch(getPacks(searchName))
         }, [dispatch, searchName])
@@ -36,39 +41,38 @@ const Profile = React.memo((props: ProfileType) => {
         const [sortDown, setSortDow] = useState(false)
         const [showModalWindow, setShowModalWindow] = useState<boolean>(false)
         const [searchValue, setSearchValue] = useState<string>('')
-        const showMyPacks = useCallback (() => {
+        const showMyPacks = useCallback(() => {
             dispatch(showMyPacksTC(userID))
-        },[dispatch, userID])
-        const onChangeSearchInput = useCallback ((e: ChangeEvent<HTMLInputElement>) => {
+        }, [dispatch, userID])
+        const onChangeSearchInput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
             setSearchValue(e.currentTarget.value)
-        },[])
+        }, [])
         const onClickSearch = () => {
             dispatch(getPacks(searchValue))
         }
 
-        const logOut = useCallback (() => {
+        const logOut = useCallback(() => {
             dispatch(setLogOutUser())
-        },[dispatch])
-        const addPackMode = useCallback (() => {
+        }, [dispatch])
+        const addPackMode = useCallback(() => {
             setShowModalWindow(true)
-        },[])
-        const onClickSortUpName = useCallback (() => {
+        }, [])
+        const onClickSortUpName = useCallback(() => {
             dispatch(sortPacks(-1))
             setSortUp(true)
             setSortDow(false)
-        },[dispatch, searchName])
-        const onClickSortDownName = useCallback (() => {
+        }, [dispatch, searchName])
+        const onClickSortDownName = useCallback(() => {
             dispatch(sortPacks(1))
             setSortUp(false)
             setSortDow(true)
-        },[dispatch])
-        const resetSort = useCallback (() => {
+        }, [dispatch])
+        const resetSort = useCallback(() => {
             dispatch(getPacks(searchName))
             setSortUp(false)
             setSortDow(false)
-        },[dispatch, searchName])
+        }, [dispatch, searchName])
 
-        if (!authMe) return <Redirect to={'/login'}/>
 
         return (
 

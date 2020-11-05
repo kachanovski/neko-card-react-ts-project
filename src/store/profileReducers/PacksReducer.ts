@@ -110,6 +110,7 @@ export const PacksReducer = (state = PacksInitialState, action: ActionsType) => 
         //         })
         //     }
         // }
+
         case "/PACKS/SORT_PACKS_NAME": {
             return {
                 ...state,
