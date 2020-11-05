@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {CardType, getCards, setGrade} from "../../../store/profileReducers/CardsReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../../store/redux-store";
-import {useParams, Redirect, useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import Button from "../../../Components/Button/Button";
 import s from "../TutorialPage/TutorialPage.module.scss"
 
