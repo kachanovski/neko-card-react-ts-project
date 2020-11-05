@@ -19,8 +19,7 @@ const getCard = (cards: CardType[]) => {
             const newSum = acc.sum + (6 - (card.grade ? card.grade : 0)) * (6 - (card.grade ? card.grade : 0));
             return {sum: newSum, id: newSum < rand ? i : acc.id}
         }
-        , {sum: 0, id: -1});
-    console.log('test: ', sum, rand, res)
+        , {sum: 0, id: -1})
 
     return cards[res.id + 1];
 }
@@ -47,7 +46,6 @@ const TutorialPage = () => {
         type: '',
         user_id: ''
     })
-    const [isChecked, setIsChecked] = useState<boolean>(false)
     const [isShowAnswer, setIsShowAnswer] = useState<boolean>(false)
 
     useEffect(() => {
@@ -55,15 +53,15 @@ const TutorialPage = () => {
 
     }, [dispatch, packId])
 
-    const checkCard = () => {
-        setCard(getCard(cards))
-        setIsChecked(true)
-    }
     const packButton = () => {
         history.push('/profile')
     }
     const showAnswer = () => {
         setIsShowAnswer(true)
+    }
+    const setCards = () => {
+        setCard(getCard(cards))
+        setIsShowAnswer(false)
     }
 
     return (
@@ -82,11 +80,12 @@ const TutorialPage = () => {
                             if (card._id) {
                                 dispatch(setGrade(g.grade, card._id))
                                 setCard(getCard(cards))
+                                setIsShowAnswer(false)
                             }
                         }
                         return <Button key={i} title={g.value} onClick={checkGrade}/>
                     })}
-                    <Button onClick={() => setCard(getCard(cards))} title={'next'}/>
+                    <Button onClick={setCards} title={'next'}/>
                 </div>
             </div>
         </div>
