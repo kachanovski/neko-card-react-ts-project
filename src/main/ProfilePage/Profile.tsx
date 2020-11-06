@@ -32,8 +32,8 @@ const Profile = React.memo((props: ProfileType) => {
         if (!authMe) return <Redirect to={'/login'}/>
 
         useEffect(() => {
-            dispatch(getPacks(searchName))
-        }, [dispatch, searchName])
+            !isMyPack &&dispatch(getPacks(searchName))
+        }, [dispatch, searchName, isMyPack])
 
         useEffect(() => {
             isMyPack && dispatch(getMyPacksTC(userID))
