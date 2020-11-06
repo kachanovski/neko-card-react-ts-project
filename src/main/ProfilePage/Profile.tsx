@@ -29,10 +29,9 @@ const Profile = React.memo((props: ProfileType) => {
             !authMe && dispatch(AuthMe())
         }, [dispatch, authMe])
 
-        if (!authMe) return <Redirect to={'/login'}/>
 
         useEffect(() => {
-            !isMyPack &&dispatch(getPacks(searchName))
+            !isMyPack && dispatch(getPacks(searchName))
         }, [dispatch, searchName, isMyPack])
 
         useEffect(() => {
@@ -77,6 +76,8 @@ const Profile = React.memo((props: ProfileType) => {
         const changeIsMyPack = useCallback((e: ChangeEvent<HTMLInputElement>) => {
             dispatch(setMyPacksAC(e.target.checked))
         }, [dispatch])
+
+        if (!authMe) return <Redirect to={'/login'}/>
 
         return (
 
