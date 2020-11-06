@@ -1,11 +1,11 @@
-import React, {useState, ChangeEvent, KeyboardEvent} from "react";
+import React, {useState, ChangeEvent, KeyboardEvent, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../store/redux-store";
 import s from "./Paginator.module.scss"
 import {InitIsFetchingReducerState} from "../../store/isFetchingReducer";
 import { getPacks, PacksInitialStateType } from "../../store/profileReducers/PacksReducer";
 
-export const Paginator = (() => {
+export const Paginator = React.memo(() => {
 
     const packs = useSelector<StateType, PacksInitialStateType>(state => state.packs)
 
@@ -18,6 +18,10 @@ export const Paginator = (() => {
     const pagesCount = Math.ceil(packs.cardsPacksTotalCount / packs.pageCount);
 
     const [startPage, setStartPage] = useState<number>(1)
+
+    useEffect(()=>{
+        packs.page===1&&setStartPage(packs.page)
+    },[packs.page])
 
     let endPage = 10
     if (endPage > pagesCount) endPage = pagesCount - 1

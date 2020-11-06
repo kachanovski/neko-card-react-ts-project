@@ -152,7 +152,7 @@ export const updPack = (data: Array<PackType>) => {
 }
 
 
-export const getPacks = (searchName: string, page?: number) => {
+export const getPacks = (searchName: string, page: number=1) => {
     return (dispatch: Dispatch) => {
         dispatch(isFetching(true))
         PacksAPI.getPacks(searchName, page).then(res => {
