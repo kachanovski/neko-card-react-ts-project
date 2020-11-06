@@ -21,7 +21,7 @@ const Cards = React.memo((pack: CardPropsType) => {
 
         useEffect(() => {
             dispatch(getCards(packId))
-        }, [dispatch, card.cards.length, packId])
+        }, [dispatch, packId])
 
         const onClickAddCard = useCallback(function () {
             setShowModalWindowCard(true)

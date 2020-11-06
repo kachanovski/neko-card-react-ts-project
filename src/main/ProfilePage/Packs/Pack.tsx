@@ -8,7 +8,6 @@ import {NavLink} from "react-router-dom";
 import {StateType} from "../../../store/redux-store";
 import DeleteButton from "../../../Components/Delete/DeleteButton";
 import EditButton from "../../../Components/EditButton/EditButton";
-import {ModalWindow} from "./ModalWindow/ModalWindow";
 import {ModalWindowDelete} from "./ModalWindow/ModalWindowDelete";
 
 type PackPropsType = PackType
@@ -20,7 +19,7 @@ type EditInput = {
 const Pack = React.memo((pack: PackPropsType) => {
     const [editMode, setEditMode] = useState<boolean>(true)
     const dispatch = useDispatch()
-    const {register, handleSubmit, getValues} = useForm<EditInput>();
+    const {register, handleSubmit} = useForm<EditInput>();
     const searchName = useSelector<StateType, string>(state => state.packs.searchName)
     const userID = useSelector<StateType, string>(state => state.login._id)
     const [showModalWindowDelete, setShowModalWindowDelete] = useState<boolean>(false)
@@ -28,7 +27,7 @@ const Pack = React.memo((pack: PackPropsType) => {
 
     const deletePackHandler = useCallback(() => {
         dispatch(deletePack(pack._id, searchName))
-    }, [pack._id, searchName])
+    }, [pack._id, searchName, dispatch])
 
     const editPackMode = useCallback(() => {
         if (editMode) setEditMode(false)
@@ -38,11 +37,11 @@ const Pack = React.memo((pack: PackPropsType) => {
     const saveChanges = useCallback((data: EditInput) => {
         dispatch(editPack(pack._id, {name: data.packName}, searchName))
         setEditMode(true)
-    }, [pack._id, searchName, getValues().packName])
+    }, [pack._id, searchName,dispatch])
 
     const onClickCard = useCallback(() => {
         dispatch(getCards(pack._id))
-    }, [pack._id])
+    }, [pack._id,dispatch])
 
     return (
         <div className={s.cardField}>

@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import s from "./Card.module.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {CardType, deleteCard, updateCard} from "../../../../store/profileReducers/CardsReducer";
@@ -7,6 +7,7 @@ import EditButton from "../../../../Components/EditButton/EditButton";
 import DeleteButton from "../../../../Components/Delete/DeleteButton";
 import {StateType} from "../../../../store/redux-store";
 import {ModalWindowDelete} from "../ModalWindow/ModalWindowDelete";
+import {AuthMe} from "../../../../store/authReducers/LoginReducer";
 
 type CardPropsType = CardType & { packId: string }
 
@@ -19,14 +20,19 @@ const Card = React.memo((props: CardPropsType) => {
 
         const [editMode, setEditMode] = useState<boolean>(false)
         const dispatch = useDispatch()
-        const {register, handleSubmit, getValues} = useForm<EditInputCards>();
+        const {register, handleSubmit} = useForm<EditInputCards>();
         const userID = useSelector<StateType, string>(state => state.login._id)
         const [showModalWindowDelete, setShowModalWindowDelete] = useState<boolean>(false)
+        const authMe = useSelector<StateType, boolean>(state => state.login.authMe)
 
         const editPackMode = () => {
             if (editMode) setEditMode(false)
             if (!editMode) setEditMode(true)
         }
+
+        useEffect(() => {
+            !authMe && dispatch(AuthMe())
+        }, [dispatch, authMe])
 
         const deleteCardHandler = useCallback(() => {
             dispatch(deleteCard(props, props.packId))
@@ -34,13 +40,13 @@ const Card = React.memo((props: CardPropsType) => {
         }, [dispatch, props])
 
         const saveChanges = useCallback((data: EditInputCards) => {
-            dispatch(updateCard( {
+            dispatch(updateCard({
                 _id: props._id,
                 question: data.question,
                 answer: data.answer
             }, props.packId))
             setEditMode(false)
-        }, [dispatch, props._id, props.packId, getValues().question, getValues().answer])
+        }, [dispatch, props._id, props.packId])
 
 
         return (
@@ -57,7 +63,7 @@ const Card = React.memo((props: CardPropsType) => {
                         <input name="question" ref={register({maxLength: 20})}
                                defaultValue={props.question}/>
                         <input name="answer" ref={register({maxLength: 20})}
-                               defaultValue={props.type}/>
+                               defaultValue={props.answer}/>
                         <button type="submit">save</button>
                     </form>
                     : <div>
