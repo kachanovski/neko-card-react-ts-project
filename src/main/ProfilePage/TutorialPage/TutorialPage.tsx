@@ -52,6 +52,9 @@ const TutorialPage = () => {
         dispatch(getCards(packId))
 
     }, [dispatch, packId])
+    useEffect( () => {
+        if (cards.length > 0) setCard(getCard(cards))
+    },[cards])
 
     const packButton = () => {
         history.push('/profile')
