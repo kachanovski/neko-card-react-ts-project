@@ -21,6 +21,7 @@
     padding: 30px;
     overflow-y: scroll;
     -ms-overflow-style: none;
+    color: white;
 
     @media (max-width: 800px) {
       width: 100%;
@@ -42,7 +43,8 @@
       .activeSort {
         background-color: deeppink;
       }
-       .deActiveSort {
+
+      .deActiveSort {
         background-color: springgreen;
       }
 
@@ -54,7 +56,7 @@
       height: 10%;
       margin-top: 10px;
       color: white;
-      display: grid ;
+      display: grid;
       grid-template-columns: 20% 10% 20% 30% 10% 10%;
 
       @media (max-width: 800px) {
@@ -79,14 +81,13 @@
   }
 
 
-
-
   .profileContainer {
     @extend %container;
     width: 20%;
     margin: 20px;
     padding: 30px;
     text-align: center;
+    color: white;
 
 
     @media (max-width: 800px) {

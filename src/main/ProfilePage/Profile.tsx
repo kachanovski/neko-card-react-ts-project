@@ -5,13 +5,12 @@ import {StateType} from "../../store/redux-store";
 import Button from "../../Components/Button/Button";
 import {AuthMe, InitialLoginReducerState, setLogOutUser} from "../../store/authReducers/LoginReducer";
 import {Redirect} from "react-router-dom";
-import {getPacks, PackType, showMyPacksTC, sortPacks} from '../../store/profileReducers/PacksReducer';
+import {getPacks, PackType, setMyPacksAC, getMyPacksTC, sortPacks} from '../../store/profileReducers/PacksReducer';
 import {ModalWindow} from './Packs/ModalWindow/ModalWindow';
 import {Paginator} from "../../Components/Paginator/Paginator";
 import SearchPacks from './Packs/Search/SearchPacks';
 import Pack from "./Packs/Pack";
 import AddButton from "../../Components/AddButton/AddButton";
-
 
 type ProfileType = {
     isFetching: boolean
@@ -23,22 +22,22 @@ const Profile = React.memo((props: ProfileType) => {
         const pack = useSelector<StateType, Array<PackType>>(state => state.packs.packs)
         const userID = useSelector<StateType, string>(state => state.login._id)
         const searchName = useSelector<StateType, string>(state => state.packs.searchName)
+        const isMyPack = useSelector<StateType, boolean>(state => state.packs.isMyPacks)
         const dispatch = useDispatch()
 
-        useEffect( () => {
+        useEffect(() => {
             !authMe && dispatch(AuthMe())
         }, [dispatch, authMe])
         useEffect(() => {
+            (isMyPack && dispatch(getMyPacksTC(userID))) ||
             dispatch(getPacks(searchName))
-        }, [dispatch, searchName])
+        }, [dispatch, searchName, isMyPack, userID])
 
         const [sortUp, setSortUp] = useState(false)
         const [sortDown, setSortDow] = useState(false)
         const [showModalWindow, setShowModalWindow] = useState<boolean>(false)
         const [searchValue, setSearchValue] = useState<string>('')
-        const showMyPacks = useCallback(() => {
-            dispatch(showMyPacksTC(userID))
-        }, [dispatch, userID])
+
         const onChangeSearchInput = useCallback((e: ChangeEvent<HTMLInputElement>) => {
             setSearchValue(e.currentTarget.value)
         }, [])
@@ -70,12 +69,17 @@ const Profile = React.memo((props: ProfileType) => {
 
         if (!authMe) return <Redirect to={'/login'}/>
 
+        const changeIsMyPack = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+            dispatch(setMyPacksAC(e.target.checked))
+        }, [dispatch])
+
         return (
 
             <div className={s.profilePage}>
 
                 {showModalWindow
-                    ? <ModalWindow searchName={searchName} setShowModalWindow={setShowModalWindow}
+                    ? <ModalWindow isMyPack={isMyPack} userID={userID} searchName={searchName}
+                                   setShowModalWindow={setShowModalWindow}
                     />
                     : null}
 
@@ -98,7 +102,7 @@ const Profile = React.memo((props: ProfileType) => {
                         />
 
                         <AddButton onClick={addPackMode}/>
-                        <button onClick={showMyPacks}> My packs</button>
+                        Only My Packs: <input type={'checkbox'} checked={isMyPack} onChange={changeIsMyPack}/>
 
                         <div className={s.packsContainer}>
                             <div>
@@ -115,8 +119,6 @@ const Profile = React.memo((props: ProfileType) => {
                             </div>
                             <div>
                                 Update
-                                <button>up</button>
-                                <button>down</button>
                             </div>
                             <div>email/user_name</div>
                             <div>

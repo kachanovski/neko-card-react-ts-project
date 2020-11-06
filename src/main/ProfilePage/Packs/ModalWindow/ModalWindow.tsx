@@ -8,6 +8,8 @@ import {useDispatch} from "react-redux";
 type ModalWindowPropsType = {
     setShowModalWindow: (showModalWindow: boolean) => void
     searchName: string
+    isMyPack: boolean
+    userID: string
 }
 
 type SearchInputForm = {
@@ -19,7 +21,7 @@ export const ModalWindow = (props: ModalWindowPropsType) => {
     const {handleSubmit, control, reset} = useForm<SearchInputForm>();
 
     const onSubmit = (data: SearchInputForm) => {
-        dispatch(addPacks(props.searchName, data.packName))
+        dispatch(addPacks(props.searchName, props.isMyPack, props.userID, data.packName,))
         reset()
         props.setShowModalWindow(false)
     }

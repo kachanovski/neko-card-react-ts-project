@@ -47,50 +47,37 @@ const TutorialPage = () => {
         type: '',
         user_id: ''
     })
-    const [isChecked, setIsChecked] = useState<boolean>(false)
 
     useEffect(() => {
         dispatch(getCards(packId))
 
     }, [dispatch, packId])
 
-    const checkCard = () => {
-        setCard(getCard(cards))
-        setIsChecked(true)
-    }
     const packButton = () => {
         history.push('/profile')
     }
 
-
     return (
         <div className={s.tutorialPage}>
             <Button title={'Back'} onClick={packButton}/>
-            <p>Learn</p>
-            <Button onClick={checkCard} title={'check card'}/>
-
-            {isChecked && (
-                <>
-                    <div className={s.cardQuestion}>
-                        Question: {card.question}
-                        <div>
-                            Answer:
-                        </div>
-                        <div className={s.tutorialButtonsContainer}>
-                            {grades.map((g, i) => {
-                                const checkGrade = () => {
-                                    if (card._id) {
-                                        dispatch(setGrade(g.grade, card._id))
-                                        setCard(getCard(cards))
-                                    }
-                                }
-                                return <Button key={i} title={g.value} onClick={checkGrade}/>
-                            })}
-                            <Button onClick={() => setCard(getCard(cards))} title={'next'}/>
-                        </div>
-                    </div>
-                </>)}
-
+            <div className={s.cardQuestion}>
+                Question: {card.question}
+                <div>
+                    Answer:
+                </div>
+                <div className={s.tutorialButtonsContainer}>
+                    {grades.map((g, i) => {
+                        const checkGrade = () => {
+                            if (card._id) {
+                                dispatch(setGrade(g.grade, card._id))
+                                setCard(getCard(cards))
+                            }
+                        }
+                        return <Button key={i} title={g.value} onClick={checkGrade}/>
+                    })}
+                    <Button onClick={() => setCard(getCard(cards))} title={'next'}/>
+                </div>
+            </div>
         </div>
     )
 }
