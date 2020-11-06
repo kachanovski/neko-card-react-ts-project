@@ -22,9 +22,10 @@ const Input = (props: InputType) => {
                    ref={props.register}
                    name={props.name}
                    disabled={props.disable}
+                   placeholder={props.label}
             />
 
-            {!props.value ? <label>{props.label}</label> : ''}
+           {/* {!props.value ? <label>{props.label}</label> : ''}*/}
         </div>
     )
 }
