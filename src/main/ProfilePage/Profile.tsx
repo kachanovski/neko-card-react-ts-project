@@ -24,10 +24,12 @@ const Profile = React.memo((props: ProfileType) => {
         const searchName = useSelector<StateType, string>(state => state.packs.searchName)
         const isMyPack = useSelector<StateType, boolean>(state => state.packs.isMyPacks)
         const dispatch = useDispatch()
-
         useEffect(() => {
             !authMe && dispatch(AuthMe())
         }, [dispatch, authMe])
+
+        if (!authMe) return <Redirect to={'/login'}/>
+
         useEffect(() => {
             (isMyPack && dispatch(getMyPacksTC(userID))) ||
             dispatch(getPacks(searchName))
@@ -67,7 +69,6 @@ const Profile = React.memo((props: ProfileType) => {
             setSortDow(false)
         }, [dispatch, searchName])
 
-        if (!authMe) return <Redirect to={'/login'}/>
 
         const changeIsMyPack = useCallback((e: ChangeEvent<HTMLInputElement>) => {
             dispatch(setMyPacksAC(e.target.checked))

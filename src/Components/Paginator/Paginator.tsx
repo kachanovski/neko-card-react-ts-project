@@ -17,18 +17,16 @@ export const Paginator = (() => {
 
     const pagesCount = Math.ceil(packs.cardsPacksTotalCount / packs.pageCount);
 
-    const [startPage, setStartPage] = useState<number>(packs.page)
+    const [startPage, setStartPage] = useState<number>(1)
 
     let endPage = 10
-    if (endPage > pagesCount) {
-        endPage = pagesCount - 1
-    }
+    if (endPage > pagesCount) endPage = pagesCount - 1
 
-    let start = packs.page
-    if (start===pagesCount&&endPage<pagesCount)
-    {
-        start = start - endPage
-    }
+    let start = startPage
+
+    if (start===pagesCount&&endPage<pagesCount) start = start - endPage
+    if (pagesCount===1) start=1
+
     let pages: Array<number> = [];
     for (
         let i = start;
@@ -71,7 +69,7 @@ export const Paginator = (() => {
     // перейти к последней странице
     const toEndPage = () => {
         dispatch(getPacks(packs.searchName, pagesCount))
-        setStartPage(packs.page - endPage)
+        setStartPage(pagesCount - endPage)
     }
 
     //контроль поля ввода
@@ -108,7 +106,7 @@ export const Paginator = (() => {
     }
 
     let isDisabled = false
-    if (!isFetching || pagesCount === startPage) {
+    if (!isFetching || pagesCount === startPage|| pagesCount===1) {
         isDisabled = true
     }
 

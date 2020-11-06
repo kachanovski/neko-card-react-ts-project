@@ -31,7 +31,6 @@ const App = () => {
                     <Route path='/changePassword' render={() => (<RestoreChangePassword isFetching={isFetching}/>)}/>
                     <Route path='/cards/:packId' render={() => (<Cards/>)}/>
                     <Route path='/learn/:packId' render={() => (<TutorialPage/>)}/>
-
                     <Route render={() => (<NotFound/>)}/>
                 </Switch>
             </div>
