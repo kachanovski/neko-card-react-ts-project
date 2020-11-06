@@ -23,11 +23,13 @@ const Pack = React.memo((pack: PackPropsType) => {
     const searchName = useSelector<StateType, string>(state => state.packs.searchName)
     const userID = useSelector<StateType, string>(state => state.login._id)
     const [showModalWindowDelete, setShowModalWindowDelete] = useState<boolean>(false)
-
+    const isMyPack = useSelector<StateType, boolean>(state => state.packs.isMyPacks)
 
     const deletePackHandler = useCallback(() => {
-        dispatch(deletePack(pack._id, searchName))
-    }, [pack._id, searchName, dispatch])
+        dispatch(deletePack(pack._id, searchName, userID,isMyPack))
+        setShowModalWindowDelete(false)
+        console.log(isMyPack)
+    }, [pack._id, searchName, dispatch, isMyPack, userID])
 
     const editPackMode = useCallback(() => {
         if (editMode) setEditMode(false)
@@ -35,9 +37,9 @@ const Pack = React.memo((pack: PackPropsType) => {
     }, [editMode])
 
     const saveChanges = useCallback((data: EditInput) => {
-        dispatch(editPack(pack._id, {name: data.packName}, searchName))
+        dispatch(editPack(pack._id, {name: data.packName}, searchName, isMyPack, userID))
         setEditMode(true)
-    }, [pack._id, searchName,dispatch])
+    }, [pack._id, searchName,dispatch, userID, isMyPack])
 
     const onClickCard = useCallback(() => {
         dispatch(getCards(pack._id))
